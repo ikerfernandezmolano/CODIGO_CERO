@@ -1,12 +1,14 @@
 package main;
+import model.GestorDePantalla;
 import viewController.Pantalla;
 
 public class ProgramaPrincipal {
 	public static void main(String[] args) {
-		//MODELO//
-
 		//VISTA//
 		@SuppressWarnings("unused")
-		Pantalla pantalla= new Pantalla(1);
+		Pantalla pantalla= new Pantalla();
+		//MODELO//
+		GestorDePantalla.getGestorDePantalla();
+		
 	}
 }

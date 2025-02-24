@@ -2,10 +2,7 @@ package model;
 
 import java.util.Observable;
 import java.util.Random;
-
-import javax.swing.JLabel;
-
-import viewController.Bloque;
+import java.util.Timer;
 
 public class GestorDePantalla extends Observable{
 	
@@ -17,8 +14,8 @@ public class GestorDePantalla extends Observable{
 	 * BomberMan = 4
 	 */
 	private int[] listaPantalla;
-	private int modeloPantalla;
-	private static GestorDePantalla miGP;
+	private int modeloPantalla=1;
+	private static GestorDePantalla miGP=new GestorDePantalla();
 	
 	private GestorDePantalla() {
 		crearPantalla();
@@ -32,6 +29,7 @@ public class GestorDePantalla extends Observable{
 		listaPantalla = new int[17*11];
 		colocarBloques();
 		colocarEnemigos();
+		for(int i:listaPantalla) System.out.println(i);
 		setChanged();
 		notifyObservers(new Object[] {listaPantalla,modeloPantalla});
 	}
@@ -41,12 +39,12 @@ public class GestorDePantalla extends Observable{
 		for(int j=0;j<11;j++) {
 			for(int i=0;i<17;i++) {
 				if(i%2!=0 && j%2!=0) {
-					listaPantalla[i+j] = 2;
+					listaPantalla[j * 17 + i] = 2;
 				} else {
 					if(r.nextInt(100)<=65 && i+j>1) {
-						listaPantalla[i+j] = 1;
+						listaPantalla[j * 17 + i] = 1;
 					} else {
-						listaPantalla[i+j] = 0;
+						listaPantalla[j * 17 + i] = 0;
 					}
 				}
 			}

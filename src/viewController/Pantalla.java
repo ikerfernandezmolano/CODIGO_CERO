@@ -19,20 +19,20 @@ public class Pantalla extends JFrame implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private int tipoPantalla;
+	private int tipoPantalla=1;
 	private Bloque[] listaBloques;
 
-	public Pantalla(int pTipoPantalla) {
-		//GestorDePantalla.getGestorDePantalla().addObserver(this);
+	public Pantalla() {
+		GestorDePantalla.getGestorDePantalla().addObserver(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		tipoPantalla=pTipoPantalla;
 		initialize();
 	}
 	
 	private void initialize() {
 		setSize(850,550);
 		this.setContentPane(getContentPane());
-		colocarBloques();
+		
+		listaBloques=new Bloque[17*11];
 		
 		setResizable(false);
 		setUndecorated(true);
@@ -40,28 +40,16 @@ public class Pantalla extends JFrame implements Observer{
 		setVisible(true);
 	}
 	
-	private void colocarBloques() {
-		listaBloques=new Bloque[17*11];
-		Random r = new Random();
-		for(int j=0;j<11;j++) {
-			for(int i=0;i<17;i++) {
-				if(i%2!=0 && j%2!=0) {
-					añadirBloque(true, i, j);
-				} else {
-					if(r.nextInt(100)<=65 && i+j>1) {
-						añadirBloque(false, i, j);
-					} else {
-						contentPane.add(new JLabel(""));
-					}
-				}
-			}
+	private void añadirBloque(boolean pVacio,boolean pDuro, int pPos) {
+		if(pVacio) {
+			JPanel jp=new JPanel();
+			contentPane.add(jp);
 		}
-	}
-	
-	private void añadirBloque(boolean pDuro, int pX, int pY) {
-		Bloque bloque=new Bloque(pDuro, tipoPantalla);
-		listaBloques[pX+pY]=bloque;
-		contentPane.add(bloque);
+		else {
+			Bloque bloque=new Bloque(pDuro, tipoPantalla);
+			listaBloques[pPos]=bloque;
+			contentPane.add(bloque);
+		}
 	}
 	
 	public JPanel getContentPane() {
@@ -86,8 +74,14 @@ public class Pantalla extends JFrame implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
+		Object[] res= (Object[]) arg;
+		int[] r1= (int[])res[0];
+		for(int i=0; i<r1.length;i++) {
+			System.out.println(r1[i]);
+			if(r1[i]==0) añadirBloque(true, false, i);
+			else if(r1[i]==1) añadirBloque(false, false, i);
+			else if(r1[i]==2) añadirBloque(false, true, i);
+		}
 	}
 
 }
