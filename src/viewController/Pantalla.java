@@ -20,7 +20,7 @@ public class Pantalla extends JFrame implements Observer{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private int tipoPantalla=1;
-	private Bloque[] listaBloques;
+	private Bloque[] listaBloques=new Bloque[17*11];
 
 	public Pantalla() {
 		GestorDePantalla.getGestorDePantalla().addObserver(this);
@@ -31,8 +31,6 @@ public class Pantalla extends JFrame implements Observer{
 	private void initialize() {
 		setSize(850,550);
 		this.setContentPane(getContentPane());
-		
-		listaBloques=new Bloque[17*11];
 		
 		setResizable(false);
 		setUndecorated(true);
