@@ -23,7 +23,7 @@ public class Pantalla extends JFrame implements Observer{
 	private Bloque[] listaBloques;
 
 	public Pantalla(int pTipoPantalla) {
-		GestorDePantalla.getGestorDePantalla().addObserver(this);
+		//GestorDePantalla.getGestorDePantalla().addObserver(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		tipoPantalla=pTipoPantalla;
 		initialize();
