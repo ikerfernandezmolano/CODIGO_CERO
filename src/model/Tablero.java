@@ -26,6 +26,7 @@ public class Tablero extends Observable{
 	public void crearPantalla() {
 		colocarBloques();
 		colocarEnemigos();
+		colocarBomberman();
 		setChanged();
 		notifyObservers(new Object[] {listaPantalla});
 	}
@@ -52,6 +53,11 @@ public class Tablero extends Observable{
 	
 	private void colocarEnemigos() {
 		
+	}
+	
+	private void colocarBomberman() {
+		tablero[0][0].setCasilla(4);
+		listaPantalla[0]=4;
 	}
 	
 	public boolean puedeMoverse(int pX, int pY) {

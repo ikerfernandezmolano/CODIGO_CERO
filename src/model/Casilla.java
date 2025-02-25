@@ -7,11 +7,15 @@ public class Casilla {
 	public Casilla(int pX, int pY,int pTipoCasilla) {
 		this.x=pX;
 		this.y=pY;
+		setCasilla(pTipoCasilla);
+	}
+	
+	public void setCasilla(int pTipoCasilla) {
 		if(pTipoCasilla==0) casilla=null;
 		else if(pTipoCasilla==1) casilla=new Bloque(false);
 		else if(pTipoCasilla==2) casilla=new Bloque(true);
 		else if(pTipoCasilla==3) casilla=new Enemigo();
-		//else if(pTipoCasilla==4) casilla=new Bomberman();
+		else if(pTipoCasilla==4) casilla=new Bomberman();
 		else if(pTipoCasilla==5) casilla=new Bomba();
 	}
 	
