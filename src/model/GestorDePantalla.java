@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 import java.util.Timer;
@@ -13,7 +14,8 @@ public class GestorDePantalla extends Observable{
 	 * Enemigo = 3
 	 * BomberMan = 4
 	 */
-	private int[] listaPantalla;
+	private int[] listaPantalla = new int[17*11];;
+	private ArrayList<Integer> bloquesCambiados;
 	private int modeloPantalla=1;
 	private static GestorDePantalla miGP=new GestorDePantalla();
 	
@@ -26,12 +28,11 @@ public class GestorDePantalla extends Observable{
 	}
 	
 	private void crearPantalla() {
-		listaPantalla = new int[17*11];
+		bloquesCambiados=new ArrayList<Integer>();
 		colocarBloques();
 		colocarEnemigos();
-		for(int i:listaPantalla) System.out.println(i);
 		setChanged();
-		notifyObservers(new Object[] {listaPantalla,modeloPantalla});
+		notifyObservers(new Object[] {listaPantalla,bloquesCambiados,modeloPantalla});
 	}
 	
 	private void colocarBloques() {
@@ -47,6 +48,7 @@ public class GestorDePantalla extends Observable{
 						listaPantalla[j * 17 + i] = 0;
 					}
 				}
+				bloquesCambiados.add(j * 17 + i);
 			}
 		}
 	}

@@ -60,7 +60,7 @@ public class Pantalla extends JFrame implements Observer{
                 super.paintComponent(g);
                 try {
                 	backgroundImage = ImageIO.read(
-                					this.getClass().getResource("texture/background/background1.png"));
+                					this.getClass().getResource("texture/background/background"+tipoPantalla+".png"));
                 } catch (IOException e) {}
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
@@ -73,12 +73,13 @@ public class Pantalla extends JFrame implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		Object[] res= (Object[]) arg;
-		int[] r1= (int[])res[0];
-		for(int i=0; i<r1.length;i++) {
-			System.out.println(r1[i]);
-			if(r1[i]==0) añadirBloque(true, false, i);
-			else if(r1[i]==1) añadirBloque(false, false, i);
-			else if(r1[i]==2) añadirBloque(false, true, i);
+		int[] pantalla = (int[]) res[0];
+		int[] bloqCambiados = (int[]) res[1];
+		tipoPantalla= (int) res[2];
+		for(int i:bloqCambiados) {
+			if(pantalla[i]==0) añadirBloque(true, false, i);
+			else if(pantalla[i]==1) añadirBloque(false, false, i); 
+			else if(pantalla[i]==2) añadirBloque(false, true, i); 
 		}
 	}
 
