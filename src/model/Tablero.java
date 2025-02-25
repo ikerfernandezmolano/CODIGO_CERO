@@ -1,9 +1,7 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
-import java.util.Timer;
 
 public class Tablero extends Observable{
 	
@@ -12,11 +10,11 @@ public class Tablero extends Observable{
 	 * Bloque blando = 1
 	 * Bloque duro = 2
 	 * Enemigo = 3
-	 * BomberMan = 4
+	 * Bomberman = 4
+	 * Bomba = 5
 	 */
-	private int[] listaPantalla = new int[17*11];
-	private int[] bloquesCambiados;
-	private int modeloPantalla=1;
+	private Casilla[][] tablero = new Casilla[17][11];
+	private int[] listaPantalla=new int[17*11];
 	private static Tablero miTAB=new Tablero();
 	
 	private Tablero() {}
@@ -26,27 +24,28 @@ public class Tablero extends Observable{
 	}
 	
 	public void crearPantalla() {
-		bloquesCambiados= new int[17*11];
 		colocarBloques();
 		colocarEnemigos();
 		setChanged();
-		notifyObservers(new Object[] {listaPantalla,bloquesCambiados,modeloPantalla});
+		notifyObservers(new Object[] {listaPantalla});
 	}
 	
 	private void colocarBloques() {
 		Random r = new Random();
-		for(int j=0;j<11;j++) {
-			for(int i=0;i<17;i++) {
+		for(int i=0;i<17;i++) {
+			for(int j=0;j<11;j++) {
 				if(i%2!=0 && j%2!=0) {
-					listaPantalla[j * 17 + i] = 2;
+					tablero[i][j] = new Casilla(i, j, 2);
+					listaPantalla[j*17+i]=2;
 				} else {
 					if(r.nextInt(100)<=65 && i+j>1) {
-						listaPantalla[j * 17 + i] = 1;
+						tablero[i][j] = new Casilla(i, j, 1);
+						listaPantalla[j*17+i]=1;
 					} else {
-						listaPantalla[j * 17 + i] = 0;
+						tablero[i][j] = new Casilla(i, j, 0);
+						listaPantalla[j*17+i]=0;
 					}
 				}
-				bloquesCambiados[j * 17 + i] = j * 17 + i;
 			}
 		}
 	}
@@ -59,7 +58,8 @@ public class Tablero extends Observable{
 		boolean puedeMoverse = true;
 		if(pX<0 && pX>=17 && pY<0 && pX>=11) {
 			puedeMoverse=false;
-		} else if(listaPantalla[pY*17+pX]==1 || listaPantalla[pY*17+pX]==2) {
+		} else if(tablero[pX][pY].mismoTipoCasilla(1) || 
+				tablero[pX][pY].mismoTipoCasilla(2)) {
 			puedeMoverse=false;
 		}
 		return puedeMoverse;

@@ -9,15 +9,12 @@ import java.util.List;
 import javax.swing.Timer;
 
 public class Bomba {
-    private int x, y; // Posicion de la bomba en el mapa
     private boolean activa; // 
     private long tiempoColocacion;
     private static final int TIEMPO_EXPLOSION = 2000; // 2 segundos
     private List<Bomba> bombas;
 
-    public Bomba(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Bomba() {
         this.activa = true;
         this.tiempoColocacion = System.currentTimeMillis();
         this.bombas = new ArrayList<>();
@@ -26,13 +23,7 @@ public class Bomba {
     public boolean haExplotado() {
         return (System.currentTimeMillis() - tiempoColocacion) >= TIEMPO_EXPLOSION;
     }
-
-    public int getX() { 
-    	return x; 
-    }
-    public int getY() { 
-    	return y; 
-    }
+    
     public boolean isActiva() { 
     	return activa; 
     }
@@ -46,8 +37,7 @@ public class Bomba {
     public void colocarBomba(int x, int y) {
         Bomba nuevaBomba = new Bomba(x, y);
         bombas.add(nuevaBomba);
-        System.out.println("La bomba ha sido colocada en (" + x + ", " + y + ")");
-        
+        System.out.println("La bomba ha sido colocada en (" + x + ", " + y + ")");   
     }
 
     private void iniciarLoop() {

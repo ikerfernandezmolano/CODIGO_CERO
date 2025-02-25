@@ -2,10 +2,8 @@ package viewController;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Tablero;
@@ -19,32 +17,43 @@ public class Pantalla extends JFrame implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private int tipoPantalla=1;
-	private Celda[] listaBloques=new Celda[17*11];
 
 	public Pantalla() {
 		Tablero.getTablero().addObserver(this);
+		initialize();
 		Tablero.getTablero().crearPantalla();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		initialize();
-	}
-	
-	public static void main(String[] args) {
-		//VISTA//
-		@SuppressWarnings("unused")
-		Pantalla pantalla= new Pantalla();
 	}
 	
 	private void initialize() {
 		setSize(850,550);
 		this.setContentPane(getContentPane());
 		
-		for(int i=0;i<17*11;i++) contentPane.add(new JLabel());
+		for(int i=0;i<17;i++) {
+			for(int j=0;j<11;j++) {
+				CasillaView cw= new CasillaView();
+				contentPane.add(cw);
+			}
+		}
 		
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
+	}
+	
+	private void actualizar(int[] pLista) {
+		for (int i = 0; i < pLista.length; i++) {
+	        if (contentPane.getComponent(i) instanceof CasillaView) {
+	            ((CasillaView) contentPane.getComponent(i)).setImagen(pLista[i]);
+	        }
+	    }
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		Object[] res= (Object[]) arg;
+		actualizar((int[]) res[0]);
 	}
 	
 	public JPanel getContentPane() {
@@ -57,7 +66,7 @@ public class Pantalla extends JFrame implements Observer{
                 super.paintComponent(g);
                 try {
                 	backgroundImage = ImageIO.read(
-                					this.getClass().getResource("texture/background/background"+tipoPantalla+".png"));
+                					this.getClass().getResource("texture/background/background1.png"));
                 } catch (IOException e) {}
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
@@ -65,12 +74,6 @@ public class Pantalla extends JFrame implements Observer{
 			contentPane.setLayout(new GridLayout(11, 17, 0, 0));
 		}
 		return contentPane;
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		Object[] res= (Object[]) arg;
-		
 	}
 
 }
