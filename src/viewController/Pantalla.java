@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.GestorDePantalla;
+import model.Tablero;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -20,34 +20,31 @@ public class Pantalla extends JFrame implements Observer{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private int tipoPantalla=1;
-	private Bloque[] listaBloques=new Bloque[17*11];
+	private Celda[] listaBloques=new Celda[17*11];
 
 	public Pantalla() {
-		GestorDePantalla.getGestorDePantalla().addObserver(this);
+		Tablero.getTablero().addObserver(this);
+		Tablero.getTablero().crearPantalla();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initialize();
+	}
+	
+	public static void main(String[] args) {
+		//VISTA//
+		@SuppressWarnings("unused")
+		Pantalla pantalla= new Pantalla();
 	}
 	
 	private void initialize() {
 		setSize(850,550);
 		this.setContentPane(getContentPane());
 		
+		for(int i=0;i<17*11;i++) contentPane.add(new JLabel());
+		
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
-	}
-	
-	private void añadirBloque(boolean pVacio,boolean pDuro, int pPos) {
-		if(pVacio) {
-			JPanel jp=new JPanel();
-			contentPane.add(jp);
-		}
-		else {
-			Bloque bloque=new Bloque(pDuro, tipoPantalla);
-			listaBloques[pPos]=bloque;
-			contentPane.add(bloque);
-		}
 	}
 	
 	public JPanel getContentPane() {
@@ -73,14 +70,7 @@ public class Pantalla extends JFrame implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		Object[] res= (Object[]) arg;
-		int[] pantalla = (int[]) res[0];
-		int[] bloqCambiados = (int[]) res[1];
-		tipoPantalla= (int) res[2];
-		for(int i:bloqCambiados) {
-			if(pantalla[i]==0) añadirBloque(true, false, i);
-			else if(pantalla[i]==1) añadirBloque(false, false, i); 
-			else if(pantalla[i]==2) añadirBloque(false, true, i); 
-		}
+		
 	}
 
 }
