@@ -39,7 +39,7 @@ public class Bomba {
 
     public void explotar() {
         this.activa = false;
-        System.out.println("La bomba ha explotado en (" + x + ", " + y + ")");
+        System.out.println("La bomba ha explotado en (" + x + ", " + y + ")h");
     }
    
 
