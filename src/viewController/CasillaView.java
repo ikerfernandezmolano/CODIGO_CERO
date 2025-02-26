@@ -19,7 +19,7 @@ public class CasillaView extends JLabel{
 		} else if(pTipo==3) {
 			path="character/monster/m11.png";
 		} else if(pTipo==4) {
-			path="character/player/whitebm1.png";
+			path="character/player/whitefront1.png";
 		} else if(pTipo==5) {
 			path="attack/bomb1.gif";
 		}
