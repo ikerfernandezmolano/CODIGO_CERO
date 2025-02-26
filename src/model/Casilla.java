@@ -23,7 +23,7 @@ public class Casilla {
 		boolean mismoTipo=false;
 		if((casilla==null && pTipo==0)||
 				(casilla instanceof Enemigo && pTipo==3)||
-				//(casilla instanceof Bomberman && pTipo==4)||
+				(casilla instanceof Bomberman && pTipo==4)||
 				(casilla instanceof Bomba && pTipo==5)) {
 			mismoTipo=true;
 		} else if (casilla instanceof Bloque) {
@@ -34,6 +34,12 @@ public class Casilla {
 			}
 		}
 		return mismoTipo;
+	}
+	
+	public String printTipo() {
+		if(this.casilla==null) return "Vacío";
+		String nom=casilla.getClass().getSimpleName();
+		return nom;
 	}
 	
 }

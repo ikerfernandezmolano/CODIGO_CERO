@@ -1,5 +1,4 @@
 package main;
-import model.Tablero;
 import viewController.Pantalla;
 
 public class ProgramaPrincipal {

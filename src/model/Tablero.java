@@ -27,6 +27,7 @@ public class Tablero extends Observable{
 		colocarBloques();
 		colocarEnemigos();
 		colocarBomberman();
+		imprimir();
 		setChanged();
 		notifyObservers(new Object[] {listaPantalla});
 	}
@@ -53,6 +54,14 @@ public class Tablero extends Observable{
 	
 	private void colocarEnemigos() {
 		
+	}
+	
+	private void imprimir() {
+		for(int i=0;i<17;i++) {
+			for(int j=0;j<11;j++) {
+				System.out.println("Casilla en coords: " + i + ", " + j + " - Tipo de objeto: " + tablero[i][j].printTipo() );
+			}
+		}
 	}
 	
 	private void colocarBomberman() {
