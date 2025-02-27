@@ -1,9 +1,9 @@
 package model;
 
-public class Bloque{
+public class BloqueBlando{
 	private boolean duro;
 	
-	public Bloque(boolean pDuro) {
+	public BloqueBlando(boolean pDuro) {
 		this.duro=pDuro;
 	}
 	
