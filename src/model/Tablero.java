@@ -12,6 +12,7 @@ public class Tablero extends Observable{
 	 * Enemigo = 3
 	 * Bomberman = 4
 	 * Bomba = 5
+	 * Explosion = 6
 	 */
 	private Casilla[][] tablero = new Casilla[17][11];
 	private int[] listaPantalla=new int[17*11];
@@ -67,6 +68,16 @@ public class Tablero extends Observable{
 	private void colocarBomberman() {
 		tablero[0][0].setCasilla(4);
 		listaPantalla[0]=4;
+		colocarPrueba();
+	}
+	
+	private void colocarPrueba() {
+		tablero[1][0].setCasilla(3);
+		listaPantalla[1]=3;
+		tablero[2][0].setCasilla(5);
+		listaPantalla[2]=5;
+		tablero[3][0].setCasilla(6);
+		listaPantalla[3]=6;
 	}
 	
 	public boolean puedeMoverse(int pX, int pY) {

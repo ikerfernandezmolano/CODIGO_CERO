@@ -26,7 +26,7 @@ public class Pantalla extends JFrame implements Observer{
 	}
 	
 	private void initialize() {
-		setSize(850,550);
+		setSize(930,580);
 		this.setContentPane(getContentPane());
 		
 		for(int i=0;i<17;i++) {

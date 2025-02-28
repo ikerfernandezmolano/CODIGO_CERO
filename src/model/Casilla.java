@@ -12,8 +12,8 @@ public class Casilla {
 	
 	public void setCasilla(int pTipoCasilla) {
 		if(pTipoCasilla==0) casilla=null;
-		else if(pTipoCasilla==1) casilla=new BloqueBlando(false);
-		else if(pTipoCasilla==2) casilla=new BloqueBlando(true);
+		else if(pTipoCasilla==1) casilla=new BloqueBlando();
+		else if(pTipoCasilla==2) casilla=new BloqueDuro();
 		else if(pTipoCasilla==3) casilla=new Enemigo();
 		else if(pTipoCasilla==4) casilla=new Bomberman(true); //he puesto true solo para que funcione
 		else if(pTipoCasilla==5) casilla=new Bomba();
@@ -22,16 +22,12 @@ public class Casilla {
 	public boolean mismoTipoCasilla(int pTipo) {
 		boolean mismoTipo=false;
 		if((casilla==null && pTipo==0)||
+				(casilla instanceof BloqueBlando && pTipo==1)||
+				(casilla instanceof BloqueDuro && pTipo==2)||
 				(casilla instanceof Enemigo && pTipo==3)||
 				(casilla instanceof Bomberman && pTipo==4)||
 				(casilla instanceof Bomba && pTipo==5)) {
 			mismoTipo=true;
-		} else if (casilla instanceof BloqueBlando) {
-			boolean duro= ((BloqueBlando) casilla).esDuro();
-			if((!duro && pTipo==1)||
-				(duro && pTipo==2)) {
-				mismoTipo=true;
-			}
 		}
 		return mismoTipo;
 	}
