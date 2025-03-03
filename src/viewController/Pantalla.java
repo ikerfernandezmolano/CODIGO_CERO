@@ -5,12 +5,8 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import model.Casilla;
-import model.GestorSemaforos;
 import model.Tablero;
-import viewController.SemaforoPeatones.Controlador;
-
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
