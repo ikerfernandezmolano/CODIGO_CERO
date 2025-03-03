@@ -76,8 +76,8 @@ public class Tablero extends Observable{
 		listaPantalla[1]=3;
 		tablero[2][0].setCasilla(5);
 		listaPantalla[2]=5;
-		tablero[3][0].setCasilla(6);
-		listaPantalla[3]=6;
+		tablero[4][0].setCasilla(6);
+		listaPantalla[4]=6;
 	}
 	
 	public boolean puedeMoverse(int pX, int pY) {

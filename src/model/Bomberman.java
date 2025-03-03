@@ -24,6 +24,7 @@ public class Bomberman {
 		if(pTecla=="w") {
 			y--;
 		}
+		
 		else if (pTecla=="s") {
 			y++;
 		}
@@ -40,3 +41,4 @@ public class Bomberman {
 	}
 
 }
+

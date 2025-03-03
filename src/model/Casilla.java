@@ -17,6 +17,7 @@ public class Casilla {
 		else if(pTipoCasilla==3) casilla=new Enemigo();
 		else if(pTipoCasilla==4) casilla=new Bomberman(true); //he puesto true solo para que funcione
 		else if(pTipoCasilla==5) casilla=new Bomba();
+		else if(pTipoCasilla==6) casilla=new Explosion();
 	}
 	
 	public boolean mismoTipoCasilla(int pTipo) {

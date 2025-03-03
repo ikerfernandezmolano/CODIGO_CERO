@@ -34,7 +34,7 @@ public class Bomba {
     }
    
 
-    public void colocarBomba(int x, int y) {
+    public void colocarBomba() {
         Bomba nuevaBomba = new Bomba(x, y);
         bombas.add(nuevaBomba);
         System.out.println("La bomba ha sido colocada en (" + x + ", " + y + ")");   
