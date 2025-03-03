@@ -1,13 +1,14 @@
 package model;
 
-public class Casilla {
+import java.util.Observable;
+
+public class Casilla extends Observable{
 	private Object casilla;
 	private int x,y;
 	
-	public Casilla(int pX, int pY,int pTipoCasilla) {
+	public Casilla(int pX, int pY) {
 		this.x=pX;
 		this.y=pY;
-		setCasilla(pTipoCasilla);
 	}
 	
 	public void setCasilla(int pTipoCasilla) {
@@ -18,25 +19,16 @@ public class Casilla {
 		else if(pTipoCasilla==4) casilla=new Bomberman(true); //he puesto true solo para que funcione
 		else if(pTipoCasilla==5) casilla=new Bomba();
 		else if(pTipoCasilla==6) casilla=new Explosion();
+		setChanged();
+		notifyObservers(new int[] {pTipoCasilla});
 	}
 	
-	public boolean mismoTipoCasilla(int pTipo) {
-		boolean mismoTipo=false;
-		if((casilla==null && pTipo==0)||
-				(casilla instanceof BloqueBlando && pTipo==1)||
-				(casilla instanceof BloqueDuro && pTipo==2)||
-				(casilla instanceof Enemigo && pTipo==3)||
-				(casilla instanceof Bomberman && pTipo==4)||
-				(casilla instanceof Bomba && pTipo==5)) {
-			mismoTipo=true;
+	public boolean puedeMoverse() {
+		if((casilla instanceof BloqueBlando) ||
+				(casilla instanceof BloqueDuro)) {
+			return false;
 		}
-		return mismoTipo;
-	}
-	
-	public String printTipo() {
-		if(this.casilla==null) return "Vacío";
-		String nom=casilla.getClass().getSimpleName();
-		return nom;
+		return true;
 	}
 	
 }

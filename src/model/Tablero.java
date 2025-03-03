@@ -14,8 +14,7 @@ public class Tablero extends Observable{
 	 * Bomba = 5
 	 * Explosion = 6
 	 */
-	private Casilla[][] tablero = new Casilla[17][11];
-	private int[] listaPantalla=new int[17*11];
+	private Casilla[][] tablero;
 	private static Tablero miTAB=new Tablero();
 	
 	private Tablero() {}
@@ -25,30 +24,31 @@ public class Tablero extends Observable{
 	}
 	
 	public void crearPantalla() {
+		crearTablero();
+	}
+	
+	private void crearTablero() {
+		tablero = new Casilla[17][11];
+		for(int i=0;i<17;i++) {
+			for(int j=0;j<11;j++) {
+				tablero[i][j]=new Casilla(i,j);
+			}
+		}
+		setChanged();
+		notifyObservers(new Object[] {tablero});
 		colocarBloques();
 		colocarEnemigos();
 		colocarBomberman();
-		imprimir();
-		setChanged();
-		notifyObservers(new Object[] {listaPantalla});
 	}
 	
 	private void colocarBloques() {
 		Random r = new Random();
 		for(int i=0;i<17;i++) {
 			for(int j=0;j<11;j++) {
-				if(i%2!=0 && j%2!=0) {
-					tablero[i][j] = new Casilla(i, j, 2);
-					listaPantalla[j*17+i]=2;
-				} else {
-					if(r.nextInt(100)<=65 && i+j>1) {
-						tablero[i][j] = new Casilla(i, j, 1);
-						listaPantalla[j*17+i]=1;
-					} else {
-						tablero[i][j] = new Casilla(i, j, 0);
-						listaPantalla[j*17+i]=0;
-					}
-				}
+				if(i%2!=0 && j%2!=0) 
+					tablero[i][j].setCasilla(2);
+				else if(r.nextInt(100)<=65 && i+j>1) 
+					tablero[i][j].setCasilla(1);
 			}
 		}
 	}
@@ -57,38 +57,13 @@ public class Tablero extends Observable{
 		
 	}
 	
-	private void imprimir() {
-		for(int i=0;i<17;i++) {
-			for(int j=0;j<11;j++) {
-				System.out.println("Casilla en coords: " + i + ", " + j + " - Tipo de objeto: " + tablero[i][j].printTipo() );
-			}
-		}
-	}
-	
 	private void colocarBomberman() {
 		tablero[0][0].setCasilla(4);
-		listaPantalla[0]=4;
-		colocarPrueba();
-	}
-	
-	private void colocarPrueba() {
-		tablero[1][0].setCasilla(3);
-		listaPantalla[1]=3;
-		tablero[2][0].setCasilla(5);
-		listaPantalla[2]=5;
-		tablero[4][0].setCasilla(6);
-		listaPantalla[4]=6;
 	}
 	
 	public boolean puedeMoverse(int pX, int pY) {
-		boolean puedeMoverse = true;
-		if(pX<0 && pX>=17 && pY<0 && pX>=11) {
-			puedeMoverse=false;
-		} else if(tablero[pX][pY].mismoTipoCasilla(1) || 
-				tablero[pX][pY].mismoTipoCasilla(2)) {
-			puedeMoverse=false;
-		}
-		return puedeMoverse;
+		if(pX<0 && pX>=17 && pY<0 && pX>=11) return false;
+		return tablero[pX][pY].puedeMoverse();
 	}
 
 }
