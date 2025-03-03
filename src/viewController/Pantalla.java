@@ -7,22 +7,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.Casilla;
+import model.GestorSemaforos;
 import model.Tablero;
+import viewController.SemaforoPeatones.Controlador;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class Pantalla extends JFrame implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private Controlador controlador;
 
 	public Pantalla() {
 		Tablero.getTablero().addObserver(this);
 		initialize();
-		Tablero.getTablero().crearPantalla();
+		getControlador().actionPerformed(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -53,6 +58,8 @@ public class Pantalla extends JFrame implements Observer{
 		}
 	}
 	
+//-----------------------------BACKGROUND-------------------------------------
+	
 	public JPanel getContentPane() {
 		if (contentPane == null) {
 			contentPane = new JPanel(){
@@ -72,6 +79,22 @@ public class Pantalla extends JFrame implements Observer{
 			contentPane.setLayout(new GridLayout(11, 17, 0, 0));
 		}
 		return contentPane;
+	}
+
+//-----------------------------CONTROLADOR-------------------------------------
+	
+	private Controlador getControlador() {
+		if (controlador == null) {
+			controlador = new Controlador();
+		}
+		return controlador;
+	}
+	
+	private class Controlador implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Tablero.getTablero().crearPantalla();
+		}
 	}
 
 }
