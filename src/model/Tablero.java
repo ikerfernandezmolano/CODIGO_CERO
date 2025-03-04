@@ -1,12 +1,11 @@
 package model;
 
-import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
-public class Tablero extends Observable{
+public class Tablero{
 	
-	/* Los números de listaPantalla representan:
-	 * Hueco vacío = 0
+	 /* Hueco vacío = 0
 	 * Bloque blando = 1
 	 * Bloque duro = 2
 	 * Enemigo = 3
@@ -17,25 +16,24 @@ public class Tablero extends Observable{
 	private Casilla[][] tablero;
 	private static Tablero miTAB=new Tablero();
 	
-	private Tablero() {}
+	private Tablero() {
+		initialize();
+	}
 	
 	public static Tablero getTablero() {
 		return miTAB;
 	}
 	
-	public void crearPantalla() {
-		crearTablero();
-	}
-	
-	private void crearTablero() {
+	private void initialize() {
 		tablero = new Casilla[17][11];
 		for(int i=0;i<17;i++) {
 			for(int j=0;j<11;j++) {
 				tablero[i][j]=new Casilla(i,j);
 			}
 		}
-		setChanged();
-		notifyObservers(new Object[] {tablero});
+	}
+	
+	public void crearTablero() {
 		colocarBloques();
 		colocarEnemigos();
 		colocarBomberman();
@@ -64,6 +62,10 @@ public class Tablero extends Observable{
 	public boolean puedeMoverse(int pX, int pY) {
 		if(pX<0 && pX>=17 && pY<0 && pX>=11) return false;
 		return tablero[pX][pY].puedeMoverse();
+	}
+	
+	public void addObserver(Observer pCV,int pX,int pY) {
+		tablero[pX][pY].addObserver(pCV);
 	}
 
 }

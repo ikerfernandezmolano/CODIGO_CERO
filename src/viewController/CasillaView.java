@@ -3,18 +3,21 @@ package viewController;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import model.Casilla;
+import model.Tablero;
 
 public class CasillaView extends JLabel implements Observer{
 	
 	private static final long serialVersionUID = 1L;
+	private int x;
+	private int y;
 
-	public CasillaView() {
+	public CasillaView(int pX,int pY) {
 		super();
+		x=pX;
+		y=pY;
+		Tablero.getTablero().addObserver(this,x,y);
 		this.setHorizontalAlignment(CENTER);
 		this.setVerticalAlignment(CENTER);
 	}
@@ -39,7 +42,6 @@ public class CasillaView extends JLabel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		int[] res = (int[]) arg;
-		this.setImagen(res[0]);
-		
+		this.setImagen(res[0]);	
 	}
 }
