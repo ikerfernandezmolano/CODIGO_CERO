@@ -17,8 +17,8 @@ public class Casilla extends Observable{
 		else if(pTipoCasilla==2) casilla=new BloqueDuro();
 		else if(pTipoCasilla==3) casilla=new Enemigo();
 		else if(pTipoCasilla==4) casilla=new Bomberman(true); //he puesto true solo para que funcione
-		else if(pTipoCasilla==5) casilla=new Bomba();
-		else if(pTipoCasilla==6) casilla=new Explosion();
+		else if(pTipoCasilla==5) casilla=new Bomba(x,y);
+		else if(pTipoCasilla==6) casilla=new Explosion(x,y);
 		setChanged();
 		notifyObservers(new int[] {pTipoCasilla});
 	}
@@ -29,5 +29,10 @@ public class Casilla extends Observable{
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean esDuro() {
+		if(casilla instanceof BloqueDuro) return true;
+		return false;
 	}
 }

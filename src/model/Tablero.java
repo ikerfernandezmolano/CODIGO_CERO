@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Tablero{
 	
-	 /* Hueco vacío = 0
+	 /*Hueco vacío = 0
 	 * Bloque blando = 1
 	 * Bloque duro = 2
 	 * Enemigo = 3
@@ -56,7 +56,7 @@ public class Tablero{
 	}
 	
 	private void colocarBomberman() {
-		tablero[0][0].setCasilla(4);
+		tablero[4][4].setCasilla(5);
 	}
 	
 	public boolean puedeMoverse(int pX, int pY) {
@@ -64,13 +64,23 @@ public class Tablero{
 		return tablero[pX][pY].puedeMoverse();
 	}
 	
-	public void addObserver(Observer pCV,int pX,int pY) {
-		tablero[pX][pY].addObserver(pCV);
+	public void explotar(int x, int y, int pTipo) {
+		tablero[x][y].setCasilla(pTipo);
+		for(int i=-1; i<2; i=i+2) {
+			if(x+i >= 0 && x+i<17 && !tablero[x+i][y].esDuro()) {
+				tablero[x+i][y].setCasilla(pTipo);
+			}
+			if(y+i >=0 && y+i<11 && !tablero[x][y+i].esDuro()) {
+				tablero[x][y+i].setCasilla(pTipo);
+			}
+		
+		}
 	}
 	
-	public void moverBomberman(int pCoordX,int pCoordY,int pX,int pY) {
-		tablero[pCoordX][pCoordY].setCasilla(0);
-		tablero[pX][pY].setCasilla(4);
+	
+	
+	public void addObserver(Observer pCV,int pX,int pY) {
+		tablero[pX][pY].addObserver(pCV);
 	}
 
 }
