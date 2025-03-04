@@ -24,7 +24,6 @@ public class Bomberman {
 		if(pTecla=="w") {
 			y--;
 		}
-		
 		else if (pTecla=="s") {
 			y++;
 		}
@@ -35,6 +34,7 @@ public class Bomberman {
 			x++;
 		}
 		if(Tablero.getTablero().puedeMoverse(x, y)) {
+			Tablero.getTablero().moverBomberman(coordX,coordY,x,y);
 			coordX=x;
 			coordY=y;
 		}
