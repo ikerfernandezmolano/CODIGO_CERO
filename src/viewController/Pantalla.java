@@ -9,13 +9,17 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class Pantalla extends JFrame{
+public class Pantalla extends JFrame implements KeyListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Controlador controlador;
+	private int xBomber;
+	private int yBomber;
 
 	public Pantalla() {
 		initialize();
@@ -38,7 +42,16 @@ public class Pantalla extends JFrame{
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		addKeyListener(this);
 	}
+	
+	
+	public void keyPressed(KeyEvent e) {
+		int keyCode=e.getKeyCode();
+		getControlador().handleKeyPressed(keyCode);
+		
+	}
+	
 	
 //-----------------------------BACKGROUND-------------------------------------
 	
@@ -77,6 +90,41 @@ public class Pantalla extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			Tablero.getTablero().crearTablero();
 		}
+		
+		public void handleKeyPressed(int pKeyCode) {
+			switch (pKeyCode) {
+				case KeyEvent.VK_UP:
+					if(/*se ha movido el bomberman"*/) {
+						yBomber--;
+					}
+				case KeyEvent.VK_DOWN:
+					if(/*se ha movido el bomberman"*/) {
+						yBomber++;
+					}
+				case KeyEvent.VK_LEFT:
+					if(/*se ha movido el bomberman"*/) {
+						xBomber--;
+					}
+				case KeyEvent.VK_RIGHT:
+					if(/*se ha movido el bomberman"*/) {
+						xBomber++;
+					}
+				case KeyEvent.VK_SPACE:
+					//BOMBA
+			}
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

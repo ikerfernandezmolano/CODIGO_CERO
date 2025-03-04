@@ -17,9 +17,10 @@ public class Bomberman {
 		}	
 	}
 	
-	public void moverse(String pTecla) {
+	public boolean moverse(String pTecla) {
 		int x=coordX;
 		int y=coordY;
+		boolean movido=false;
 		
 		if(pTecla=="w") {
 			y--;
@@ -37,7 +38,9 @@ public class Bomberman {
 			Tablero.getTablero().moverBomberman(coordX,coordY,x,y);
 			coordX=x;
 			coordY=y;
+			movido=true;
 		}
+		return movido;
 	}
 
 }

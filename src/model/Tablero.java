@@ -67,5 +67,10 @@ public class Tablero{
 	public void addObserver(Observer pCV,int pX,int pY) {
 		tablero[pX][pY].addObserver(pCV);
 	}
+	
+	public void moverBomberman(int pCoordX,int pCoordY,int pX,int pY) {
+		tablero[pCoordX][pCoordY].setCasilla(0);
+		tablero[pX][pY].setCasilla(4);
+	}
 
 }
