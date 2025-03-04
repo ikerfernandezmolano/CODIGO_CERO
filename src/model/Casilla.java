@@ -22,7 +22,7 @@ public class Casilla extends Observable{
 		setChanged();
 		notifyObservers(new int[] {pTipoCasilla});
 	}
-	
+
 	public boolean puedeMoverse() {
 		if((casilla instanceof BloqueBlando) ||
 				(casilla instanceof BloqueDuro)) {
@@ -30,5 +30,4 @@ public class Casilla extends Observable{
 		}
 		return true;
 	}
-	
 }
