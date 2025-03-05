@@ -45,14 +45,6 @@ public class Pantalla extends JFrame implements KeyListener{
 		addKeyListener(this);
 	}
 	
-	
-	public void keyPressed(KeyEvent e) {
-		int keyCode=e.getKeyCode();
-		getControlador().handleKeyPressed(keyCode);
-		
-	}
-	
-	
 //-----------------------------BACKGROUND-------------------------------------
 	
 	public JPanel getContentPane() {
@@ -114,7 +106,12 @@ public class Pantalla extends JFrame implements KeyListener{
 			}
 		}
 	}
-
+	
+	public void keyPressed(KeyEvent e) {
+		int keyCode=e.getKeyCode();
+		getControlador().handleKeyPressed(keyCode);
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub

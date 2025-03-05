@@ -1,7 +1,5 @@
 package model;
 
 public class BloqueBlando{
-	
-	public BloqueBlando() {
-	}
+	public BloqueBlando() {}
 }

@@ -33,6 +33,8 @@ public class Tablero{
 		}
 	}
 	
+//--------------------CREAR_TABLERO-------------------------------	
+	
 	public void crearTablero() {
 		colocarBloques();
 		colocarEnemigos();
@@ -59,10 +61,14 @@ public class Tablero{
 		tablero[4][4].setCasilla(5);
 	}
 	
+//------------------------MOVIMIENTO---------------------------	
+	
 	public boolean puedeMoverse(int pX, int pY) {
 		if(pX<0 && pX>=17 && pY<0 && pX>=11) return false;
 		return tablero[pX][pY].puedeMoverse();
 	}
+	
+//------------------------BOMBAS-------------------------------	
 	
 	public void explotar(int x, int y, int pTipo) {
 		tablero[x][y].setCasilla(pTipo);
@@ -73,11 +79,10 @@ public class Tablero{
 			if(y+i >=0 && y+i<11 && !tablero[x][y+i].esDuro()) {
 				tablero[x][y+i].setCasilla(pTipo);
 			}
-		
 		}
 	}
 	
-	
+//------------------------OBSERVERS-------------------------------
 	
 	public void addObserver(Observer pCV,int pX,int pY) {
 		tablero[pX][pY].addObserver(pCV);
