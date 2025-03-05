@@ -107,6 +107,7 @@ public class Pantalla extends JFrame implements KeyListener{
 		}
 	}
 	
+	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode=e.getKeyCode();
 		getControlador().handleKeyPressed(keyCode);
