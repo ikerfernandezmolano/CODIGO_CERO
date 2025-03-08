@@ -18,8 +18,8 @@ public class Pantalla extends JFrame implements KeyListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Controlador controlador;
-	private int xBomber;
-	private int yBomber;
+	private int xBM;
+	private int yBM;
 
 	public Pantalla() {
 		initialize();
@@ -84,26 +84,29 @@ public class Pantalla extends JFrame implements KeyListener{
 		}
 		
 		public void handleKeyPressed(int pKeyCode) {
+			int dirBM=0;
 			switch (pKeyCode) {
 				case KeyEvent.VK_UP:
-					if(/*se ha movido el bomberman"*/) {
-						yBomber--;
-					}
+					dirBM=11;
+					if(/*se ha movido el bomberman"*/)
+						yBM--;
 				case KeyEvent.VK_DOWN:
-					if(/*se ha movido el bomberman"*/) {
-						yBomber++;
-					}
+					dirBM=21;
+					if(/*se ha movido el bomberman"*/)
+						yBM++;
 				case KeyEvent.VK_LEFT:
-					if(/*se ha movido el bomberman"*/) {
-						xBomber--;
-					}
+					dirBM=31;
+					if(/*se ha movido el bomberman"*/) 
+						xBM--;
 				case KeyEvent.VK_RIGHT:
-					if(/*se ha movido el bomberman"*/) {
-						xBomber++;
-					}
+					dirBM=41;
+					if(/*se ha movido el bomberman"*/) 
+						xBM++;
 				case KeyEvent.VK_SPACE:
+					dirBM=5;
 					//BOMBA
 			}
+			((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
 		}
 	}
 	
