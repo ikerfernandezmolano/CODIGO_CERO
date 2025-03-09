@@ -1,5 +1,4 @@
 package model;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,10 +9,11 @@ public class Explosion {
    		TimerTask timerTask = new TimerTask() {
    			@Override
    			public void run() {
-   				Tablero.getTablero().explotar(pX,pY,0);
+   				Tablero.getTablero().quitarExplosion(pX,pY);
     		}		
     	};
    		timer.schedule(timerTask, 2000); 
     }
 
 }
+

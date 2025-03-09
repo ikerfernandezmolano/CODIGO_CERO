@@ -19,10 +19,11 @@ public class Bomba {
    		TimerTask timerTask = new TimerTask() {
    			@Override
    			public void run() {
-   				Tablero.getTablero().explotar(x,y,6);
+   				Tablero.getTablero().explotar(x,y);
     		}		
     	};
    		timer.schedule(timerTask, 3000);
    }
     
 }
+
