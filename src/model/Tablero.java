@@ -14,6 +14,7 @@ public class Tablero{
 	 */
 	private Casilla[][] tablero;
 	private static Tablero miTAB=new Tablero();
+	private boolean partidaTerminada;
 	
 	private Tablero() {
 		initialize();
@@ -65,17 +66,18 @@ public class Tablero{
 	public boolean moverse(int pXact,int pYact, int pXn,int pYn) {
 		boolean puede=puedeMoverse(pXn,pYn);
 		if (puede) {
-			if(tablero[pXn][pYn].esExplosion()) {
-				tablero[pXact][pYact].setMuerto();
-				tablero[pXact][pYact].setCasilla(0);
-			} else {
-				if(tablero[pXact][pYact].esBomba())
-					tablero[pXact][pYact].setCasilla(5);
-				else tablero[pXact][pYact].setCasilla(0);
-				tablero[pXn][pYn].setCasilla(4);	
-			}
+			moverseConBomba(pXact,pYact);
+			if(tablero[pXn][pYn].esExplosion())
+				partidaTerminada=true;
+			else tablero[pXn][pYn].setCasilla(4);	
 		}
 		return puede;
+	}
+	
+	private void moverseConBomba(int pXact,int pYact) {
+		if(tablero[pXact][pYact].esBomba())
+			tablero[pXact][pYact].setCasilla(5);
+		else tablero[pXact][pYact].setCasilla(0);
 	}
 	
 	private boolean puedeMoverse(int pX, int pY) {
@@ -85,14 +87,25 @@ public class Tablero{
 	
 //------------------------BOMBAS-------------------------------	
 	
-	public void explotar(int x, int y) {
-		tablero[x][y].setCasilla(6);
+	public void explotar(int pX, int pY) {
+		tablero[pX][pY].setCasilla(6);
 		for(int i=-1; i<2; i=i+2) {
-			if(x+i >= 0 && x+i<17 && !tablero[x+i][y].esDuro())
-			    tablero[x+i][y].setCasilla(6);
-			if(y+i >=0 && y+i<11 && !tablero[x][y+i].esDuro()) 
-			    tablero[x][y+i].setCasilla(6);
+			if(pX+i >= 0 && pX+i<17 && !tablero[pX+i][pY].esDuro() &&
+					!detectarBomberman(pX+i,pY))
+			    tablero[pX+i][pY].setCasilla(6);
+			if(pY+i >=0 && pY+i<11 && !tablero[pX][pY+i].esDuro() &&
+					!detectarBomberman(pX,pY+i)) 
+			    tablero[pX][pY+i].setCasilla(6);
 		}
+	}
+	
+	private boolean detectarBomberman(int pX, int pY) {
+		boolean esBM=tablero[pX][pY].esBomberman();
+		if(esBM) {
+			partidaTerminada=true;
+			tablero[pX][pY].setMuerto();
+		}
+		return esBM;
 	}
 	
 	public void quitarExplosion(int pX, int pY) {
@@ -101,6 +114,12 @@ public class Tablero{
 	
 	public void colocarBomba(int pX, int pY) {
 		tablero[pX][pY].setCasilla(5);
+	}
+	
+//------------------------FIN_PARTIDA----------------------------
+	
+	public boolean getEstadoPartida() {
+		return partidaTerminada;
 	}
 	
 //------------------------CASILLAS-------------------------------

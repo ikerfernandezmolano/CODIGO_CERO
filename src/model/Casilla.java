@@ -26,10 +26,7 @@ public class Casilla extends Observable{
 	public boolean puedeMoverse() {
 		if((casilla instanceof BloqueBlando) ||
 				(casilla instanceof BloqueDuro) ||
-				(casilla instanceof Bomba)) {
-			return false;
-		} else if( casilla instanceof Bomberman &&
-				Bomberman.getBomberman().getMuerto()==1) 
+				(casilla instanceof Bomba)) 
 			return false;
 		return true;
 	}
@@ -52,8 +49,6 @@ public class Casilla extends Observable{
 	
 	public void setMuerto() {
 		if(casilla instanceof Bomberman) {
-			System.out.println("hola");
-			Bomberman.getBomberman().setMuerto();
 			setChanged();
 			notifyObservers(new int[] {7});
 		}

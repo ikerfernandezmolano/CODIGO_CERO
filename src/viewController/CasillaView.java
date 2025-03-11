@@ -35,7 +35,7 @@ public class CasillaView extends JLabel implements Observer{
 			else if(pTipo==4) path="character/player/w"+dirBM+".png";
 			else if(pTipo==5) path="attack/bomb1.png";
 			else if(pTipo==6) path="attack/bomb1exp.gif";
-			else if(pTipo==7) path="character/player/w"+dirBM+".png";
+			else if(pTipo==7) path="character/player/w6.png";
 			this.setIcon(new ImageIcon(getClass().getResource("texture/"+path)));
 		}
 	}

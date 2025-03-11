@@ -85,33 +85,37 @@ public class Pantalla extends JFrame{
 		
 		public void handleKeyPressed(int pKeyCode) {
 			int dirBM=0;
-			switch (pKeyCode) {
-				case KeyEvent.VK_DOWN:
-					dirBM=11;
-					if (Tablero.getTablero().moverse(xBM, yBM, xBM, yBM+1)) 
-						yBM++;
-					break;
-				case KeyEvent.VK_UP:
-					dirBM=21;
-					if (Tablero.getTablero().moverse(xBM, yBM, xBM, yBM-1))
-						yBM--;
-					break;
-				case KeyEvent.VK_LEFT:
-					dirBM=31;
-					if (Tablero.getTablero().moverse(xBM, yBM, xBM-1, yBM))
-						xBM--;
-					break;
-				case KeyEvent.VK_RIGHT:
-					dirBM=41;
-					if (Tablero.getTablero().moverse(xBM, yBM, xBM+1, yBM)) 
-						xBM++;
-					break;
-				case KeyEvent.VK_SPACE:
-					dirBM=5;
-					Tablero.getTablero().colocarBomba(xBM,yBM);
-					break;
+			if(!Tablero.getTablero().getEstadoPartida()) {
+				switch (pKeyCode) {
+					case KeyEvent.VK_DOWN:
+						dirBM=11;
+						if (Tablero.getTablero().moverse(xBM, yBM, xBM, yBM+1)) 
+							yBM++;
+						break;
+					case KeyEvent.VK_UP:
+						dirBM=21;
+						if (Tablero.getTablero().moverse(xBM, yBM, xBM, yBM-1))
+							yBM--;
+						break;
+					case KeyEvent.VK_LEFT:
+						dirBM=31;
+						if (Tablero.getTablero().moverse(xBM, yBM, xBM-1, yBM))
+							xBM--;
+						break;
+					case KeyEvent.VK_RIGHT:
+						dirBM=41;
+						if (Tablero.getTablero().moverse(xBM, yBM, xBM+1, yBM)) 
+							xBM++;
+						break;
+					case KeyEvent.VK_SPACE:
+						dirBM=5;
+						Tablero.getTablero().colocarBomba(xBM,yBM);
+						break;
+				}
+				if(!Tablero.getTablero().getEstadoPartida()) 
+					((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
+				else  ((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(6);
 			}
-			((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
 		}
 		@Override
 		public void keyPressed(KeyEvent e) {

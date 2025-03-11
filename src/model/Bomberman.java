@@ -3,11 +3,7 @@ package model;
 public class Bomberman {
 	private boolean blanco;
 	private int bombas;
-	private int coordX;
-	private int coordY;
-	private int muerto=0;
 	private static Bomberman miBM=new Bomberman(true);
-	
 	
 	private Bomberman(boolean pBlanco) {
 		this.blanco=pBlanco;
@@ -18,13 +14,5 @@ public class Bomberman {
 	
 	public static Bomberman getBomberman() {
 		return miBM;
-	}
-	
-	public int getMuerto() {
-		return this.muerto;
-	}
-	
-	public void setMuerto() {
-		this.muerto=1;
 	}
 }
