@@ -58,13 +58,13 @@ public class Tablero{
 	}
 	
 	private void colocarBomberman() {
-		tablero[7][10].setCasilla(5);
+		tablero[0][0].setCasilla(4);
 	}
 	
 //------------------------MOVIMIENTO---------------------------	
 	
 	public boolean puedeMoverse(int pX, int pY) {
-		if(pX<0 && pX>=17 && pY<0 && pX>=11) return false;
+		if(pX<0 || pX>=17 || pY<0 || pX>=11) return false;
 		return tablero[pX][pY].puedeMoverse();
 	}
 	
@@ -85,6 +85,11 @@ public class Tablero{
 	public void quitarExplosion(int pX, int pY) {
 		tablero[pX][pY].setCasilla(0);
 	}
+	
+	public void colocarBomba(int pX, int pY) {
+		tablero[pX][pY].setCasilla(5);
+	}
+	
 //------------------------OBSERVERS-------------------------------
 	
 	public void addObserver(Observer pCV,int pX,int pY) {

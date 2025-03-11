@@ -86,25 +86,30 @@ public class Pantalla extends JFrame implements KeyListener{
 		public void handleKeyPressed(int pKeyCode) {
 			int dirBM=0;
 			switch (pKeyCode) {
-				case KeyEvent.VK_UP:
-					dirBM=11;
-					if(/*se ha movido el bomberman"*/)
-						yBM--;
 				case KeyEvent.VK_DOWN:
-					dirBM=21;
-					if(/*se ha movido el bomberman"*/)
+					dirBM=11;
+					if () 
 						yBM++;
+					break;
+				case KeyEvent.VK_UP:
+					dirBM=21;
+					if ()
+						yBM--;
+					break;
 				case KeyEvent.VK_LEFT:
 					dirBM=31;
-					if(/*se ha movido el bomberman"*/) 
+					if ()
 						xBM--;
+					break;
 				case KeyEvent.VK_RIGHT:
 					dirBM=41;
-					if(/*se ha movido el bomberman"*/) 
+					if () 
 						xBM++;
+					break;
 				case KeyEvent.VK_SPACE:
 					dirBM=5;
-					//BOMBA
+					Tablero.getTablero().colocarBomba(xBM,yBM);
+					break;
 			}
 			((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
 		}
