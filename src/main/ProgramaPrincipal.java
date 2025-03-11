@@ -9,5 +9,6 @@ public class ProgramaPrincipal {
 		//VISTA//
 		@SuppressWarnings("unused")
 		Pantalla pantalla= new Pantalla();
+		//PRUEBA
 	}
 }
