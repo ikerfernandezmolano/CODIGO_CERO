@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class Pantalla extends JFrame implements KeyListener{
+public class Pantalla extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -42,7 +42,7 @@ public class Pantalla extends JFrame implements KeyListener{
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		addKeyListener(this);
+		addKeyListener(getControlador());
 	}
 	
 //-----------------------------BACKGROUND-------------------------------------
@@ -77,7 +77,7 @@ public class Pantalla extends JFrame implements KeyListener{
 		return controlador;
 	}
 	
-	private class Controlador implements ActionListener {
+	private class Controlador implements ActionListener,KeyListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			Tablero.getTablero().crearTablero();
@@ -113,24 +113,22 @@ public class Pantalla extends JFrame implements KeyListener{
 			}
 			((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
 		}
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int keyCode=e.getKeyCode();
-		getControlador().handleKeyPressed(keyCode);
-	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int keyCode=e.getKeyCode();
+			getControlador().handleKeyPressed(keyCode);
+		}
 		
-	}
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
-
 }

@@ -16,7 +16,7 @@ public class Casilla extends Observable{
 		else if(pTipoCasilla==1) casilla=new BloqueBlando();
 		else if(pTipoCasilla==2) casilla=new BloqueDuro();
 		else if(pTipoCasilla==3) casilla=new Enemigo();
-		else if(pTipoCasilla==4) casilla=new Bomberman(true); //he puesto true solo para que funcione
+		else if(pTipoCasilla==4) casilla=Bomberman.getBomberman();
 		else if(pTipoCasilla==5) casilla=new Bomba(x,y);
 		else if(pTipoCasilla==6) casilla=new Explosion(x,y);
 		setChanged();
@@ -25,14 +25,37 @@ public class Casilla extends Observable{
 
 	public boolean puedeMoverse() {
 		if((casilla instanceof BloqueBlando) ||
-				(casilla instanceof BloqueDuro)) {
+				(casilla instanceof BloqueDuro) ||
+				(casilla instanceof Bomba)) {
 			return false;
-		}
+		} else if( casilla instanceof Bomberman &&
+				Bomberman.getBomberman().getMuerto()==1) 
+			return false;
 		return true;
 	}
 	
 	public boolean esDuro() {
-		if(casilla instanceof BloqueDuro) return true;
-		return false;
+		return casilla instanceof BloqueDuro;
+	}
+	
+	public boolean esBomba() {
+		return casilla instanceof Bomba;
+	}
+	
+	public boolean esBomberman() {
+		return casilla instanceof Bomberman;
+	}
+	
+	public boolean esExplosion() {
+		return casilla instanceof Explosion;
+	}
+	
+	public void setMuerto() {
+		if(casilla instanceof Bomberman) {
+			System.out.println("hola");
+			Bomberman.getBomberman().setMuerto();
+			setChanged();
+			notifyObservers(new int[] {7});
+		}
 	}
 }

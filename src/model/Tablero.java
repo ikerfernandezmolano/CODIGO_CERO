@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Observer;
 import java.util.Random;
 
 public class Tablero{
@@ -63,18 +62,25 @@ public class Tablero{
 	
 //------------------------MOVIMIENTO---------------------------	
 	
-	private boolean puedeMoverse(int pX, int pY) {
-		if(pX<0 || pX>=17 || pY<0 || pY>=11) return false;
-		return tablero[pX][pY].puedeMoverse();
-	}
-	
 	public boolean moverse(int pXact,int pYact, int pXn,int pYn) {
 		boolean puede=puedeMoverse(pXn,pYn);
 		if (puede) {
-			tablero[pXact][pYact].setCasilla(0);
-			tablero[pXn][pYn].setCasilla(4);
+			if(tablero[pXn][pYn].esExplosion()) {
+				tablero[pXact][pYact].setMuerto();
+				tablero[pXact][pYact].setCasilla(0);
+			} else {
+				if(tablero[pXact][pYact].esBomba())
+					tablero[pXact][pYact].setCasilla(5);
+				else tablero[pXact][pYact].setCasilla(0);
+				tablero[pXn][pYn].setCasilla(4);	
+			}
 		}
 		return puede;
+	}
+	
+	private boolean puedeMoverse(int pX, int pY) {
+		if(pX<0 || pX>=17 || pY<0 || pY>=11) return false;
+		return tablero[pX][pY].puedeMoverse();
 	}
 	
 //------------------------BOMBAS-------------------------------	
@@ -82,12 +88,10 @@ public class Tablero{
 	public void explotar(int x, int y) {
 		tablero[x][y].setCasilla(6);
 		for(int i=-1; i<2; i=i+2) {
-			if(x+i >= 0 && x+i<17 && !tablero[x+i][y].esDuro()) {
-				tablero[x+i][y].setCasilla(6);
-			}
-			if(y+i >=0 && y+i<11 && !tablero[x][y+i].esDuro()) {
-				tablero[x][y+i].setCasilla(6);
-			}
+			if(x+i >= 0 && x+i<17 && !tablero[x+i][y].esDuro())
+			    tablero[x+i][y].setCasilla(6);
+			if(y+i >=0 && y+i<11 && !tablero[x][y+i].esDuro()) 
+			    tablero[x][y+i].setCasilla(6);
 		}
 	}
 	
@@ -99,10 +103,10 @@ public class Tablero{
 		tablero[pX][pY].setCasilla(5);
 	}
 	
-//------------------------OBSERVERS-------------------------------
+//------------------------CASILLAS-------------------------------
 	
-	public void addObserver(Observer pCV,int pX,int pY) {
-		tablero[pX][pY].addObserver(pCV);
+	public Casilla getCasilla(int pX,int pY) {
+		return tablero[pX][pY];
 	}
 
 }

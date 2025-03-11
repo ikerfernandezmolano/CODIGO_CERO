@@ -14,6 +14,5 @@ public class Explosion {
     	};
    		timer.schedule(timerTask, 2000); 
     }
-
 }
 
