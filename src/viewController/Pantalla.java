@@ -88,22 +88,22 @@ public class Pantalla extends JFrame implements KeyListener{
 			switch (pKeyCode) {
 				case KeyEvent.VK_DOWN:
 					dirBM=11;
-					if () 
+					if (Tablero.getTablero().moverse(xBM, yBM, xBM, yBM+1)) 
 						yBM++;
 					break;
 				case KeyEvent.VK_UP:
 					dirBM=21;
-					if ()
+					if (Tablero.getTablero().moverse(xBM, yBM, xBM, yBM-1))
 						yBM--;
 					break;
 				case KeyEvent.VK_LEFT:
 					dirBM=31;
-					if ()
+					if (Tablero.getTablero().moverse(xBM, yBM, xBM-1, yBM))
 						xBM--;
 					break;
 				case KeyEvent.VK_RIGHT:
 					dirBM=41;
-					if () 
+					if (Tablero.getTablero().moverse(xBM, yBM, xBM+1, yBM)) 
 						xBM++;
 					break;
 				case KeyEvent.VK_SPACE:

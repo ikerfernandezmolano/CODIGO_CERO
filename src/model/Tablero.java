@@ -63,9 +63,18 @@ public class Tablero{
 	
 //------------------------MOVIMIENTO---------------------------	
 	
-	public boolean puedeMoverse(int pX, int pY) {
-		if(pX<0 || pX>=17 || pY<0 || pX>=11) return false;
+	private boolean puedeMoverse(int pX, int pY) {
+		if(pX<0 || pX>=17 || pY<0 || pY>=11) return false;
 		return tablero[pX][pY].puedeMoverse();
+	}
+	
+	public boolean moverse(int pXact,int pYact, int pXn,int pYn) {
+		boolean puede=puedeMoverse(pXn,pYn);
+		if (puede) {
+			tablero[pXact][pYact].setCasilla(0);
+			tablero[pXn][pYn].setCasilla(4);
+		}
+		return puede;
 	}
 	
 //------------------------BOMBAS-------------------------------	
@@ -97,4 +106,3 @@ public class Tablero{
 	}
 
 }
-
