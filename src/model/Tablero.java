@@ -132,10 +132,4 @@ public class Tablero{
 	public Casilla getCasilla(int pX,int pY) {
 		return tablero[pX][pY];
 	}
-	
-	public void setCoordsBM(int pXBM, int pYBM) {
-		this.xBM=pXBM;
-		this.yBM=pYBM;
-	}
-
 }
