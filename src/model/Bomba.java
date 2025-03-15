@@ -1,12 +1,6 @@
 package model;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 
 public class Bomba {
     private int x,y;

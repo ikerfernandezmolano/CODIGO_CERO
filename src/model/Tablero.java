@@ -15,6 +15,7 @@ public class Tablero{
 	private Casilla[][] tablero;
 	private static Tablero miTAB=new Tablero();
 	private boolean partidaTerminada;
+	private int xBM,yBM;
 	
 	private Tablero() {
 		initialize();
@@ -66,6 +67,8 @@ public class Tablero{
 	public boolean moverse(int pXact,int pYact, int pXn,int pYn) {
 		boolean puede=puedeMoverse(pXn,pYn);
 		if (puede) {
+			xBM=pXn;
+			yBM=pYn;
 			moverseConBomba(pXact,pYact);
 			if(tablero[pXn][pYn].esExplosion())
 				partidaTerminada=true;
@@ -88,7 +91,8 @@ public class Tablero{
 //------------------------BOMBAS-------------------------------	
 	
 	public void explotar(int pX, int pY) {
-		tablero[pX][pY].setCasilla(6);
+		if(!detectarBomberman(pX,pY))
+			tablero[pX][pY].setCasilla(6);
 		for(int i=-1; i<2; i=i+2) {
 			if(pX+i >= 0 && pX+i<17 && !tablero[pX+i][pY].esDuro() &&
 					!detectarBomberman(pX+i,pY))
@@ -100,8 +104,9 @@ public class Tablero{
 	}
 	
 	private boolean detectarBomberman(int pX, int pY) {
-		boolean esBM=tablero[pX][pY].esBomberman();
-		if(esBM) {
+		boolean esBM=false;
+		if(xBM==pX && yBM==pY) {
+			esBM=true;
 			partidaTerminada=true;
 			tablero[pX][pY].setMuerto();
 		}
@@ -126,6 +131,11 @@ public class Tablero{
 	
 	public Casilla getCasilla(int pX,int pY) {
 		return tablero[pX][pY];
+	}
+	
+	public void setCoordsBM(int pXBM, int pYBM) {
+		this.xBM=pXBM;
+		this.yBM=pYBM;
 	}
 
 }
