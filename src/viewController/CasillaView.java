@@ -9,6 +9,16 @@ import model.Tablero;
 
 public class CasillaView extends JLabel implements Observer{
 	
+
+	 /*Void = 0
+	 * SoftBlock = 1
+	 * HardBlock = 2
+	 * Enemie = 3
+	 * Bomberman = 4
+	 * Bomb = 5
+	 * Explosion = 6
+	 */
+	
 	private static final long serialVersionUID = 1L;
 	private int x,y;
 	private int dirBM=0;
@@ -17,7 +27,7 @@ public class CasillaView extends JLabel implements Observer{
 		super();
 		x=pX;
 		y=pY;
-		Tablero.getTablero().getCasilla(pX, pY).addObserver(this);
+		Tablero.getTablero().getCell(pX, pY).addObserver(this);
 		this.setHorizontalAlignment(CENTER);
 		this.setVerticalAlignment(CENTER);
 	}

@@ -1,0 +1,12 @@
+package model.blocks;
+
+public class HardBlock extends Block{
+	public HardBlock(int pX,int pY) {
+		super(pX,pY);
+	}
+
+	@Override
+	public boolean is(String pType) {
+		return pType=="Hard";
+	}
+}
