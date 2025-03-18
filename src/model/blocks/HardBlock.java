@@ -9,4 +9,9 @@ public class HardBlock extends Block{
 	public boolean is(String pType) {
 		return pType=="Hard";
 	}
+	
+	@Override
+	public boolean canMove() {
+		return false;
+	}
 }

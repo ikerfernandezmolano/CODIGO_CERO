@@ -13,6 +13,7 @@ public class BlockFactory {
 		Block block=null;
 		if(pType=="Soft") block=new SoftBlock(pX,pY);
 		else if(pType=="Hard") block=new HardBlock(pX,pY);
+		else if(pType=="Void") block=new Void(pX, pY);
 		return block;
 	}
 }

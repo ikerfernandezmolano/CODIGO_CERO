@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 import model.Tablero;
 
 public class CasillaView extends JLabel implements Observer{
-	
 
 	 /*Void = 0
 	 * SoftBlock = 1
@@ -32,20 +31,20 @@ public class CasillaView extends JLabel implements Observer{
 		this.setVerticalAlignment(CENTER);
 	}
 	
-	public void setImagen(int pTipo) {
-		if(pTipo==0) {
+	public void setImage(int pType) {
+		if(pType==0) {
 			this.setIcon(null);
 		} else {
 			String path=null;
-			if(pTipo==1) {
+			if(pType==1) {
 				Random r=new Random();
 				path="block/soft"+r.nextInt(2)+".png";
-			}else if(pTipo==2) path="block/hard1.png";
-			else if(pTipo==3) path="character/monster/m11.png";
-			else if(pTipo==4) path="character/player/w"+dirBM+".png";
-			else if(pTipo==5) path="attack/bomb1.png";
-			else if(pTipo==6) path="attack/bomb1exp.gif";
-			else if(pTipo==7) path="character/player/w6.png";
+			}else if(pType==2) path="block/hard1.png";
+			else if(pType==3) path="character/monster/m11.png";
+			else if(pType==4) path="character/player/w"+dirBM+".png";
+			else if(pType==5) path="attack/bomb1.png";
+			else if(pType==6) path="attack/bomb1exp.gif";
+			else if(pType==7) path="character/player/w6.png";
 			this.setIcon(new ImageIcon(getClass().getResource("texture/"+path)));
 		}
 	}
@@ -62,6 +61,6 @@ public class CasillaView extends JLabel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		int[] res = (int[]) arg;
-		this.setImagen(res[0]);	
+		this.setImage(res[0]);	
 	}
 }

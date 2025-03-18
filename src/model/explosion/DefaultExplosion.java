@@ -1,17 +1,17 @@
-package model.other;
+package model.explosion;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
-import model.Cell;
-import model.InterfaceCell;
 import model.Tablero;
 
-public class Explosion implements InterfaceCell{
+public class DefaultExplosion extends Explosion{
 	private Timer timer=null;
 	
-	public Explosion (int pX, int pY) {	
+	public DefaultExplosion(int pX, int pY) {
+		super(pX,pY);
 		tiempo(pX,pY);
-    }
+	}
 	
 	private void tiempo(int pX, int pY) {
 		timer = new Timer();
@@ -23,15 +23,4 @@ public class Explosion implements InterfaceCell{
     	};
    		timer.schedule(timerTask, 2000); 
 	}
-
-	@Override
-	public boolean canMove() {
-		return true;
-	}
-
-	@Override
-	public boolean is(String pType) {
-		return pType=="Explosion";
-	}
 }
-

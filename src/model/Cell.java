@@ -6,8 +6,7 @@ import model.blocks.BlockFactory;
 import model.bomberman.BombermanFactory;
 import model.bombs.BombFactory;
 import model.enemies.EnemieFactory;
-import model.other.Explosion;
-import model.other.Void;
+import model.explosion.ExplosionFactory;
 
 public class Cell extends Observable{
 	private int x,y; 
@@ -16,14 +15,14 @@ public class Cell extends Observable{
 	public Cell(int pX, int pY) {
 		this.x=pX;
 		this.y=pY;
-		this.cell=new Void(x,y);
+		this.cell=BlockFactory.getBlockFactory().generate("Void", pX, pY);
 	}
 	
 	public void setCell(String pType) {
 		int pIDType=0;
 		if(pType=="Void") {
 			pIDType=0;
-			cell = new Void(x,y);
+			cell=BlockFactory.getBlockFactory().generate("Void", x, y);
 		}
 		else if(pType=="Soft") {
 			pIDType=1;
@@ -35,7 +34,7 @@ public class Cell extends Observable{
 		}
 		else if(pType=="Enemie") {
 			pIDType=3;
-			cell = EnemieFactory.getEnemieFactory().generate("Enemie", x, y);
+			cell = EnemieFactory.getEnemieFactory().generate("Default", x, y);
 		}
 		else if(pType=="White") {
 			pIDType=4;
@@ -47,7 +46,7 @@ public class Cell extends Observable{
 		}
 		else if(pType=="Explosion") {
 			pIDType=6;
-			cell = new Explosion(x, y);
+			cell = ExplosionFactory.getExplosionFactory().generate("Default", x, y);
 		}
 		setChanged();
 		notifyObservers(new int[] {pIDType});

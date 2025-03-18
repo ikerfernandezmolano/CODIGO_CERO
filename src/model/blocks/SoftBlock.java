@@ -9,4 +9,9 @@ public class SoftBlock extends Block{
 	public boolean is(String pType) {
 		return pType=="Soft";
 	}
+	
+	@Override
+	public boolean canMove() {
+		return false;
+	}
 }

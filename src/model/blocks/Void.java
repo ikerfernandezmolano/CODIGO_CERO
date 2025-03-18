@@ -1,10 +1,10 @@
-package model.other;
+package model.blocks;
 
-import model.InterfaceCell;
+public class Void extends Block{
 
-public class Void implements InterfaceCell{
-
-	public Void(int pX,int pY) {}
+	public Void(int pX,int pY) {
+		super(pX,pY);
+	}
 	
 	@Override
 	public boolean canMove() {
