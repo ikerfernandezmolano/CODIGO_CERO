@@ -1,5 +1,5 @@
 package model.bombs;
-import model.Cell;
+
 import model.interfaceCell.InterfaceCell;
 
 public abstract class Bomb implements InterfaceCell{

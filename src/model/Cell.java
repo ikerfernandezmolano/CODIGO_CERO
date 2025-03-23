@@ -3,10 +3,6 @@ package model;
 import java.util.Observable;
 
 import model.blocks.BlockFactory;
-import model.bomberman.BombermanFactory;
-import model.bombs.BombFactory;
-import model.enemies.EnemieFactory;
-import model.explosion.ExplosionFactory;
 import model.interfaceCell.CellFactoriesFactory;
 import model.interfaceCell.InterfaceCell;
 
