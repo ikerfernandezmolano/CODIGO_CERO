@@ -1,6 +1,6 @@
 package model.blocks;
 
-import model.InterfaceCell;
+import model.interfaceCell.InterfaceCell;
 
 public abstract class Block implements InterfaceCell{
 	

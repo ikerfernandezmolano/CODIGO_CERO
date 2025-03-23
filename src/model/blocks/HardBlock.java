@@ -14,4 +14,9 @@ public class HardBlock extends Block{
 	public boolean canMove() {
 		return false;
 	}
+
+	@Override
+	public int getId() {
+		return 2;
+	}
 }

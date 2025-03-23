@@ -15,4 +15,9 @@ public class Void extends Block{
 	public boolean is(String pType) {
 		return pType=="Void";
 	}
+
+	@Override
+	public int getId() {
+		return 0;
+	}
 }

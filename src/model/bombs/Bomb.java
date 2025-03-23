@@ -1,6 +1,6 @@
 package model.bombs;
 import model.Cell;
-import model.InterfaceCell;
+import model.interfaceCell.InterfaceCell;
 
 public abstract class Bomb implements InterfaceCell{
 
@@ -17,5 +17,10 @@ public abstract class Bomb implements InterfaceCell{
    public boolean canMove() {
 	   return false;
 	}
+   
+   @Override
+   public int getId() {
+	   return 5;
+   }
 }
 

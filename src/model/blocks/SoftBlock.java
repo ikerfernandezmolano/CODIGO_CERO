@@ -14,4 +14,9 @@ public class SoftBlock extends Block{
 	public boolean canMove() {
 		return false;
 	}
+
+	@Override
+	public int getId() {
+		return 1;
+	}
 }

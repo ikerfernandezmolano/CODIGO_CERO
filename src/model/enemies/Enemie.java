@@ -1,5 +1,5 @@
 package model.enemies;
-import model.InterfaceCell;
+import model.interfaceCell.InterfaceCell;
 
 public abstract class Enemie implements InterfaceCell{
 	
@@ -13,5 +13,10 @@ public abstract class Enemie implements InterfaceCell{
 	@Override
 	public boolean is(String pType) {
 		return pType=="Enemie";
+	}
+	
+	@Override
+	public int getId() {
+		return 3;
 	}
 }

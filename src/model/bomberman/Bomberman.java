@@ -1,7 +1,6 @@
 package model.bomberman;
 
-import model.Cell;
-import model.InterfaceCell;
+import model.interfaceCell.InterfaceCell;
 
 public abstract class Bomberman implements InterfaceCell{
 	private int bombas;
@@ -18,5 +17,10 @@ public abstract class Bomberman implements InterfaceCell{
 	@Override
 	public boolean canMove() {
 		return false;
+	}
+	
+	@Override
+	public int getId() {
+		return 4;
 	}
 }

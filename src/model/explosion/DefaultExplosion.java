@@ -13,7 +13,8 @@ public class DefaultExplosion extends Explosion{
 		tiempo(pX,pY);
 	}
 	
-	private void tiempo(int pX, int pY) {
+	@Override
+	protected void tiempo(int pX, int pY) {
 		timer = new Timer();
    		TimerTask timerTask = new TimerTask() {
    			@Override
