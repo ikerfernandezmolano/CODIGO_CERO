@@ -114,7 +114,10 @@ public class Pantalla extends JFrame{
 				}
 				if(!Tablero.getTablero().getEstadoPartida()) 
 					((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
-				else  ((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(6);
+				else {
+					((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(6);
+					TimerTool.getTimerTool().stop(1);
+				}
 			}
 		}
 		@Override
