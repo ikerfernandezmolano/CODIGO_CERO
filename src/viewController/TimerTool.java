@@ -4,13 +4,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class TimerTool {
-	private static TimerTool myTimer=new TimerTool();
+	private static TimerTool myTT=new TimerTool();
 	private Timer timer=null;
 	
 	private TimerTool() {}
 	
 	public static TimerTool getTimerTool() {
-		return myTimer;
+		return myTT;
 	}
 	
 	public void stop(int pSec) {
