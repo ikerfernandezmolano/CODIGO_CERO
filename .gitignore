@@ -1,1 +1,12 @@
 /bin/
+
+# Archivos específicos de Eclipse
+.settings/
+.project
+.classpath
+
+# Archivos específicos de IntelliJ
+.idea/
+*.iml
+out/
+
