@@ -15,7 +15,6 @@ public class MenuView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel bombermanList;
-	private JLabel lblNewLabel_1;
 	
 	public static void main(String args[]) {
 		MenuView menuView=new MenuView();
@@ -29,6 +28,7 @@ public class MenuView extends JFrame {
 	private void initialize() {
 		setSize(930,580);
 		this.setContentPane(getContentPane());
+		this.addDeco();
 		
 		setResizable(false);
 		setUndecorated(true);
@@ -55,17 +55,13 @@ public class MenuView extends JFrame {
             }
         };
 			contentPane.setLayout(null);
-			contentPane.add(getLblNewLabel());
 		}
 		return contentPane;
 	}
 	
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel();
-			lblNewLabel_1.setBounds(357, 178, 216, 228);
-			lblNewLabel_1.setIcon(new ImageIcon(MenuView.class.getResource("/viewController/menu/texture/deco/d1.png")));
-		}
-		return lblNewLabel_1;
+//-----------------------------DECORATION-------------------------------------
+	
+	private void addDeco() {
+		
 	}
 }
