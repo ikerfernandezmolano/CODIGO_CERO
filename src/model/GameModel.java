@@ -2,18 +2,18 @@ package model;
 
 import java.util.Random;
 
-public class Tablero{
+public class GameModel{
 	
 	private Cell[][] tablero;
-	private static Tablero miTAB=new Tablero();
+	private static GameModel miTAB=new GameModel();
 	private boolean partidaTerminada;
 	private int xBM,yBM;
 	
-	private Tablero() {
+	private GameModel() {
 		initialize();
 	}
 	
-	public static Tablero getTablero() {
+	public static GameModel getGameModel() {
 		return miTAB;
 	}
 	

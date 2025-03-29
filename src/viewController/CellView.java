@@ -5,9 +5,9 @@ import java.util.Observer;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import model.Tablero;
+import model.GameModel;
 
-public class CasillaView extends JLabel implements Observer{
+public class CellView extends JLabel implements Observer{
 
 	 /*Void = 0
 	 * SoftBlock = 1
@@ -22,11 +22,11 @@ public class CasillaView extends JLabel implements Observer{
 	private int x,y;
 	private int dirBM=0;
 
-	public CasillaView(int pX,int pY) {
+	public CellView(int pX,int pY) {
 		super();
 		x=pX;
 		y=pY;
-		Tablero.getTablero().getCell(pX, pY).addObserver(this);
+		GameModel.getGameModel().getCell(pX, pY).addObserver(this);
 		this.setHorizontalAlignment(CENTER);
 		this.setVerticalAlignment(CENTER);
 	}

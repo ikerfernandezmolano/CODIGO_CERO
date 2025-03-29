@@ -3,7 +3,7 @@ package viewController;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import model.Tablero;
+import model.GameModel;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class Pantalla extends JFrame{
+public class GameView extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -21,7 +21,7 @@ public class Pantalla extends JFrame{
 	private int xBM;
 	private int yBM;
 
-	public Pantalla() {
+	public GameView() {
 		initialize();
 		getControlador().actionPerformed(null); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +33,7 @@ public class Pantalla extends JFrame{
 		
 		for(int j=0;j<11;j++) {
 			for(int i=0;i<17;i++) {
-				CasillaView cw= new CasillaView(i,j);
+				CellView cw= new CellView(i,j);
 				contentPane.add(cw);
 			}
 		}
@@ -80,42 +80,42 @@ public class Pantalla extends JFrame{
 	private class Controlador implements ActionListener,KeyListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Tablero.getTablero().crearTablero();
+			GameModel.getGameModel().crearTablero();
 		}
 		
 		public void handleKeyPressed(int pKeyCode) {
 			int dirBM=0;
-			if(!Tablero.getTablero().getEstadoPartida()) {
+			if(!GameModel.getGameModel().getEstadoPartida()) {
 				switch (pKeyCode) {
 					case KeyEvent.VK_DOWN:
 						dirBM=11;
-						if (Tablero.getTablero().moverse(xBM, yBM, xBM, yBM+1)) 
+						if (GameModel.getGameModel().moverse(xBM, yBM, xBM, yBM+1)) 
 							yBM++;
 						break;
 					case KeyEvent.VK_UP:
 						dirBM=21;
-						if (Tablero.getTablero().moverse(xBM, yBM, xBM, yBM-1))
+						if (GameModel.getGameModel().moverse(xBM, yBM, xBM, yBM-1))
 							yBM--;
 						break;
 					case KeyEvent.VK_LEFT:
 						dirBM=31;
-						if (Tablero.getTablero().moverse(xBM, yBM, xBM-1, yBM))
+						if (GameModel.getGameModel().moverse(xBM, yBM, xBM-1, yBM))
 							xBM--;
 						break;
 					case KeyEvent.VK_RIGHT:
 						dirBM=41;
-						if (Tablero.getTablero().moverse(xBM, yBM, xBM+1, yBM)) 
+						if (GameModel.getGameModel().moverse(xBM, yBM, xBM+1, yBM)) 
 							xBM++;
 						break;
 					case KeyEvent.VK_SPACE:
 						dirBM=5;
-						Tablero.getTablero().colocarBomba(xBM,yBM);
+						GameModel.getGameModel().colocarBomba(xBM,yBM);
 						break;
 				}
-				if(!Tablero.getTablero().getEstadoPartida()) 
-					((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
+				if(!GameModel.getGameModel().getEstadoPartida()) 
+					((CellView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
 				else {
-					((CasillaView)contentPane.getComponent(yBM*17+xBM)).setDirBM(6);
+					((CellView)contentPane.getComponent(yBM*17+xBM)).setDirBM(6);
 					TimerTool.getTimerTool().stop(1);
 				}
 			}

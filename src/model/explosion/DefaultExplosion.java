@@ -3,7 +3,7 @@ package model.explosion;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import model.Tablero;
+import model.GameModel;
 
 public class DefaultExplosion extends Explosion{
 	private Timer timer=null;
@@ -19,7 +19,7 @@ public class DefaultExplosion extends Explosion{
    		TimerTask timerTask = new TimerTask() {
    			@Override
    			public void run() {
-   				Tablero.getTablero().quitarExplosion(pX,pY);
+   				GameModel.getGameModel().quitarExplosion(pX,pY);
     		}		
     	};
    		timer.schedule(timerTask, 2000); 

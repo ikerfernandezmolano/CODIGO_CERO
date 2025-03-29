@@ -1,13 +1,13 @@
 package main;
-import model.Tablero;
-import viewController.Pantalla;
+import model.GameModel;
+import viewController.GameView;
 
 public class ProgramaPrincipal {
 	public static void main(String[] args) {
 		//MODEL//
-		Tablero.getTablero();
+		GameModel.getGameModel();
 		//VISTA//
 		@SuppressWarnings("unused")
-		Pantalla pantalla= new Pantalla();
+		GameView gameView= new GameView();
 	}
 }

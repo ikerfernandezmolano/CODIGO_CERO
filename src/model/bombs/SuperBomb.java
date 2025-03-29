@@ -3,7 +3,7 @@ package model.bombs;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import model.Tablero;
+import model.GameModel;
 
 public class SuperBomb extends Bomb{
 	private Timer timer=null;
@@ -18,7 +18,7 @@ public class SuperBomb extends Bomb{
   		TimerTask timerTask = new TimerTask() {
   			@Override
   			public void run() {
-  					Tablero.getTablero().explotar(pX, pY);
+  				GameModel.getGameModel().explotar(pX, pY);
   			}		
   		};
   		timer.schedule(timerTask, 3000);
