@@ -9,7 +9,7 @@ import model.interfaceCell.InterfaceCell;
 public class Cell extends Observable{
 	private int x,y; 
 	private InterfaceCell cell;
-	//PRUEBA
+	
 	public Cell(int pX, int pY) {
 		this.x=pX;
 		this.y=pY;
