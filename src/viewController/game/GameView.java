@@ -1,9 +1,11 @@
-package viewController;
+package viewController.game;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.GameModel;
+import viewController.TimerTool;
+
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -56,9 +58,8 @@ public class GameView extends JFrame{
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try {
-                	backgrnd = ImageIO.read(
-                					this.getClass().getResource(
-                							"texture/background/background1.png"));
+                	backgrnd = ImageIO.read(this.getClass().getResource(
+                			"texture/background/gameBG1.png"));
                 } catch (IOException e) {}
                 g.drawImage(backgrnd, 0, 0, getWidth(), getHeight(), this);
             }

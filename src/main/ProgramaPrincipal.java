@@ -1,6 +1,6 @@
 package main;
 import model.GameModel;
-import viewController.GameView;
+import viewController.game.GameView;
 
 public class ProgramaPrincipal {
 	public static void main(String[] args) {

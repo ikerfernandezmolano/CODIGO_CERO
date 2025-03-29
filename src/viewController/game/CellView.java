@@ -1,4 +1,4 @@
-package viewController;
+package viewController.game;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -6,6 +6,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import model.GameModel;
+import viewController.TimerTool;
 
 public class CellView extends JLabel implements Observer{
 
