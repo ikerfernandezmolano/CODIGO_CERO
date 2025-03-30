@@ -19,13 +19,13 @@ public class GameView extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Controlador controlador;
+	private Controller controller;
 	private int xBM;
 	private int yBM;
 
 	public GameView() {
 		initialize();
-		getControlador().actionPerformed(null); 
+		getController().actionPerformed(null); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -44,7 +44,7 @@ public class GameView extends JFrame{
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		addKeyListener(getControlador());
+		addKeyListener(getController());
 	}
 	
 //-----------------------------BACKGROUND-------------------------------------
@@ -71,14 +71,14 @@ public class GameView extends JFrame{
 
 //-----------------------------CONTROLADOR-------------------------------------
 	
-	private Controlador getControlador() {
-		if (controlador == null) {
-			controlador = new Controlador();
+	private Controller getController() {
+		if (controller == null) {
+			controller = new Controller();
 		}
-		return controlador;
+		return controller;
 	}
 	
-	private class Controlador implements ActionListener,KeyListener {
+	private class Controller implements ActionListener,KeyListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			GameModel.getGameModel().crearTablero();
@@ -124,7 +124,7 @@ public class GameView extends JFrame{
 		@Override
 		public void keyPressed(KeyEvent e) {
 			int keyCode=e.getKeyCode();
-			getControlador().handleKeyPressed(keyCode);
+			getController().handleKeyPressed(keyCode);
 		}
 		
 		@Override
