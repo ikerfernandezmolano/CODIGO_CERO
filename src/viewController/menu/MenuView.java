@@ -2,13 +2,18 @@ package viewController.menu;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import model.GameModel;
+import viewController.TimerTool;
 import viewController.game.GameView;
 
 import java.awt.Font;
@@ -73,12 +79,12 @@ public class MenuView extends JFrame {
 	
 //-----------------------------DECORATION-------------------------------------
 	
-	private void addDeco() {
+	private void addDeco() {// TODO Auto-generated method stub
 		createDecoPanel("d1",273,120,400,400);
 		createDecoPanel("d2",273,30,384,107);
 		createDecoPanel("d3",80,260,100,100);
 		createDecoPanel("d3",750,260,100,100);
-		createDecoPanel("d7",860, 17, 50, 50);
+		createButton("set1",860, 17, 50, 50);
 		randomDeco();
 		createTextPanel("USE ← / → TO SWITCH BOMBERS",12, 12, 239, 17);
 	}
@@ -102,6 +108,17 @@ public class MenuView extends JFrame {
 		jlText.setHorizontalAlignment(SwingConstants.LEFT);
 		jlText.setBounds(pX, pY, pWidth, pHeigth);
 		contentPane.add(jlText);
+	}
+	
+	private void createButton(String pTexture, int pX, int pY, int pWidth, int pHeigth) {
+		JButton jb=new JButton();
+		jb.setBounds(pX, pY, pWidth, pHeigth);
+		jb.setIcon(new ImageIcon(getClass().getResource("texture/button/"+pTexture+".png")));
+		jb.setContentAreaFilled(false);
+		jb.setBorderPainted(false);
+		jb.addMouseListener(getController());
+		jb.setFocusable(false);
+		contentPane.add(jb);
 	}
 	
 //-----------------------------BOMBERMANS-------------------------------------
@@ -135,7 +152,7 @@ public class MenuView extends JFrame {
 		return controller;
 	}
 
-	private class Controller implements KeyListener {
+	private class Controller implements KeyListener, MouseListener {
 		public void handleKeyPressed(int pKeyCode) {
 			switch (pKeyCode) {
 				case KeyEvent.VK_LEFT:
@@ -165,13 +182,36 @@ public class MenuView extends JFrame {
 		@Override
 		public void keyTyped(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			((JButton)e.getComponent()).setIcon(new ImageIcon(getClass().getResource(
+					"texture/button/set3.png")));
 			
+		}
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+		}
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			((JButton)e.getComponent()).setIcon(new ImageIcon(getClass().getResource(
+					"texture/button/set2.png")));
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+			((JButton)e.getComponent()).setIcon(new ImageIcon(getClass().getResource(
+					"texture/button/set1.png")));
 		}
 	}
 }
