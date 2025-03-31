@@ -14,6 +14,10 @@ import javax.swing.JPanel;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import model.GameModel;
+import viewController.game.GameView;
+
 import java.awt.Font;
 
 public class MenuView extends JFrame {
@@ -23,10 +27,6 @@ public class MenuView extends JFrame {
 	private Controller controller;
 	private JLabel[] bombermanList;
 	private int selectedBomberman;
-	
-	public static void main(String args[]) {
-		MenuView menuView=new MenuView();
-	}
 
 	public MenuView() {
 		initialize();
@@ -145,6 +145,14 @@ public class MenuView extends JFrame {
 				case KeyEvent.VK_RIGHT:
 					setBomberman(2,22);
 					setBomberman(1,11);
+					break;
+				case KeyEvent.VK_ENTER:
+					//MODEL
+					GameModel.getGameModel();
+					//VIEW
+					GameView gameView=new GameView();
+					//CLOSE
+					dispose();
 					break;
 			}
 		}

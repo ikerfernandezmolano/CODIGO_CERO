@@ -5,16 +5,17 @@ import java.util.Random;
 public class GameModel{
 	
 	private Cell[][] tablero;
-	private static GameModel miTAB=new GameModel();
+	private static GameModel myGM=new GameModel();
 	private boolean partidaTerminada;
 	private int xBM,yBM;
+	private int mode;
 	
 	private GameModel() {
 		initialize();
 	}
 	
 	public static GameModel getGameModel() {
-		return miTAB;
+		return myGM;
 	}
 	
 	private void initialize() {
