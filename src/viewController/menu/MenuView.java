@@ -33,6 +33,7 @@ public class MenuView extends JFrame {
 	private Controller controller;
 	private JLabel[] bombermanList;
 	private int selectedBomberman;
+	private int selectedMap;
 
 	public MenuView() {
 		initialize();
@@ -165,7 +166,7 @@ public class MenuView extends JFrame {
 					break;
 				case KeyEvent.VK_ENTER:
 					//MODEL
-					GameModel.getGameModel().configurarJuego(selectedBomberman);;
+					GameModel.getGameModel().configurarJuego(selectedBomberman,selectedMap);
 					//VIEW
 					GameView gameView=new GameView();
 					//CLOSE
