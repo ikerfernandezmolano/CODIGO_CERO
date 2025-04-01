@@ -64,7 +64,7 @@ public class GameModel{
 			moverseConBomba(pXact,pYact);
 			if(board[pXn][pYn].is("Explosion"))
 				partidaTerminada=true;
-			else board[pXn][pYn].setCell("White");
+			else board[pXn][pYn].setCell(bomberman);
 		}
 		return puede;
 	}

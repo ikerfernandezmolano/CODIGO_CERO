@@ -85,8 +85,9 @@ public class GameView extends JFrame{
 	    }
 
 	    private void iniciarMovimientoEnemigos() {
-	        TimerTool.getTimerTool().startEnemyMovement(1000); // Mover enemigos cada 500 ms
+	        TimerTool.getTimerTool().startEnemyMovement(1000);
 	    }
+	    
 		public void handleKeyPressed(int pKeyCode) {
 			int dirBM=0;
 			if(!GameModel.getGameModel().getEstadoPartida()) {

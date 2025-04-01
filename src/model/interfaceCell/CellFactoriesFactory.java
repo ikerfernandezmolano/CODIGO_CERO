@@ -27,6 +27,8 @@ public class CellFactoriesFactory {
 			ic = EnemieFactory.getEnemieFactory().generate("Default", pX, pY);
 		else if(pType=="White")
 			ic = BombermanFactory.getBombermanFactory().generate("White", pX, pY);
+		else if(pType=="Black")
+			ic = BombermanFactory.getBombermanFactory().generate("Black", pX, pY);
 		else if(pType=="Super")
 			ic = BombFactory.getBombFactory().generate("Super", pX, pY);
 		else if(pType=="Explosion") 

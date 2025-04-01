@@ -22,12 +22,14 @@ public class CellView extends JLabel implements Observer{
 	private static final long serialVersionUID = 1L;
 	private int x,y;
 	private int dirBM=0;
+	private String typeBM="white";
 
 	public CellView(int pX,int pY) {
 		super();
 		x=pX;
 		y=pY;
 		GameModel.getGameModel().getCell(pX, pY).addObserver(this);
+		
 		this.setHorizontalAlignment(CENTER);
 		this.setVerticalAlignment(CENTER);
 	}
@@ -42,11 +44,15 @@ public class CellView extends JLabel implements Observer{
 				path="block/soft"+r.nextInt(2)+".png";
 			}else if(pType==2) path="block/hard1.png";
 			else if(pType==3) path="character/monster/m11.png";
-			else if(pType==4) path="character/player/w"+dirBM+".png";
+			else if(pType/10==4) {
+				if(pType==41) typeBM="white";
+				else if(pType==42) typeBM="black";
+				path ="character/player/"+typeBM+"/"+dirBM+".png";
+			}
 			else if(pType==5) path="attack/bomb1.png";
 			else if(pType==6) path="attack/bomb1exp.gif";
 			else if(pType==7) {
-				path="character/player/w6.png";
+				path="character/player/"+typeBM+"/6.png";
 				TimerTool.getTimerTool().stop(2);
 			}
 			this.setIcon(new ImageIcon(getClass().getResource("texture/"+path)));
@@ -59,12 +65,12 @@ public class CellView extends JLabel implements Observer{
 			else dirBM--;
 		} else dirBM=pDirBM;
 		this.setIcon(new ImageIcon(getClass().getResource(
-				"texture/character/player/w"+dirBM+".png")));
+				"texture/character/player/"+typeBM+"/"+dirBM+".png")));
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		int[] res = (int[]) arg;
+		int[] res= (int[])arg;
 		this.setImage(res[0]);	
 	}
 }

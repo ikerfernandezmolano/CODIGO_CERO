@@ -19,13 +19,8 @@ public abstract class Bomberman implements InterfaceCell{
 		return false;
 	}
 	
-	@Override
-	public int getId() {
-		return 4;
-	}
-	
 	public boolean hasBomb() {
-		if (bombas!=0) {
+		if (bombas>0) {
 			bombas--;
 			return true;
 		}

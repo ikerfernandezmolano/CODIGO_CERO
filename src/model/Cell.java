@@ -8,7 +8,7 @@ import model.interfaceCell.CellFactoriesFactory;
 import model.interfaceCell.InterfaceCell;
 
 public class Cell extends Observable{
-	private int x,y; 
+	private int x,y;
 	private InterfaceCell cell;
 	
 	public Cell(int pX, int pY) {

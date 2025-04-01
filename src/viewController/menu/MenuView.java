@@ -93,23 +93,26 @@ public class MenuView extends JFrame {
 	
 	private void createMapButtons() {
 		mapList=new JButton[3];
-		mapList[0]=createButton("m1",130, 200, 200, 200);
+		mapList[0]=createButton("m1",155, 190, 200, 200);
 		mapList[0].setVisible(false);
-		mapList[1]=createButton("m2",365, 200, 200, 200);
+		mapList[1]=createButton("m2",365, 190, 200, 200);
 		mapList[1].setVisible(false);
-		mapList[2]=createButton("m3",600, 200, 200, 200);
+		mapList[2]=createButton("m3",575, 190, 200, 200);
 		mapList[2].setVisible(false);
+		createDecoPanel("d7",113,140,700,300).setVisible(false);
 	}
 	
 	private void viewMapButtons(boolean pSet) {
+		contentPane.getComponentAt(113, 140).setVisible(!pSet);;
 		for(int i=0;i<mapList.length;i++) mapList[i].setVisible(!pSet); 
 	}
 	
-	private void createDecoPanel(String pType, int pX, int pY, int pWidth, int pHeigth) {
+	private JLabel createDecoPanel(String pType, int pX, int pY, int pWidth, int pHeigth) {
 		JLabel jlDeco=new JLabel();
 		jlDeco.setBounds(pX, pY, pWidth, pHeigth);
 		jlDeco.setIcon(new ImageIcon(getClass().getResource("texture/deco/"+pType+".png")));
 		contentPane.add(jlDeco);
+		return jlDeco;
 	}	
 	
 	private void randomDeco() {
