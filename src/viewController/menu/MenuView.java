@@ -32,7 +32,7 @@ public class MenuView extends JFrame {
 	private JPanel contentPane;
 	private Controller controller;
 	private JLabel[] bombermanList;
-	private int selectedBomberman;
+	private String selectedBomberman;
 	private int selectedMap;
 
 	public MenuView() {
@@ -45,7 +45,7 @@ public class MenuView extends JFrame {
 		this.setContentPane(getContentPane());
 		addKeyListener(getController());
 		
-		selectedBomberman=1;
+		selectedBomberman="White";
 		this.addBombermans();
 		this.addDeco();
 		
@@ -86,6 +86,7 @@ public class MenuView extends JFrame {
 		createDecoPanel("d3",80,260,100,100);
 		createDecoPanel("d3",750,260,100,100);
 		createButton("set1",860, 17, 50, 50);
+		createButton("map1",800, 17, 50, 50);
 		randomDeco();
 		createTextPanel("USE ← / → TO SWITCH BOMBERS",12, 12, 239, 17);
 	}
@@ -113,6 +114,7 @@ public class MenuView extends JFrame {
 	
 	private void createButton(String pTexture, int pX, int pY, int pWidth, int pHeigth) {
 		JButton jb=new JButton();
+		jb.setName(pTexture);
 		jb.setBounds(pX, pY, pWidth, pHeigth);
 		jb.setIcon(new ImageIcon(getClass().getResource("texture/button/"+pTexture+".png")));
 		jb.setContentAreaFilled(false);
@@ -141,7 +143,7 @@ public class MenuView extends JFrame {
 	private void setBomberman(int pBomberman, int pTexture) {
 		bombermanList[pBomberman-1].setIcon(new ImageIcon(getClass().getResource(
 				"texture/choose/"+pTexture+".png")));
-		if(pTexture%10==2) selectedBomberman=pBomberman; 
+		if(pTexture%10==2) selectedBomberman = (pTexture==1)? "White":"Black"; 
 	}
 	
 //-----------------------------CONTROLLER-------------------------------------
@@ -192,9 +194,14 @@ public class MenuView extends JFrame {
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			((JButton)e.getComponent()).setIcon(new ImageIcon(getClass().getResource(
-					"texture/button/set3.png")));
-			
+			JButton jb=(JButton)e.getComponent();
+			if(jb.getName()=="set1") {
+				jb.setIcon(new ImageIcon(getClass().getResource(
+						"texture/button/set3.png")));
+			} else if(jb.getName()=="map1") {
+				jb.setIcon(new ImageIcon(getClass().getResource(
+						"texture/button/map3.png")));
+			}
 		}
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -206,13 +213,25 @@ public class MenuView extends JFrame {
 		}
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			((JButton)e.getComponent()).setIcon(new ImageIcon(getClass().getResource(
-					"texture/button/set2.png")));
+			JButton jb=(JButton)e.getComponent();
+			if(jb.getName()=="set1") {
+				jb.setIcon(new ImageIcon(getClass().getResource(
+						"texture/button/set2.png")));
+			} else if(jb.getName()=="map1") {
+				jb.setIcon(new ImageIcon(getClass().getResource(
+						"texture/button/map2.png")));
+			}
 		}
 		@Override
 		public void mouseExited(MouseEvent e) {
-			((JButton)e.getComponent()).setIcon(new ImageIcon(getClass().getResource(
-					"texture/button/set1.png")));
+			JButton jb=(JButton)e.getComponent();
+			if(jb.getName()=="set1") {
+				jb.setIcon(new ImageIcon(getClass().getResource(
+						"texture/button/set1.png")));
+			} else if(jb.getName()=="map1") {
+				jb.setIcon(new ImageIcon(getClass().getResource(
+						"texture/button/map1.png")));
+			}
 		}
 	}
 }

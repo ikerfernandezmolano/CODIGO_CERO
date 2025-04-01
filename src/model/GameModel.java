@@ -8,7 +8,8 @@ public class GameModel{
 	private static GameModel myGM=new GameModel();
 	private boolean partidaTerminada;
 	private int xBM,yBM;
-	private int bomberman,map;
+	private String bomberman;
+	private int map;
 	
 	private GameModel() {
 		initialize();
@@ -18,7 +19,7 @@ public class GameModel{
 		return myGM;
 	}
 	
-	public void configurarJuego(int pBomberman, int pMap) {
+	public void configurarJuego(String pBomberman, int pMap) {
 		bomberman=pBomberman;
 		map=pMap;
 	}
