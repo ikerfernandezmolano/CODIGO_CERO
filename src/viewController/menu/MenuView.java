@@ -33,7 +33,9 @@ public class MenuView extends JFrame {
 	private Controller controller;
 	private JLabel[] bombermanList;
 	private String selectedBomberman;
+	private JButton[] mapList;
 	private int selectedMap;
+	private boolean menuMapOpen;
 
 	public MenuView() {
 		initialize();
@@ -46,8 +48,10 @@ public class MenuView extends JFrame {
 		addKeyListener(getController());
 		
 		selectedBomberman="White";
-		this.addBombermans();
 		this.addDeco();
+		this.addBombermans();
+		
+		
 		
 		setResizable(false);
 		setUndecorated(true);
@@ -81,14 +85,27 @@ public class MenuView extends JFrame {
 //-----------------------------DECORATION-------------------------------------
 	
 	private void addDeco() {// TODO Auto-generated method stub
+		createMapButtons();
 		createDecoPanel("d1",273,120,400,400);
 		createDecoPanel("d2",273,30,384,107);
-		createDecoPanel("d3",80,260,100,100);
-		createDecoPanel("d3",750,260,100,100);
 		createButton("set1",860, 17, 50, 50);
 		createButton("map1",800, 17, 50, 50);
 		randomDeco();
 		createTextPanel("USE ← / → TO SWITCH BOMBERS",12, 12, 239, 17);
+	}
+	
+	private void createMapButtons() {
+		mapList=new JButton[3];
+		mapList[0]=createButton("m1",130, 200, 200, 200);
+		mapList[0].setVisible(false);
+		mapList[1]=createButton("m1",365, 200, 200, 200);
+		mapList[1].setVisible(false);
+		mapList[2]=createButton("m1",600, 200, 200, 200);
+		mapList[2].setVisible(false);
+	}
+	
+	private void viewMapButtons(boolean pSet) {
+		for(int i=0;i<mapList.length;i++) mapList[i].setVisible(!pSet); 
 	}
 	
 	private void createDecoPanel(String pType, int pX, int pY, int pWidth, int pHeigth) {
@@ -112,7 +129,7 @@ public class MenuView extends JFrame {
 		contentPane.add(jlText);
 	}
 	
-	private void createButton(String pTexture, int pX, int pY, int pWidth, int pHeigth) {
+	private JButton createButton(String pTexture, int pX, int pY, int pWidth, int pHeigth) {
 		JButton jb=new JButton();
 		jb.setName(pTexture);
 		jb.setBounds(pX, pY, pWidth, pHeigth);
@@ -122,6 +139,7 @@ public class MenuView extends JFrame {
 		jb.addMouseListener(getController());
 		jb.setFocusable(false);
 		contentPane.add(jb);
+		return jb;
 	}
 	
 //-----------------------------BOMBERMANS-------------------------------------
@@ -130,6 +148,8 @@ public class MenuView extends JFrame {
 		bombermanList=new JLabel[2];
 		createBomberman(0,12,113,260,100,100);
 		createBomberman(1,21,783,260,100,100);
+		createDecoPanel("d3",80,260,100,100);
+		createDecoPanel("d3",750,260,100,100);
 	}
 	
 	private void createBomberman(int pIndex, int pType, int pX, int pY, int pWidth, int pHeigth) {
@@ -199,8 +219,12 @@ public class MenuView extends JFrame {
 				jb.setIcon(new ImageIcon(getClass().getResource(
 						"texture/button/set3.png")));
 			} else if(jb.getName()=="map1") {
-				jb.setIcon(new ImageIcon(getClass().getResource(
-						"texture/button/map3.png")));
+				if(!menuMapOpen) {
+					jb.setIcon(new ImageIcon(getClass().getResource(
+							"texture/button/map3.png")));
+					menuMapOpen=true;
+				}else menuMapOpen=false;
+				viewMapButtons(menuMapOpen);
 			}
 		}
 		@Override
