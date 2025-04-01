@@ -12,6 +12,8 @@ public class BombermanFactory {
 	public Bomberman generate(String pType, int pX, int pY) {
 		Bomberman bomberman=null;
 		if(pType=="White") bomberman=new WhiteBomberman(pX,pY);
+		else bomberman=new BlackBomberman(pX,pY);
 		return bomberman;
 	}
+	
 }

@@ -203,6 +203,10 @@ public class GameModel{
 		tablero[pX][pY].setCell("Super");
 	}
 	
+	public boolean hasBomb() {
+		return tablero[xBM][yBM].hasBomb();
+	}
+	
 //------------------------FIN_PARTIDA----------------------------
 	
 	public boolean getEstadoPartida() {

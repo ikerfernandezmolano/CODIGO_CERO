@@ -112,8 +112,10 @@ public class GameView extends JFrame{
 							xBM++;
 						break;
 					case KeyEvent.VK_SPACE:
-						dirBM=5;
-						GameModel.getGameModel().colocarBomba(xBM,yBM);
+						if(GameModel.getGameModel().hasBomb()) {
+							dirBM=5;
+							GameModel.getGameModel().colocarBomba(xBM,yBM);
+						}
 						break;
 				}
 				if(!GameModel.getGameModel().getEstadoPartida()) 

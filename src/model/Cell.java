@@ -3,6 +3,7 @@ package model;
 import java.util.Observable;
 
 import model.blocks.BlockFactory;
+import model.bomberman.Bomberman;
 import model.interfaceCell.CellFactoriesFactory;
 import model.interfaceCell.InterfaceCell;
 
@@ -35,4 +36,15 @@ public class Cell extends Observable{
 		setChanged();
 		notifyObservers(new int[] {7});
 	}
+	
+	public boolean hasBomb() {
+		boolean has=false;
+		if(cell.getId() == 4) {
+			if (((Bomberman)cell).hasBomb()) {
+				has=true;
+			}
+		}
+		return has;
+	}
+
 }
