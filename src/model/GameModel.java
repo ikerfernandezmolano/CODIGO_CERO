@@ -8,7 +8,7 @@ public class GameModel{
 	private static GameModel myGM=new GameModel();
 	private boolean partidaTerminada;
 	private int xBM,yBM;
-	private int mode;
+	private int bomberman,map;
 	
 	private GameModel() {
 		initialize();
@@ -18,7 +18,13 @@ public class GameModel{
 		return myGM;
 	}
 	
+	public void configurarJuego(int pBomberman, int pMap) {
+		bomberman=pBomberman;
+		map=pMap;
+	}
+	
 	private void initialize() {
+		
 		tablero = new Cell[17][11];
 		for(int i=0;i<17;i++) {
 			for(int j=0;j<11;j++) {

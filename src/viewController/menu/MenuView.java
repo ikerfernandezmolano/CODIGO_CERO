@@ -165,7 +165,7 @@ public class MenuView extends JFrame {
 					break;
 				case KeyEvent.VK_ENTER:
 					//MODEL
-					GameModel.getGameModel();
+					GameModel.getGameModel().configurarJuego(selectedBomberman);;
 					//VIEW
 					GameView gameView=new GameView();
 					//CLOSE
