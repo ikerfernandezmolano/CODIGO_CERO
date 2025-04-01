@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.gameMap.GameMap;
+import model.gameMap.GameMapFactory;
+
 public class GameModel{
 	
-	private Cell[][] tablero;
+	private Cell[][] board;
 	private static GameModel myGM=new GameModel();
 	private boolean partidaTerminada;
 	private int xBM,yBM;
 	private String bomberman;
-	private int map;
+	private GameMap map;
 	
 	private GameModel() {
 		initialize();
@@ -23,15 +26,14 @@ public class GameModel{
 	
 	public void configurarJuego(String pBomberman, int pMap) {
 		bomberman=pBomberman;
-		map=pMap;
+		map=GameMapFactory.getGameMapFactory().generate(pMap);
 	}
 	
 	private void initialize() {
-		
-		tablero = new Cell[17][11];
+		board = new Cell[17][11];
 		for(int i=0;i<17;i++) {
 			for(int j=0;j<11;j++) {
-				tablero[i][j]=new Cell(i, j);
+				board[i][j]=new Cell(i, j);
 			}
 		}
 	}
@@ -39,42 +41,19 @@ public class GameModel{
 //--------------------TABLERO_CREATE-------------------------------	
 	
 	public void crearTablero() {
-		colocarBloques();
-		colocarBomberman();
-		colocarEnemigos();
-		
-	}
-	
-	private void colocarBloques() {
-		Random r = new Random();
-		for(int i=0;i<17;i++) {
-			for(int j=0;j<11;j++) {
-				if(i%2!=0 && j%2!=0) 
-					tablero[i][j].setCell("Hard");
-				else if(r.nextInt(100)<=65 && i+j>1) 
-					tablero[i][j].setCell("Soft");
+		int[][] tab=new int[17][11];
+		map.createBoard(tab);
+		for(int i=0;i<tab.length;i++) {
+			for(int j=0;j<tab[i].length;j++) {
+				int type=tab[i][j];
+				if(type==1) board[i][j].setCell("Soft");
+				else if(type==2) board[i][j].setCell("Hard");
+				else if(type==3) board[i][j].setCell("Enemie");
+				else if(type==4) board[i][j].setCell(bomberman);					
 			}
 		}
 	}
-	
-	private void colocarEnemigos() {
-		Random r = new Random();
-		int cont=0;
-		for(int i=0;i<17 && cont<10;i++) {
-			for(int j=0;j<11 && cont<10;j++) {
-				 if(r.nextInt(100)<=10 && i+j>1) {
-					 tablero[i][j].setCell("Enemie");
-					 cont++;
-				 }	
-				 
-			}
-		}
-	}
-	
-	private void colocarBomberman() {
-		tablero[0][0].setCell("White");
-	}
-	
+
 //------------------------MOVEMENT--------------------------	
 	
 	public boolean moverseBM(int pXact,int pYact, int pXn,int pYn) {
@@ -83,22 +62,22 @@ public class GameModel{
 			xBM=pXn;
 			yBM=pYn;
 			moverseConBomba(pXact,pYact);
-			if(tablero[pXn][pYn].is("Explosion"))
+			if(board[pXn][pYn].is("Explosion"))
 				partidaTerminada=true;
-			else tablero[pXn][pYn].setCell("White");
+			else board[pXn][pYn].setCell("White");
 		}
 		return puede;
 	}
 	
 	private boolean puedeMoverse(int pX, int pY) {
 		if(pX<0 || pX>=17 || pY<0 || pY>=11) return false;
-		return tablero[pX][pY].canMove();
+		return board[pX][pY].canMove();
 	}
 	
 	private void moverseConBomba(int pXact,int pYact) {
-		if(tablero[pXact][pYact].is("Bomb")) 
-			tablero[pXact][pYact].setCell("Super");
-		else tablero[pXact][pYact].setCell("Void");
+		if(board[pXact][pYact].is("Bomb")) 
+			board[pXact][pYact].setCell("Super");
+		else board[pXact][pYact].setCell("Void");
 	}
 	
 //-----------------------ENEMIES--------------------------------
@@ -108,7 +87,7 @@ public class GameModel{
 	    // Guardar las posiciones originales de los enemigos
 	    for (int i = 0; i < 17; i++) {
 	        for (int j = 0; j < 11; j++) {
-	            if (tablero[i][j].is("Enemie")) {
+	            if (board[i][j].is("Enemie")) {
 	                enemigos.add(new int[]{i, j});
 	            }
 	        }
@@ -117,7 +96,7 @@ public class GameModel{
 	    for (int[] pos : enemigos) {
 	        int x = pos[0], y = pos[1];
 	        // Verificar si sigue siendo un enemigo antes de moverlo
-	        if (tablero[x][y].is("Enemie")) {
+	        if (board[x][y].is("Enemie")) {
 	            moverEnemigo(x, y);
 	        }
 	    }
@@ -137,11 +116,11 @@ public class GameModel{
 		    else if (direccion == 2) newX = pX - 1; // Izquierda
 		    else if (direccion == 3) newX = pX + 1; // Derecha
 	
-		    if (puedeMoverse(newX, newY)&& tablero[newX][newY].is("Void")) {
-		    	synchronized (tablero){
-		    		if (tablero[pX][pY].is("Enemie")) {
-	                    tablero[pX][pY].setCell("Void");
-	                    tablero[newX][newY].setCell("Enemie");
+		    if (puedeMoverse(newX, newY)&& board[newX][newY].is("Void")) {
+		    	synchronized (board){
+		    		if (board[pX][pY].is("Enemie")) {
+	                    board[pX][pY].setCell("Void");
+	                    board[newX][newY].setCell("Enemie");
 	                    moved = true;
 	                }
 		    	}
@@ -155,14 +134,14 @@ public class GameModel{
 	
 	public void explotar(int pX, int pY) {
 		if(!detectarBomberman(pX,pY))
-			tablero[pX][pY].setCell("Explosion");
+			board[pX][pY].setCell("Explosion");
 		for(int i=-1; i<2; i=i+2) {
-			if(pX+i >= 0 && pX+i<17 && !tablero[pX+i][pY].is("Hard") &&
+			if(pX+i >= 0 && pX+i<17 && !board[pX+i][pY].is("Hard") &&
 					!detectarBomberman(pX+i,pY))
-			    tablero[pX+i][pY].setCell("Explosion");
-			if(pY+i >=0 && pY+i<11 && !tablero[pX][pY+i].is("Hard") &&
+			    board[pX+i][pY].setCell("Explosion");
+			if(pY+i >=0 && pY+i<11 && !board[pX][pY+i].is("Hard") &&
 					!detectarBomberman(pX,pY+i)) 
-			    tablero[pX][pY+i].setCell("Explosion");
+			    board[pX][pY+i].setCell("Explosion");
 		}
 	}
 	
@@ -171,21 +150,21 @@ public class GameModel{
 		if(xBM==pX && yBM==pY) {
 			isBM=true;
 			partidaTerminada=true;
-			tablero[pX][pY].setMuerto();
+			board[pX][pY].setMuerto();
 		}
 		return isBM;
 	}
 	
 	public void quitarExplosion(int pX, int pY) {
-		tablero[pX][pY].setCell("Void");
+		board[pX][pY].setCell("Void");
 	}
 	
 	public void colocarBomba(int pX, int pY) {
-		tablero[pX][pY].setCell("Super");
+		board[pX][pY].setCell("Super");
 	}
 	
 	public boolean hasBomb() {
-		return tablero[xBM][yBM].hasBomb();
+		return board[xBM][yBM].hasBomb();
 	}
 	
 //------------------------FIN_PARTIDA----------------------------
@@ -197,6 +176,6 @@ public class GameModel{
 //------------------------CELLS-------------------------------
 	
 	public Cell getCell(int pX,int pY) {
-		return tablero[pX][pY];
+		return board[pX][pY];
 	}
 }
