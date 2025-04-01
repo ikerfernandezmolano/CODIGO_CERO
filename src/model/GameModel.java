@@ -88,12 +88,32 @@ public class GameModel{
 		return puede;
 	}
 	
+	/*public synchronized void moverEnemigos() {
+    for (int i = 0; i < 17; i++) {
+        for (int j = 0; j < 11; j++) {
+            if (tablero[i][j].is("Enemie")) {
+                moverEnemigo(i, j);
+            }
+        }
+    }
+}*/ // 
+
 	public synchronized void moverEnemigos() {
+	    List<int[]> enemigos = new ArrayList<>();
+	    // Guardar las posiciones originales de los enemigos
 	    for (int i = 0; i < 17; i++) {
 	        for (int j = 0; j < 11; j++) {
 	            if (tablero[i][j].is("Enemie")) {
-	                moverEnemigo(i, j);
+	                enemigos.add(new int[]{i, j});
 	            }
+	        }
+	    }
+	    // Mover los enemigos de la lista original
+	    for (int[] pos : enemigos) {
+	        int x = pos[0], y = pos[1];
+	        // Verificar si sigue siendo un enemigo antes de moverlo
+	        if (tablero[x][y].is("Enemie")) {
+	            moverEnemigo(x, y);
 	        }
 	    }
 	}
@@ -102,12 +122,12 @@ public class GameModel{
 	    Random r = new Random();
 	    int direccion = r.nextInt(4);
 	    int newX = pX, newY = pY;
-
+	
 	    if (direccion == 0) newY = pY - 1; // Arriba
 	    else if (direccion == 1) newY = pY + 1; // Abajo
 	    else if (direccion == 2) newX = pX - 1; // Izquierda
 	    else if (direccion == 3) newX = pX + 1; // Derecha
-
+	
 	    if (puedeMoverse(newX, newY)) {
 	        tablero[pX][pY].setCell("Void"); 
 	        tablero[newX][newY].setCell("Enemie"); 
@@ -116,41 +136,39 @@ public class GameModel{
 	private synchronized void moverEnemigo(int pX, int pY) {
 		Random r = new Random();
 		boolean moved = false;
+	
 		for(int i=0; i<15 && !moved; i++) {
 			int direccion = r.nextInt(4);
-		    int newX = pX, newY = pY;
-
+		    int newX = pX; 
+		    int newY = pY;
+	
 		    if (direccion == 0) newY = pY - 1; // Arriba
 		    else if (direccion == 1) newY = pY + 1; // Abajo
 		    else if (direccion == 2) newX = pX - 1; // Izquierda
 		    else if (direccion == 3) newX = pX + 1; // Derecha
-
-		    if (puedeMoverse(newX, newY)) {
+	
+		    if (puedeMoverse(newX, newY)&& tablero[newX][newY].is("Void")) {
 		    	synchronized (tablero){
-		    		tablero[pX][pY].setCell("Void"); 
-			        tablero[newX][newY].setCell("Enemie"); 
-			        moved = true;
+		    		if (tablero[pX][pY].is("Enemie")) {
+	                    tablero[pX][pY].setCell("Void");
+	                    tablero[newX][newY].setCell("Enemie");
+	                    moved = true;
+	                }
 		    	}
 		    		
 		    }
 		 }
-			
 	}
-	    
-	
 	private boolean puedeMoverse(int pX, int pY) {
 		if(pX<0 || pX>=17 || pY<0 || pY>=11) return false;
 		return tablero[pX][pY].canMove();
 	}
-
 	
 	private void moverseConBomba(int pXact,int pYact) {
 		if(tablero[pXact][pYact].is("Bomb")) 
 			tablero[pXact][pYact].setCell("Super");
 		else tablero[pXact][pYact].setCell("Void");
 	}
-	
-	
 	
 //------------------------BOMBS-------------------------------	
 	
