@@ -2,8 +2,6 @@ package viewController.menu;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -21,7 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import model.GameModel;
-import viewController.TimerTool;
 import viewController.game.GameView;
 
 import java.awt.Font;
@@ -48,10 +45,10 @@ public class MenuView extends JFrame {
 		addKeyListener(getController());
 		
 		selectedBomberman="White";
+		selectedMap=1;
+		
 		this.addDeco();
 		this.addBombermans();
-		
-		
 		
 		setResizable(false);
 		setUndecorated(true);
@@ -91,16 +88,16 @@ public class MenuView extends JFrame {
 		createButton("set1",860, 17, 50, 50);
 		createButton("map1",800, 17, 50, 50);
 		randomDeco();
-		createTextPanel("USE ← / → TO SWITCH BOMBERS",12, 12, 239, 17);
+		createTextPanel("USE < / > TO SWITCH BOMBERS",12, 12, 239, 17);
 	}
 	
 	private void createMapButtons() {
 		mapList=new JButton[3];
 		mapList[0]=createButton("m1",130, 200, 200, 200);
 		mapList[0].setVisible(false);
-		mapList[1]=createButton("m1",365, 200, 200, 200);
+		mapList[1]=createButton("m2",365, 200, 200, 200);
 		mapList[1].setVisible(false);
-		mapList[2]=createButton("m1",600, 200, 200, 200);
+		mapList[2]=createButton("m3",600, 200, 200, 200);
 		mapList[2].setVisible(false);
 	}
 	
@@ -215,17 +212,20 @@ public class MenuView extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			JButton jb=(JButton)e.getComponent();
-			if(jb.getName()=="set1") {
+			String name=jb.getName();
+			if(name=="set1")
 				jb.setIcon(new ImageIcon(getClass().getResource(
 						"texture/button/set3.png")));
-			} else if(jb.getName()=="map1") {
-				if(!menuMapOpen) {
-					jb.setIcon(new ImageIcon(getClass().getResource(
-							"texture/button/map3.png")));
-					menuMapOpen=true;
-				}else menuMapOpen=false;
+			else if(name=="map1") {
+				if(!menuMapOpen) menuMapOpen=true;
+				else menuMapOpen=false;
+				jb.setIcon(new ImageIcon(getClass().getResource(
+						"texture/button/map3.png")));
 				viewMapButtons(menuMapOpen);
-			}
+			} 
+			else if(name=="m1") selectedMap=1;
+		    else if(name=="m2") selectedMap=2;
+			else if(name=="m3") selectedMap=3;
 		}
 		@Override
 		public void mousePressed(MouseEvent e) {

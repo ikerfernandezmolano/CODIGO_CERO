@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameModel{
@@ -88,15 +90,18 @@ public class GameModel{
 		return puede;
 	}
 	
-	/*public synchronized void moverEnemigos() {
-    for (int i = 0; i < 17; i++) {
-        for (int j = 0; j < 11; j++) {
-            if (tablero[i][j].is("Enemie")) {
-                moverEnemigo(i, j);
-            }
-        }
-    }
-}*/ // 
+	private boolean puedeMoverse(int pX, int pY) {
+		if(pX<0 || pX>=17 || pY<0 || pY>=11) return false;
+		return tablero[pX][pY].canMove();
+	}
+	
+	private void moverseConBomba(int pXact,int pYact) {
+		if(tablero[pXact][pYact].is("Bomb")) 
+			tablero[pXact][pYact].setCell("Super");
+		else tablero[pXact][pYact].setCell("Void");
+	}
+	
+//-----------------------ENEMIES--------------------------------
 
 	public synchronized void moverEnemigos() {
 	    List<int[]> enemigos = new ArrayList<>();
@@ -117,22 +122,7 @@ public class GameModel{
 	        }
 	    }
 	}
-
-	/*private void moverEnemigo(int pX, int pY) {
-	    Random r = new Random();
-	    int direccion = r.nextInt(4);
-	    int newX = pX, newY = pY;
 	
-	    if (direccion == 0) newY = pY - 1; // Arriba
-	    else if (direccion == 1) newY = pY + 1; // Abajo
-	    else if (direccion == 2) newX = pX - 1; // Izquierda
-	    else if (direccion == 3) newX = pX + 1; // Derecha
-	
-	    if (puedeMoverse(newX, newY)) {
-	        tablero[pX][pY].setCell("Void"); 
-	        tablero[newX][newY].setCell("Enemie"); 
-	    }
-	}*/
 	private synchronized void moverEnemigo(int pX, int pY) {
 		Random r = new Random();
 		boolean moved = false;
@@ -159,16 +149,7 @@ public class GameModel{
 		    }
 		 }
 	}
-	private boolean puedeMoverse(int pX, int pY) {
-		if(pX<0 || pX>=17 || pY<0 || pY>=11) return false;
-		return tablero[pX][pY].canMove();
-	}
 	
-	private void moverseConBomba(int pXact,int pYact) {
-		if(tablero[pXact][pYact].is("Bomb")) 
-			tablero[pXact][pYact].setCell("Super");
-		else tablero[pXact][pYact].setCell("Void");
-	}
 	
 //------------------------BOMBS-------------------------------	
 	
