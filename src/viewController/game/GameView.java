@@ -81,30 +81,34 @@ public class GameView extends JFrame{
 	private class Controller implements ActionListener,KeyListener {
 		public void actionPerformed(ActionEvent e) {
 			GameModel.getGameModel().crearTablero();
-		}
-		
+			iniciarMovimientoEnemigos();
+	    }
+
+	    private void iniciarMovimientoEnemigos() {
+	        TimerTool.getTimerTool().startEnemyMovement(1000); // Mover enemigos cada 500 ms
+	    }
 		public void handleKeyPressed(int pKeyCode) {
 			int dirBM=0;
 			if(!GameModel.getGameModel().getEstadoPartida()) {
 				switch (pKeyCode) {
 					case KeyEvent.VK_DOWN:
 						dirBM=11;
-						if (GameModel.getGameModel().moverse(xBM, yBM, xBM, yBM+1)) 
+						if (GameModel.getGameModel().moverseBM(xBM, yBM, xBM, yBM+1)) 
 							yBM++;
 						break;
 					case KeyEvent.VK_UP:
 						dirBM=21;
-						if (GameModel.getGameModel().moverse(xBM, yBM, xBM, yBM-1))
+						if (GameModel.getGameModel().moverseBM(xBM, yBM, xBM, yBM-1))
 							yBM--;
 						break;
 					case KeyEvent.VK_LEFT:
 						dirBM=31;
-						if (GameModel.getGameModel().moverse(xBM, yBM, xBM-1, yBM))
+						if (GameModel.getGameModel().moverseBM(xBM, yBM, xBM-1, yBM))
 							xBM--;
 						break;
 					case KeyEvent.VK_RIGHT:
 						dirBM=41;
-						if (GameModel.getGameModel().moverse(xBM, yBM, xBM+1, yBM)) 
+						if (GameModel.getGameModel().moverseBM(xBM, yBM, xBM+1, yBM)) 
 							xBM++;
 						break;
 					case KeyEvent.VK_SPACE:
