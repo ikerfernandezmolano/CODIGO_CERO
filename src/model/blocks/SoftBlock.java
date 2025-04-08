@@ -19,4 +19,8 @@ public class SoftBlock extends Block{
 	public int getId() {
 		return 1;
 	}
+	@Override
+	public boolean mata() {
+		return false;
+	}
 }

@@ -62,9 +62,13 @@ public class GameModel{
 			xBM=pXn;
 			yBM=pYn;
 			moverseConBomba(pXact,pYact);
-			if(board[pXn][pYn].is("Explosion"))
+			if(board[pXn][pYn].mata()) {
 				partidaTerminada=true;
-			else board[pXn][pYn].setCell(bomberman);
+			    board[pXn][pYn].setMuerto();
+			}
+		    else {
+		    	board[pXn][pYn].setCell(bomberman);
+		    }
 		}
 		return puede;
 	}
@@ -116,13 +120,18 @@ public class GameModel{
 		    else if (direccion == 2) newX = pX - 1; // Izquierda
 		    else if (direccion == 3) newX = pX + 1; // Derecha
 	
-		    if (puedeMoverse(newX, newY)&& board[newX][newY].is("Void")) {
+		    if (puedeMoverse(newX, newY)&& board[newX][newY].canMove()) {
 		    	synchronized (board){
-		    		if (board[pX][pY].is("Enemie")) {
-	                    board[pX][pY].setCell("Void");
+		    		if(board[newX][newY].mata() && board[newX][newY].is("Bomberman")) {
+		    			board[pX][pY].setCell("Void");
+		    			partidaTerminada=true;
+		    			board[newX][newY].setMuerto();
+		    		}
+		    		else if(!board[newX][newY].is("Enemie")) {
+		    			board[pX][pY].setCell("Void");
 	                    board[newX][newY].setCell("Enemie");
 	                    moved = true;
-	                }
+		    		}    
 		    	}
 		    		
 		    }

@@ -20,4 +20,9 @@ public class Void extends Block{
 	public int getId() {
 		return 0;
 	}
+	
+	@Override
+	public boolean mata() {
+		return false;
+	}
 }

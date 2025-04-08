@@ -47,4 +47,8 @@ public class Cell extends Observable{
 		return has;
 	}
 
+	public boolean mata() {
+		return cell.mata();
+	}
+
 }

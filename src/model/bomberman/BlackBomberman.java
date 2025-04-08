@@ -9,4 +9,8 @@ public class BlackBomberman extends Bomberman{
 	public int getId() {
 		return 42;
 	}
+	@Override
+	public boolean mata() {
+		return false;
+	}
 }

@@ -16,7 +16,7 @@ public abstract class Bomberman implements InterfaceCell{
 	
 	@Override
 	public boolean canMove() {
-		return false;
+		return true;
 	}
 	
 	public boolean hasBomb() {
