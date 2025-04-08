@@ -8,15 +8,17 @@ import java.util.TimerTask;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
+import viewController.TimerTool;
 
 public class GameModel{
-	private Timer timer=null;
-	private Cell[][] board;
 	private static GameModel myGM=new GameModel();
+	private Cell[][] board;
 	private boolean partidaTerminada;
-	private int xBM,yBM;
-	private int bombasBM;
+	
 	private String bomberman;
+	private int bombasBM;
+	private String typeBomb;
+	
 	private GameMap map;
 	
 	private GameModel() {
@@ -30,12 +32,6 @@ public class GameModel{
 	public void configurarJuego(String pBomberman, int pMap) {
 		bomberman=pBomberman;
 		map=GameMapFactory.getGameMapFactory().generate(pMap);
-		if(bomberman.equals("White")) {
-			bombasBM=10;
-		}
-		else {
-			bombasBM=1;
-		}
 	}
 	
 	private void initialize() {
@@ -58,7 +54,11 @@ public class GameModel{
 				if(type==1) board[i][j].setCell("Soft");
 				else if(type==2) board[i][j].setCell("Hard");
 				else if(type==3) board[i][j].setCell("Enemie");
-				else if(type==4) board[i][j].setCell(bomberman);					
+				else if(type==4) {
+					board[i][j].setCell(bomberman);
+					bombasBM=board[i][j].getBombs();
+					typeBomb=board[i][j].typeBombs();
+				}
 			}
 		}
 	}
@@ -68,16 +68,12 @@ public class GameModel{
 	public boolean moverseBM(int pXact,int pYact, int pXn,int pYn) {
 		boolean puede=puedeMoverse(pXn,pYn);
 		if (puede) {
-			xBM=pXn;
-			yBM=pYn;
 			moverseConBomba(pXact,pYact);
 			if(board[pXn][pYn].mata()) {
 				partidaTerminada=true;
 			    board[pXn][pYn].setMuerto();
 			}
-		    else {
-		    	board[pXn][pYn].setCell(bomberman);
-		    }
+		    else board[pXn][pYn].setCell(bomberman);
 		}
 		return puede;
 	}
@@ -89,7 +85,7 @@ public class GameModel{
 	
 	private void moverseConBomba(int pXact,int pYact) {
 		if(board[pXact][pYact].is("Bomb")) 
-			board[pXact][pYact].setCell("Super");
+			board[pXact][pYact].setCell(typeBomb);
 		else board[pXact][pYact].setCell("Void");
 	}
 	
@@ -163,17 +159,13 @@ public class GameModel{
 		}
 	}
 	
-	public void sumarBombas() {
-		bombasBM++;
-	}
 	private boolean detectarBomberman(int pX, int pY) {
-		boolean isBM=false;
-		if(xBM==pX && yBM==pY) {
-			isBM=true;
+		if(board[pX][pY].is("Bomberman")) {
 			partidaTerminada=true;
 			board[pX][pY].setMuerto();
+			return true;
 		}
-		return isBM;
+		return false;
 	}
 	
 	public void quitarExplosion(int pX, int pY) {
@@ -182,22 +174,14 @@ public class GameModel{
 	
 	public void colocarBomba(int pX, int pY) {
 		if(bombasBM > 0) {
-			board[pX][pY].setCell("Ultra");
+			board[pX][pY].setCell(typeBomb);
 			bombasBM--;
-			tiempo();
-		}
-		
+			TimerTool.getTimerTool().addBomb();
+		}	
 	}
 	
-	private void tiempo() {
-		timer = new Timer();
-   		TimerTask timerTask = new TimerTask() {
-   			@Override
-   			public void run() {
-   				bombasBM++;
-    		}		
-    	};
-   		timer.schedule(timerTask, 4000); 
+	public void addBomb() {
+		bombasBM++;
 	}
 	
 //------------------------FIN_PARTIDA----------------------------

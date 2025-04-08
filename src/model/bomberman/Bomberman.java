@@ -3,10 +3,10 @@ package model.bomberman;
 import model.interfaceCell.InterfaceCell;
 
 public abstract class Bomberman implements InterfaceCell{
-	private int bombas;
+	private int bombs;
 	
 	protected Bomberman(int pX, int pY, int pBombas) {
-		this.bombas=pBombas;
+		this.bombs=pBombas;
 	}
 	
 	@Override
@@ -19,15 +19,11 @@ public abstract class Bomberman implements InterfaceCell{
 		return true;
 	}
 	
-	public boolean hasBomb() {
-		if (bombas>0) {
-			bombas--;
-			return true;
-		}
-		return false;
+	public int getBombs() {
+		return bombs;
 	}
 	
-	public int getBombas() {
-		return bombas;
+	public String getTypeBombs() {
+		return "Super";
 	}
 }

@@ -14,4 +14,8 @@ public class WhiteBomberman extends Bomberman{
 	public boolean mata() {
 		return true;
 	}
+	@Override
+	public String getTypeBombs() {
+		return "Super";
+	}
 }

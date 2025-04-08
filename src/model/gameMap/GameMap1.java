@@ -29,7 +29,7 @@ public class GameMap1 extends GameMap{
 		int cont=0;
 		for(int i=0;i<17 && cont<10;i++) {
 			for(int j=0;j<11 && cont<10;j++) {
-				 if(r.nextInt(100)<=5 && i+j>1 && pBoard[i][j]==0) {
+				 if(r.nextInt(100)<=15 && i+j>1 && pBoard[i][j]==0) {
 					 pBoard[i][j]=3;
 					 cont++;
 				 }	 

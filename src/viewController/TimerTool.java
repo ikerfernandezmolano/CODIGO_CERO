@@ -23,7 +23,7 @@ public class TimerTool {
                 System.exit(0);
             }
         };
-        timer.schedule(timerTask, (int) pSec * 1000);
+        timer.schedule(timerTask, pSec * 1000);
     }
 
     public void startEnemyMovement(int intervalMs) {
@@ -35,6 +35,17 @@ public class TimerTool {
             }
         };
         timer.scheduleAtFixedRate(task, 0, intervalMs); 
+    }
+    
+    public void addBomb() {
+    	timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                GameModel.getGameModel().addBomb();
+            }
+        };
+        timer.schedule(timerTask, 4000);
     }
 
     public void stopEnemyMovement() {

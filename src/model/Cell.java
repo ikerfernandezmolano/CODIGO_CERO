@@ -32,23 +32,22 @@ public class Cell extends Observable{
 		return cell.is(pType);
 	}
 	
-	public void setMuerto() {
-		setChanged();
-		notifyObservers(new int[] {7});
-	}
-	
-	public boolean hasBomb() {
-		boolean has=false;
-		if(cell.getId() == 4) {
-			if (((Bomberman)cell).hasBomb()) {
-				has=true;
-			}
-		}
-		return has;
-	}
-
 	public boolean mata() {
 		return cell.mata();
 	}
-
+	
+	public int getBombs() {
+		if(cell.is("Bomberman")) return ((Bomberman)cell).getBombs();
+		return -1;
+	}
+	
+	public String typeBombs() {
+		if(cell.is("Bomberman")) return ((Bomberman)cell).getTypeBombs();
+		return null;
+	}
+	
+	public void setMuerto() {
+		setChanged();
+		notifyObservers(new int[] {7});
+	}	
 }
