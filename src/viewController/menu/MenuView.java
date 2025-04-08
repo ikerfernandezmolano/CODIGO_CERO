@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import model.GameModel;
+import viewController.MusicTool;
 import viewController.game.GameView;
 
 import java.awt.Font;
@@ -31,8 +32,10 @@ public class MenuView extends JFrame {
 	private JLabel[] bombermanList;
 	private String selectedBomberman;
 	private JButton[] mapList;
+	private JButton musicButton;
 	private int selectedMap;
 	private boolean menuMapOpen;
+	private boolean menuSettOpen;
 
 	public MenuView() {
 		initialize();
@@ -46,6 +49,9 @@ public class MenuView extends JFrame {
 		
 		selectedBomberman="White";
 		selectedMap=1;
+		
+		MusicTool.getMusicTool().startMusic();
+		MusicTool.getMusicTool().setVolume(70);
 		
 		this.addDeco();
 		this.addBombermans();
@@ -83,6 +89,8 @@ public class MenuView extends JFrame {
 	
 	private void addDeco() {// TODO Auto-generated method stub
 		createMapButtons();
+		createSettingsMenu();
+		createDecoPanel("d7",113,140,700,300).setVisible(false);
 		createDecoPanel("d1",273,120,400,400);
 		createDecoPanel("d2",273,30,384,107);
 		createButton("set1",860, 17, 50, 50);
@@ -99,12 +107,21 @@ public class MenuView extends JFrame {
 		mapList[1].setVisible(false);
 		mapList[2]=createButton("m3",575, 190, 200, 200);
 		mapList[2].setVisible(false);
-		createDecoPanel("d7",113,140,700,300).setVisible(false);
 	}
 	
-	private void viewMapButtons(boolean pSet) {
-		contentPane.getComponentAt(113, 140).setVisible(!pSet);;
-		for(int i=0;i<mapList.length;i++) mapList[i].setVisible(!pSet); 
+	private void createSettingsMenu() {
+		musicButton=createButton("music1",416, 240, 100, 100);
+		musicButton.setVisible(false);
+	}
+	
+	private void viewMapButtons() {
+		contentPane.getComponentAt(113, 140).setVisible(menuMapOpen);
+		for(int i=0;i<mapList.length;i++) mapList[i].setVisible(menuMapOpen); 
+	}
+	
+	private void viewSettingsButtons() {
+		contentPane.getComponentAt(113, 140).setVisible(menuSettOpen);
+		musicButton.setVisible(menuSettOpen);
 	}
 	
 	private JLabel createDecoPanel(String pType, int pX, int pY, int pWidth, int pHeigth) {
@@ -216,19 +233,33 @@ public class MenuView extends JFrame {
 		public void mouseClicked(MouseEvent e) {
 			JButton jb=(JButton)e.getComponent();
 			String name=jb.getName();
-			if(name=="set1")
-				jb.setIcon(new ImageIcon(getClass().getResource(
-						"texture/button/set3.png")));
+			if(name=="set1") {
+				if(!menuMapOpen) {
+					menuSettOpen = (menuSettOpen)? false:true;
+					jb.setIcon(new ImageIcon(getClass().getResource(
+							"texture/button/set3.png")));
+					viewSettingsButtons();
+				}
+			}
 			else if(name=="map1") {
-				if(!menuMapOpen) menuMapOpen=true;
-				else menuMapOpen=false;
-				jb.setIcon(new ImageIcon(getClass().getResource(
-						"texture/button/map3.png")));
-				viewMapButtons(menuMapOpen);
+				if(!menuSettOpen) {
+					menuMapOpen = (menuMapOpen)? false:true;
+					jb.setIcon(new ImageIcon(getClass().getResource(
+							"texture/button/map3.png")));
+					viewMapButtons();
+				}
 			} 
 			else if(name=="m1") selectedMap=1;
 		    else if(name=="m2") selectedMap=2;
 			else if(name=="m3") selectedMap=3;
+			else if(name=="music1") {
+				if(MusicTool.getMusicTool().onOffVol()) 
+					jb.setIcon(new ImageIcon(getClass().getResource(
+							"texture/button/music1.png")));
+				else 
+					jb.setIcon(new ImageIcon(getClass().getResource(
+							"texture/button/music2.png")));
+			}
 		}
 		@Override
 		public void mousePressed(MouseEvent e) {
