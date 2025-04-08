@@ -3,16 +3,19 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
 
 public class GameModel{
-	
+	private Timer timer=null;
 	private Cell[][] board;
 	private static GameModel myGM=new GameModel();
 	private boolean partidaTerminada;
 	private int xBM,yBM;
+	private int bombasBM;
 	private String bomberman;
 	private GameMap map;
 	
@@ -27,6 +30,12 @@ public class GameModel{
 	public void configurarJuego(String pBomberman, int pMap) {
 		bomberman=pBomberman;
 		map=GameMapFactory.getGameMapFactory().generate(pMap);
+		if(bomberman.equals("White")) {
+			bombasBM=10;
+		}
+		else {
+			bombasBM=1;
+		}
 	}
 	
 	private void initialize() {
@@ -154,6 +163,9 @@ public class GameModel{
 		}
 	}
 	
+	public void sumarBombas() {
+		bombasBM++;
+	}
 	private boolean detectarBomberman(int pX, int pY) {
 		boolean isBM=false;
 		if(xBM==pX && yBM==pY) {
@@ -169,11 +181,23 @@ public class GameModel{
 	}
 	
 	public void colocarBomba(int pX, int pY) {
-		board[pX][pY].setCell("Super");
+		if(bombasBM > 0) {
+			board[pX][pY].setCell("Super");
+			bombasBM--;
+			tiempo();
+		}
+		
 	}
 	
-	public boolean hasBomb() {
-		return board[xBM][yBM].hasBomb();
+	private void tiempo() {
+		timer = new Timer();
+   		TimerTask timerTask = new TimerTask() {
+   			@Override
+   			public void run() {
+   				bombasBM++;
+    		}		
+    	};
+   		timer.schedule(timerTask, 4000); 
 	}
 	
 //------------------------FIN_PARTIDA----------------------------

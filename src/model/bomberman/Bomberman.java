@@ -26,4 +26,8 @@ public abstract class Bomberman implements InterfaceCell{
 		}
 		return false;
 	}
+	
+	public int getBombas() {
+		return bombas;
+	}
 }
