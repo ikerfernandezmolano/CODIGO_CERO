@@ -31,6 +31,8 @@ public class CellFactoriesFactory {
 			ic = BombermanFactory.getBombermanFactory().generate("Black", pX, pY);
 		else if(pType=="Super")
 			ic = BombFactory.getBombFactory().generate("Super", pX, pY);
+		else if(pType=="Ultra")
+			ic = BombFactory.getBombFactory().generate("Ultra", pX, pY);
 		else if(pType=="Explosion") 
 			ic = ExplosionFactory.getExplosionFactory().generate("Default", pX, pY);
 		return ic;

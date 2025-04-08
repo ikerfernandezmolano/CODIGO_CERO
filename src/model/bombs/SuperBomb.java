@@ -18,7 +18,7 @@ public class SuperBomb extends Bomb{
   		TimerTask timerTask = new TimerTask() {
   			@Override
   			public void run() {
-  				GameModel.getGameModel().explotar(pX, pY);
+  				GameModel.getGameModel().explotar(pX, pY,1);
   			}		
   		};
   		timer.schedule(timerTask, 3000);
