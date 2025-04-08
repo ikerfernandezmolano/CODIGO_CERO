@@ -150,10 +150,10 @@ public class GameModel{
 	
 //------------------------BOMBS-------------------------------	
 	
-	public void explotar(int pX, int pY) {
+	public void explotar(int pX, int pY, int pNumBlocks) {
 		if(!detectarBomberman(pX,pY))
 			board[pX][pY].setCell("Explosion");
-		for(int i=-1; i<2; i=i+2) {
+		for(int i=-pNumBlocks; i<pNumBlocks+1; i++) {
 			if(pX+i >= 0 && pX+i<17 && !board[pX+i][pY].is("Hard") &&
 					!detectarBomberman(pX+i,pY))
 			    board[pX+i][pY].setCell("Explosion");
@@ -182,7 +182,7 @@ public class GameModel{
 	
 	public void colocarBomba(int pX, int pY) {
 		if(bombasBM > 0) {
-			board[pX][pY].setCell("Super");
+			board[pX][pY].setCell("Ultra");
 			bombasBM--;
 			tiempo();
 		}
