@@ -5,14 +5,14 @@ import java.util.TimerTask;
 
 import model.GameModel;
 
-public class TimerTool {
-    private static TimerTool myTT = new TimerTool();
+public class TimerViewTool {
+    private static TimerViewTool myTVT = new TimerViewTool();
     private Timer timer = null;
 
-    private TimerTool() {}
+    private TimerViewTool() {}
 
-    public static TimerTool getTimerTool() {
-        return myTT;
+    public static TimerViewTool getTimerViewTool() {
+        return myTVT;
     }
 
     public void stop(int pSec) {
@@ -25,7 +25,7 @@ public class TimerTool {
         };
         timer.schedule(timerTask, pSec * 1000);
     }
-
+    
     public void startEnemyMovement(int intervalMs) {
         timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -35,23 +35,5 @@ public class TimerTool {
             }
         };
         timer.scheduleAtFixedRate(task, 0, intervalMs); 
-    }
-    
-    public void addBomb() {
-    	timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                GameModel.getGameModel().addBomb();
-            }
-        };
-        timer.schedule(timerTask, 4000);
-    }
-
-    public void stopEnemyMovement() {
-        if (timer != null) {
-            timer.cancel(); 
-            timer = null;
-        }
     }
 }

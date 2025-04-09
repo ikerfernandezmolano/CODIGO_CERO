@@ -6,7 +6,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import model.GameModel;
-import viewController.TimerTool;
+import viewController.TimerViewTool;
 
 public class CellView extends JLabel implements Observer{
 
@@ -53,7 +53,7 @@ public class CellView extends JLabel implements Observer{
 			else if(pType==6) path="attack/bomb1exp.gif";
 			else if(pType==7) {
 				path="character/player/"+typeBM+"/6.png";
-				TimerTool.getTimerTool().stop(2);
+				TimerViewTool.getTimerViewTool().stop(2);
 			}
 			this.setIcon(new ImageIcon(getClass().getResource("texture/"+path)));
 		}

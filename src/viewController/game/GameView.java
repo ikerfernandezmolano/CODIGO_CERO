@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import model.GameModel;
-import viewController.TimerTool;
+import viewController.TimerViewTool;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -81,11 +81,7 @@ public class GameView extends JFrame{
 	private class Controller implements ActionListener,KeyListener {
 		public void actionPerformed(ActionEvent e) {
 			GameModel.getGameModel().crearTablero();
-			iniciarMovimientoEnemigos();
-	    }
-
-	    private void iniciarMovimientoEnemigos() {
-	        TimerTool.getTimerTool().startEnemyMovement(1000);
+			TimerViewTool.getTimerViewTool().startEnemyMovement(1000);
 	    }
 	    
 		public void handleKeyPressed(int pKeyCode) {
@@ -122,7 +118,7 @@ public class GameView extends JFrame{
 					((CellView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
 				else {
 					((CellView)contentPane.getComponent(yBM*17+xBM)).setDirBM(6);
-					TimerTool.getTimerTool().stop(1);
+					TimerViewTool.getTimerViewTool().stop(1);
 				}
 			}
 		}

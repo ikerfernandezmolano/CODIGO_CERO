@@ -3,12 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
-import viewController.TimerTool;
 
 public class GameModel{
 	private static GameModel myGM=new GameModel();
@@ -176,7 +173,7 @@ public class GameModel{
 		if(bombasBM > 0) {
 			board[pX][pY].setCell(typeBomb);
 			bombasBM--;
-			TimerTool.getTimerTool().addBomb();
+			TimerModelTool.getTimerModelTool().addBomb();
 		}	
 	}
 	
