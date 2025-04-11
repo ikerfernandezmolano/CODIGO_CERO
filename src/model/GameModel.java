@@ -6,6 +6,7 @@ import java.util.Random;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
+import viewController.TimerViewTool;
 
 public class GameModel{
 	private static GameModel myGM=new GameModel();
@@ -60,6 +61,7 @@ public class GameModel{
 				}
 			}
 		}
+		TimerModelTool.getTimerModelTool().startEnemyMovement(1000);
 	}
 
 //------------------------MOVEMENT--------------------------	

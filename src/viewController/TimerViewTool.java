@@ -25,15 +25,4 @@ public class TimerViewTool {
         };
         timer.schedule(timerTask, pSec * 1000);
     }
-    
-    public void startEnemyMovement(int intervalMs) {
-        timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                GameModel.getGameModel().moverEnemigos();
-            }
-        };
-        timer.scheduleAtFixedRate(task, 0, intervalMs); 
-    }
 }

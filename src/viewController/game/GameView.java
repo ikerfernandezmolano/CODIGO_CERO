@@ -81,7 +81,6 @@ public class GameView extends JFrame{
 	private class Controller implements ActionListener,KeyListener {
 		public void actionPerformed(ActionEvent e) {
 			GameModel.getGameModel().crearTablero();
-			TimerViewTool.getTimerViewTool().startEnemyMovement(1000);
 	    }
 	    
 		public void handleKeyPressed(int pKeyCode) {
