@@ -12,6 +12,8 @@ public class GameModel{
 	private Cell[][] board;
 	private boolean partidaTerminada;
 	
+	
+	private int xBM, yBM;
 	private String bomberman;
 	private int bombasBM;
 	private String typeBomb;
@@ -65,6 +67,8 @@ public class GameModel{
 	public boolean moverseBM(int pXact,int pYact, int pXn,int pYn) {
 		boolean puede=puedeMoverse(pXn,pYn);
 		if (puede) {
+			xBM=pXn;
+			yBM=pYn;
 			moverseConBomba(pXact,pYact);
 			if(board[pXn][pYn].mata()) {
 				partidaTerminada=true;
@@ -144,53 +148,42 @@ public class GameModel{
 //------------------------BOMBS-------------------------------	
 	
 	public void explotar(int pX, int pY, int pNumBlocks) {
-
-	    if (!detectarBomberman(pX, pY)) {
+	    if (!detectarBomberman(pX, pY)) 
 	        board[pX][pY].setCell("Explosion");
-	    }
+	    
 	    for (int x = 1; x <= pNumBlocks; x++) {
 	        if (pX + x < 17) {
-	            if (board[pX + x][pY].is("Hard")) {
-	                break;
-	            } else if (!detectarBomberman(pX + x, pY)) {
+	            if (board[pX + x][pY].is("Hard")) break;
+	            else if (!detectarBomberman(pX + x, pY))
 	                board[pX + x][pY].setCell("Explosion");
-	            }
 	        }
-
 	        if (pX - x >= 0) {
-	            if (board[pX - x][pY].is("Hard")) {
-	                break;
-	            } else if (!detectarBomberman(pX - x, pY)) {
+	            if (board[pX - x][pY].is("Hard")) break;
+	            else if (!detectarBomberman(pX - x, pY)) 
 	                board[pX - x][pY].setCell("Explosion");
-	            }
 	        }
 	    }
+	    
 	    for (int y = 1; y <= pNumBlocks; y++) {
 	        if (pY + y < 11) {
-	            if (board[pX][pY + y].is("Hard")) {
-	                break;
-	            } else if (!detectarBomberman(pX, pY + y)) {
+	            if (board[pX][pY + y].is("Hard"))break;
+	            else if (!detectarBomberman(pX, pY + y)) 
 	                board[pX][pY + y].setCell("Explosion");
-	            }
 	        }
 	        if (pY - y >= 0) {
-	            if (board[pX][pY - y].is("Hard")) {
-	                break;
-	            } else if (!detectarBomberman(pX, pY - y)) {
+	            if (board[pX][pY - y].is("Hard")) break;
+	            else if (!detectarBomberman(pX, pY - y))
 	                board[pX][pY - y].setCell("Explosion");
-	            }
 	        }
 	    }
 	}
 	
-	
 	private boolean detectarBomberman(int pX, int pY) {
-		if(board[pX][pY].is("Bomberman")) {
-			partidaTerminada=true;
+		if(xBM==pX && yBM==pY) {
 			board[pX][pY].setMuerto();
-			return true;
+			return partidaTerminada=true;
 		}
-		return false;
+		return partidaTerminada;
 	}
 	
 	public void quitarExplosion(int pX, int pY) {
