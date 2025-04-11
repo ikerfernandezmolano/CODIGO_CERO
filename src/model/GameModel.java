@@ -144,17 +144,45 @@ public class GameModel{
 //------------------------BOMBS-------------------------------	
 	
 	public void explotar(int pX, int pY, int pNumBlocks) {
-		if(!detectarBomberman(pX,pY))
-			board[pX][pY].setCell("Explosion");
-		for(int i=-pNumBlocks; i<pNumBlocks+1; i++) {
-			if(pX+i >= 0 && pX+i<17 && !board[pX+i][pY].is("Hard") &&
-					!detectarBomberman(pX+i,pY))
-			    board[pX+i][pY].setCell("Explosion");
-			if(pY+i >=0 && pY+i<11 && !board[pX][pY+i].is("Hard") &&
-					!detectarBomberman(pX,pY+i)) 
-			    board[pX][pY+i].setCell("Explosion");
-		}
+
+	    if (!detectarBomberman(pX, pY)) {
+	        board[pX][pY].setCell("Explosion");
+	    }
+	    for (int x = 1; x <= pNumBlocks; x++) {
+	        if (pX + x < 17) {
+	            if (board[pX + x][pY].is("Hard")) {
+	                break;
+	            } else if (!detectarBomberman(pX + x, pY)) {
+	                board[pX + x][pY].setCell("Explosion");
+	            }
+	        }
+
+	        if (pX - x >= 0) {
+	            if (board[pX - x][pY].is("Hard")) {
+	                break;
+	            } else if (!detectarBomberman(pX - x, pY)) {
+	                board[pX - x][pY].setCell("Explosion");
+	            }
+	        }
+	    }
+	    for (int y = 1; y <= pNumBlocks; y++) {
+	        if (pY + y < 11) {
+	            if (board[pX][pY + y].is("Hard")) {
+	                break;
+	            } else if (!detectarBomberman(pX, pY + y)) {
+	                board[pX][pY + y].setCell("Explosion");
+	            }
+	        }
+	        if (pY - y >= 0) {
+	            if (board[pX][pY - y].is("Hard")) {
+	                break;
+	            } else if (!detectarBomberman(pX, pY - y)) {
+	                board[pX][pY - y].setCell("Explosion");
+	            }
+	        }
+	    }
 	}
+	
 	
 	private boolean detectarBomberman(int pX, int pY) {
 		if(board[pX][pY].is("Bomberman")) {
