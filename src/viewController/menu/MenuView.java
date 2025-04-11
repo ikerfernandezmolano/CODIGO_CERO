@@ -97,6 +97,7 @@ public class MenuView extends JFrame {
 		createButton("map1",800, 17, 50, 50);
 		randomDeco();
 		createTextPanel("USE < / > TO SWITCH BOMBERS",12, 12, 239, 17);
+		createTextPanel("PRESS ENTER TO START",12, 30, 239, 17);
 	}
 	
 	private void createMapButtons() {
@@ -180,7 +181,7 @@ public class MenuView extends JFrame {
 	private void setBomberman(int pBomberman, int pTexture) {
 		bombermanList[pBomberman-1].setIcon(new ImageIcon(getClass().getResource(
 				"texture/choose/"+pTexture+".png")));
-		if(pTexture%10==2) selectedBomberman = (pTexture==1)? "White":"Black"; 
+		if(pTexture%10==2)selectedBomberman = (pBomberman==1)? "White":"Black"; 
 	}
 	
 //-----------------------------CONTROLLER-------------------------------------
