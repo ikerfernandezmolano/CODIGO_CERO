@@ -1,9 +1,9 @@
 package model.enemies;
 import model.interfaceCell.InterfaceCell;
 
-public abstract class Enemie implements InterfaceCell{
+public abstract class Enemy implements InterfaceCell{
 	
-	protected Enemie(int pX,int pY) {}
+	protected Enemy(int pX,int pY) {}
 
 	@Override
 	public boolean canMove() {
@@ -12,7 +12,7 @@ public abstract class Enemie implements InterfaceCell{
 
 	@Override
 	public boolean is(String pType) {
-		return pType=="Enemie";
+		return pType=="Enemy";
 	}
 	
 	@Override

@@ -1,8 +1,8 @@
 package model.enemies;
 
-public class DefaultEnemie extends Enemie{
+public class DefaultEnemy extends Enemy{
 	
-	public DefaultEnemie(int pX, int pY) {
+	public DefaultEnemy(int pX, int pY) {
 		super(pX,pY);
 	}
 	@Override

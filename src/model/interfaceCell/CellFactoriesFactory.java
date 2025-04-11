@@ -3,7 +3,7 @@ package model.interfaceCell;
 import model.blocks.BlockFactory;
 import model.bomberman.BombermanFactory;
 import model.bombs.BombFactory;
-import model.enemies.EnemieFactory;
+import model.enemies.EnemyFactory;
 import model.explosion.ExplosionFactory;
 
 public class CellFactoriesFactory {
@@ -24,7 +24,7 @@ public class CellFactoriesFactory {
 		else if(pType=="Hard") 
 			ic = BlockFactory.getBlockFactory().generate("Hard", pX, pY);
 		else if(pType=="Enemie")
-			ic = EnemieFactory.getEnemieFactory().generate("Default", pX, pY);
+			ic = EnemyFactory.getEnemieFactory().generate("Default", pX, pY);
 		else if(pType=="White")
 			ic = BombermanFactory.getBombermanFactory().generate("White", pX, pY);
 		else if(pType=="Black")

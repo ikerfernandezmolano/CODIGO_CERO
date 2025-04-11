@@ -53,7 +53,7 @@ public class GameModel{
 				int type=tab[i][j];
 				if(type==1) board[i][j].setCell("Soft");
 				else if(type==2) board[i][j].setCell("Hard");
-				else if(type==3) board[i][j].setCell("Enemie");
+				else if(type==3) board[i][j].setCell("Enemy");
 				else if(type==4) {
 					board[i][j].setCell(bomberman);
 					bombasBM=board[i][j].getBombs();
@@ -99,7 +99,7 @@ public class GameModel{
 	    // Guardar las posiciones originales de los enemigos
 	    for (int i = 0; i < 17; i++) {
 	        for (int j = 0; j < 11; j++) {
-	            if (board[i][j].is("Enemie")) {
+	            if (board[i][j].is("Enemy")) {
 	                enemigos.add(new int[]{i, j});
 	            }
 	        }
@@ -108,7 +108,7 @@ public class GameModel{
 	    for (int[] pos : enemigos) {
 	        int x = pos[0], y = pos[1];
 	        // Verificar si sigue siendo un enemigo antes de moverlo
-	        if (board[x][y].is("Enemie")) {
+	        if (board[x][y].is("Enemy")) {
 	            moverEnemigo(x, y);
 	        }
 	    }
@@ -135,9 +135,9 @@ public class GameModel{
 		    			partidaTerminada=true;
 		    			board[newX][newY].setMuerto();
 		    		}
-		    		else if(!board[newX][newY].is("Enemie")) {
+		    		else if(!board[newX][newY].is("Enemy")) {
 		    			board[pX][pY].setCell("Void");
-	                    board[newX][newY].setCell("Enemie");
+	                    board[newX][newY].setCell("Enemy");
 	                    moved = true;
 		    		}    
 		    	}
