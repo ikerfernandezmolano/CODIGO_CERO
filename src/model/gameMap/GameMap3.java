@@ -33,6 +33,6 @@ public class GameMap3 implements GameMap{
 	
 	@Override
 	public void putBomberman(int[][] pBoard) {
-		pBoard[0][0]=0;
+		pBoard[0][0]=4;
 	}
 }
