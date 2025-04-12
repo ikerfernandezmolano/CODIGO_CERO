@@ -24,7 +24,7 @@ public class TimerModelTool {
         timer.schedule(timerTask, 4000);
     }
     
-    public void startEnemyMovement(int intervalMs) {
+    public void startEnemyMovement(int pIntervalMS) {
         timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -32,6 +32,6 @@ public class TimerModelTool {
                 GameModel.getGameModel().moverEnemigos();
             }
         };
-        timer.scheduleAtFixedRate(task, 0, intervalMs); 
+        timer.scheduleAtFixedRate(task, 0, pIntervalMS); 
     }
 }
