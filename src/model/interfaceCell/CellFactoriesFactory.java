@@ -23,7 +23,7 @@ public class CellFactoriesFactory {
 			ic = BlockFactory.getBlockFactory().generate("Soft", pX, pY);
 		else if(pType=="Hard") 
 			ic = BlockFactory.getBlockFactory().generate("Hard", pX, pY);
-		else if(pType=="Enemie")
+		else if(pType=="Enemy")
 			ic = EnemyFactory.getEnemieFactory().generate("Default", pX, pY);
 		else if(pType=="White")
 			ic = BombermanFactory.getBombermanFactory().generate("White", pX, pY);
