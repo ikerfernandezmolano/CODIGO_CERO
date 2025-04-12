@@ -20,7 +20,7 @@ public class SoftBlock extends Block{
 		return 1;
 	}
 	@Override
-	public boolean mata() {
+	public boolean kills() {
 		return false;
 	}
 }

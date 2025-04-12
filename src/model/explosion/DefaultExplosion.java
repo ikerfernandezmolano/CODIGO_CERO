@@ -25,7 +25,7 @@ public class DefaultExplosion extends Explosion{
    		timer.schedule(timerTask, 2000); 
 	}
 	@Override
-	public boolean mata() {
+	public boolean kills() {
 		return true;
 	}
 }

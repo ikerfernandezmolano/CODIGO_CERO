@@ -72,7 +72,7 @@ public class GameModel{
 			xBM=pXn;
 			yBM=pYn;
 			moverseConBomba(pXact,pYact);
-			if(board[pXn][pYn].mata()) {
+			if(board[pXn][pYn].kills()) {
 				partidaTerminada=true;
 			    board[pXn][pYn].setMuerto(bomberman);
 			}

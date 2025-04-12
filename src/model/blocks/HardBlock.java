@@ -20,7 +20,7 @@ public class HardBlock extends Block{
 		return 2;
 	}
 	@Override
-	public boolean mata() {
+	public boolean kills() {
 		return false;
 	}
 

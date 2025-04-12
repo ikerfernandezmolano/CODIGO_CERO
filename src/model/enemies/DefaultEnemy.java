@@ -6,7 +6,7 @@ public class DefaultEnemy extends Enemy{
 		super(pX,pY);
 	}
 	@Override
-	public boolean mata() {
+	public boolean kills() {
 		return true;
 	}
 

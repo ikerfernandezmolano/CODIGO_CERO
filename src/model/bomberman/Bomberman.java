@@ -26,4 +26,9 @@ public abstract class Bomberman implements InterfaceCell{
 	public String getTypeBombs() {
 		return "Super";
 	}
+	
+	@Override
+	public boolean kills() {
+		return true;
+	}
 }

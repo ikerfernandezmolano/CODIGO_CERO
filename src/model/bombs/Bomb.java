@@ -22,5 +22,10 @@ public abstract class Bomb implements InterfaceCell{
    public int getId() {
 	   return 5;
    }
+   
+   @Override
+   public boolean kills() {
+	   return false;
+   }
 }
 

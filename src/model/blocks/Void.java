@@ -22,7 +22,7 @@ public class Void extends Block{
 	}
 	
 	@Override
-	public boolean mata() {
+	public boolean kills() {
 		return false;
 	}
 }

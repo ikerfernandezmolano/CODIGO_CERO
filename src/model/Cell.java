@@ -32,8 +32,8 @@ public class Cell extends Observable{
 		return cell.is(pType);
 	}
 	
-	public boolean mata() {
-		return cell.mata();
+	public boolean kills() {
+		return cell.kills();
 	}
 	
 	public int getBombs() {

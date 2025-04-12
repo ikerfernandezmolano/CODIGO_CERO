@@ -23,8 +23,4 @@ private Timer timer=null;
   		};
   		timer.schedule(timerTask, 3000);
    }
-	@Override
-	public boolean mata() {
-		return false;
-	}
 }
