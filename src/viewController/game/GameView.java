@@ -79,6 +79,8 @@ public class GameView extends JFrame{
 	}
 	
 	private class Controller implements ActionListener,KeyListener {
+		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			GameModel.getGameModel().crearTablero();
 	    }
