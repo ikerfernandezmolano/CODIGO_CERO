@@ -51,7 +51,9 @@ public class CellView extends JLabel implements Observer{
 			}
 			else if(pType==5) path="attack/bomb1.png";
 			else if(pType==6) path="attack/bomb1exp.gif";
-			else if(pType==7) {
+			else if(pType/10==7) {
+				if(pType==71) typeBM="white";
+				else if(pType==72) typeBM="black";
 				path="character/player/"+typeBM+"/6.png";
 				TimerViewTool.getTimerViewTool().stop(2);
 			}

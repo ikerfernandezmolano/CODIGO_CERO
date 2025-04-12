@@ -99,18 +99,16 @@ public class GameModel{
 	    // Guardar las posiciones originales de los enemigos
 	    for (int i = 0; i < 17; i++) {
 	        for (int j = 0; j < 11; j++) {
-	            if (board[i][j].is("Enemy")) {
+	            if (board[i][j].is("Enemy")) 
 	                enemigos.add(new int[]{i, j});
-	            }
 	        }
 	    }
 	    // Mover los enemigos de la lista original
 	    for (int[] pos : enemigos) {
 	        int x = pos[0], y = pos[1];
 	        // Verificar si sigue siendo un enemigo antes de moverlo
-	        if (board[x][y].is("Enemy")) {
+	        if (board[x][y].is("Enemy"))
 	            moverEnemigo(x, y);
-	        }
 	    }
 	}
 	
@@ -125,9 +123,9 @@ public class GameModel{
 			if(n<2) x = (n==0) ? x+1:x-1;
 			else y = (n==2) ? y+1:y-1;
 	
-		    if (puedeMoverse(x, y)&& board[x][y].canMove()) {
+		    if (puedeMoverse(x, y)) {
 		    	synchronized (board){
-		    		if(board[x][y].mata() && board[x][y].is("Bomberman")) {
+		    		if(board[x][y].is("Bomberman")) {
 		    			board[pX][pY].setCell("Void");
 		    			partidaTerminada=true;
 		    			board[x][y].setMuerto(bomberman);

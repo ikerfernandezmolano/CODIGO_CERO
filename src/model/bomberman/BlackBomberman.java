@@ -11,7 +11,7 @@ public class BlackBomberman extends Bomberman{
 	}
 	@Override
 	public boolean mata() {
-		return false;
+		return true;
 	}
 	@Override
 	public String getTypeBombs() {
