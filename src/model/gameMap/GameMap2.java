@@ -4,14 +4,18 @@ import java.util.Random;
 
 import model.Cell;
 
-public class GameMap2 extends GameMap{
+public class GameMap2 implements GameMap{
 
-	public GameMap2() {
-		super();
+	public GameMap2() {}
+	
+	public void createBoard(int[][] pBoard) {
+		this.putBlocks(pBoard);
+		this.putBomberman(pBoard);
+		this.putEnemie(pBoard);
 	}
 
 	@Override
-	protected void putBlocks(int[][] pBoard) {
+	public void putBlocks(int[][] pBoard) {
 		Random r = new Random();
 		for(int i=0;i<17;i++) {
 			for(int j=0;j<11;j++) {
@@ -22,7 +26,7 @@ public class GameMap2 extends GameMap{
 	}
 
 	@Override
-	protected void putEnemie(int[][] pBoard) {
+	public void putEnemie(int[][] pBoard) {
 		Random r = new Random();
 		int cont=0;
 		for(int i=0;i<17 && cont<10;i++) {
@@ -33,5 +37,10 @@ public class GameMap2 extends GameMap{
 				 }	 
 			}
 		}
+	}
+	
+	@Override
+	public void putBomberman(int[][] pBoard) {
+		pBoard[0][0]=0;
 	}
 }

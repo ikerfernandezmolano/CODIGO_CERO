@@ -1,13 +1,12 @@
 package model.gameMap;
 
 public class GameMapFactory {
-	
-	private static GameMapFactory miGMF=new GameMapFactory();
+	private static GameMapFactory myGMF=new GameMapFactory();
 	
 	private GameMapFactory() {}
-
+	
 	public static GameMapFactory getGameMapFactory() {
-		return miGMF;
+		return myGMF;
 	}
 	
 	public GameMap generate(int pType) {

@@ -33,7 +33,7 @@ public class GameModel{
 		bomberman=pBomberman;
 		map=GameMapFactory.getGameMapFactory().generate(pMap);
 	}
-	
+
 	private void initialize() {
 		board = new Cell[17][11];
 		for(int i=0;i<17;i++) {
