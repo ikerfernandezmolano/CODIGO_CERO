@@ -28,10 +28,10 @@ public class MusicTool {
         }
     }
     
-    public void setVolume(int volume) {
-        if (gainControl != null && volume >= 0 && volume <= 100) {
+    public void setVolume(int pVol) {
+        if (gainControl != null && pVol >= 0 && pVol <= 100) {
             float range = gainControl.getMaximum() - gainControl.getMinimum();
-            float gain = (range * (volume / 100.0f)) + gainControl.getMinimum();
+            float gain = (range * (pVol / 100.0f)) + gainControl.getMinimum();
             gainControl.setValue(gain);
         }
     }
