@@ -74,7 +74,7 @@ public class GameModel{
 			moverseConBomba(pXact,pYact);
 			if(board[pXn][pYn].mata()) {
 				partidaTerminada=true;
-			    board[pXn][pYn].setMuerto();
+			    board[pXn][pYn].setMuerto(bomberman);
 			}
 		    else board[pXn][pYn].setCell(bomberman);
 		}
@@ -119,25 +119,22 @@ public class GameModel{
 		boolean moved = false;
 	
 		for(int i=0; i<15 && !moved; i++) {
-			int direccion = r.nextInt(4);
-		    int newX = pX; 
-		    int newY = pY;
+			int n = r.nextInt(4);
+		    int x=pX,y=pY;
+		    
+			if(n<2) x = (n==0) ? x+1:x-1;
+			else y = (n==2) ? y+1:y-1;
 	
-		    if (direccion == 0) newY = pY - 1; // Arriba
-		    else if (direccion == 1) newY = pY + 1; // Abajo
-		    else if (direccion == 2) newX = pX - 1; // Izquierda
-		    else if (direccion == 3) newX = pX + 1; // Derecha
-	
-		    if (puedeMoverse(newX, newY)&& board[newX][newY].canMove()) {
+		    if (puedeMoverse(x, y)&& board[x][y].canMove()) {
 		    	synchronized (board){
-		    		if(board[newX][newY].mata() && board[newX][newY].is("Bomberman")) {
+		    		if(board[x][y].mata() && board[x][y].is("Bomberman")) {
 		    			board[pX][pY].setCell("Void");
 		    			partidaTerminada=true;
-		    			board[newX][newY].setMuerto();
+		    			board[x][y].setMuerto(bomberman);
 		    		}
-		    		else if(!board[newX][newY].is("Enemy")) {
+		    		else if(!board[x][y].is("Enemy")) {
 		    			board[pX][pY].setCell("Void");
-	                    board[newX][newY].setCell("Enemy");
+	                    board[x][y].setCell("Enemy");
 	                    moved = true;
 		    		}    
 		    	}
@@ -182,7 +179,7 @@ public class GameModel{
 	
 	private boolean detectarBomberman(int pX, int pY) {
 		if(xBM==pX && yBM==pY) {
-			board[pX][pY].setMuerto();
+			board[pX][pY].setMuerto(bomberman);
 			return partidaTerminada=true;
 		}
 		return partidaTerminada;

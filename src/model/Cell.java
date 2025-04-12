@@ -46,8 +46,8 @@ public class Cell extends Observable{
 		return null;
 	}
 	
-	public void setMuerto() {
+	public void setMuerto(String pBomberman) {
 		setChanged();
-		notifyObservers(new int[] {7});
+		notifyObservers(new int[] {(pBomberman=="White") ? 71 : 72});
 	}	
 }
