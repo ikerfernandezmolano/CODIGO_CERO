@@ -22,5 +22,10 @@ public abstract class Explosion implements InterfaceCell{
 	public int getId() {
 		return 6;
 	}
+	
+	@Override
+	public boolean kills() {
+		return true;
+	}
 }
 

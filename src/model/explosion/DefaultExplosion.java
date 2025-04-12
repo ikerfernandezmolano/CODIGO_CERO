@@ -24,8 +24,5 @@ public class DefaultExplosion extends Explosion{
     	};
    		timer.schedule(timerTask, 2000); 
 	}
-	@Override
-	public boolean kills() {
-		return true;
-	}
+	
 }
