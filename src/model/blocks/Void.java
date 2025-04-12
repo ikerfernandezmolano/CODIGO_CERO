@@ -20,9 +20,4 @@ public class Void extends Block{
 	public int getId() {
 		return 0;
 	}
-	
-	@Override
-	public boolean kills() {
-		return false;
-	}
 }

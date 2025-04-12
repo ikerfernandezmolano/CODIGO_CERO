@@ -19,9 +19,4 @@ public class HardBlock extends Block{
 	public int getId() {
 		return 2;
 	}
-	@Override
-	public boolean kills() {
-		return false;
-	}
-
 }
