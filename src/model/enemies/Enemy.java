@@ -19,4 +19,9 @@ public abstract class Enemy implements InterfaceCell{
 	public int getId() {
 		return 3;
 	}
+	
+	@Override
+	public boolean kills() {
+		return true;
+	}
 }
