@@ -86,10 +86,10 @@ public class GameModel{
 		return board[pX][pY].canMove();
 	}
 	
-	private void moverseConBomba(int pXact,int pYact) {
-		if(board[pXact][pYact].is("Bomb")) 
-			board[pXact][pYact].setCell(typeBomb);
-		else board[pXact][pYact].setCell("Void");
+	private void moverseConBomba(int pX,int pY) {
+		if(board[pX][pY].is("Bomb")) 
+			board[pX][pY].setCell(typeBomb);
+		else board[pX][pY].setCell("Void");
 	}
 	
 //-----------------------ENEMIES--------------------------------
