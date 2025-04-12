@@ -85,7 +85,7 @@ public class GameView extends JFrame{
 			GameModel.getGameModel().crearTablero();
 	    }
 	    
-		public void handleKeyPressed(int pKeyCode) {
+		private void handleKeyPressed(int pKeyCode) {
 			int dirBM=0;
 			if(!GameModel.getGameModel().getEstadoPartida()) {
 				switch (pKeyCode) {

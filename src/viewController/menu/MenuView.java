@@ -194,7 +194,7 @@ public class MenuView extends JFrame {
 	}
 
 	private class Controller implements KeyListener, MouseListener {
-		public void handleKeyPressed(int pKeyCode) {
+		private void handleKeyPressed(int pKeyCode) {
 			switch (pKeyCode) {
 				case KeyEvent.VK_LEFT:
 					setBomberman(1,12);
