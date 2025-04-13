@@ -2,9 +2,6 @@ package model.gameMap;
 
 import java.util.Random;
 
-import model.Cell;
-import model.GameModel;
-
 public class GameMap3 implements GameMap{
 	
 	public GameMap3() {}

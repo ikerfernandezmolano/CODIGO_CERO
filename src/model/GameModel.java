@@ -1,12 +1,9 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
-import viewController.TimerViewTool;
 
 public class GameModel{
 	private static GameModel myGM=new GameModel();

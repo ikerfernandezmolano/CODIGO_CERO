@@ -3,8 +3,6 @@ package viewController;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import model.GameModel;
-
 public class TimerViewTool {
     private static TimerViewTool myTVT = new TimerViewTool();
     private Timer timer = null;
