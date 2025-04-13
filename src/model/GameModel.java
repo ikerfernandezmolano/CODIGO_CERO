@@ -67,7 +67,7 @@ public class GameModel{
 		}
 	}
 
-//------------------------MOVEMENT--------------------------	
+//------------------------BOMBERMAN--------------------------	
 	
 	public boolean moverseBM(int pXact,int pYact, int pXn,int pYn) {
 		boolean puede=puedeMoverse(pXn,pYn);
@@ -93,6 +93,14 @@ public class GameModel{
 		if(board[pX][pY].is("Bomb")) 
 			board[pX][pY].setCell(typeBomb);
 		else board[pX][pY].setCell("Void");
+	}
+	
+	private boolean detectarBomberman(int pX, int pY) {
+		if(xBM==pX && yBM==pY) {
+			board[pX][pY].setMuerto(bomberman);
+			return partidaTerminada=true;
+		}
+		return partidaTerminada;
 	}
 	
 //-----------------------ENEMIES--------------------------------
@@ -161,14 +169,6 @@ public class GameModel{
             if(numEnemies<=0) TimerModelTool.getTimerModelTool().stop(1);
         } else if (!detectarBomberman(pX, pY))
             board[pX][pY].setCell("Explosion");
-	}
-	
-	private boolean detectarBomberman(int pX, int pY) {
-		if(xBM==pX && yBM==pY) {
-			board[pX][pY].setMuerto(bomberman);
-			return partidaTerminada=true;
-		}
-		return partidaTerminada;
 	}
 	
 	public void quitarExplosion(int pX, int pY) {
