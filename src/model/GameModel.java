@@ -136,11 +136,9 @@ public class GameModel{
 	        newX = pX;
 	        newY = pY;
 
-	        if (n < 2) {
-	            newX = (n == 0) ? newX + 1 : newX - 1; 
-	        } else {
-	            newY = (n == 2) ? newY + 1 : newY - 1; 
-	        }
+	        if (n < 2) newX = (n == 0) ? newX + 1 : newX - 1; 
+	        else newY = (n == 2) ? newY + 1 : newY - 1; 
+	        
 
 	        if (puedeMoverse(newX, newY)) {
 	            synchronized (board) {
