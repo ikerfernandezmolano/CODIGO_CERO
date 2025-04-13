@@ -104,9 +104,8 @@ public class GameModel{
 	}
 
 	public synchronized void actualizarEnemigos() {
-		if(enemigos.size()==0) {
+		if(enemigos.size()==0) 
 			partidaTerminada=true;
-		}
 		else {
 			for (int i = 0; i < enemigos.size(); i++) {
 		        int[] pos = enemigos.get(i);
@@ -114,10 +113,8 @@ public class GameModel{
 
 		        if (board[x][y].is("Enemy")) {
 		            int[] nuevaPosicion = moverEnemigos(x, y);
-
 		            enemigos.set(i, nuevaPosicion);
 		        } else {
-
 		            enemigos.remove(i);
 		            i--; 
 		        }
@@ -137,11 +134,8 @@ public class GameModel{
 	        newX = pX;
 	        newY = pY;
 
-	        if (n < 2) {
-	            newX = (n == 0) ? newX + 1 : newX - 1; 
-	        } else {
-	            newY = (n == 2) ? newY + 1 : newY - 1; 
-	        }
+	        if (n < 2) newX = (n == 0) ? newX + 1 : newX - 1; 
+	        else newY = (n == 2) ? newY + 1 : newY - 1; 
 
 	        if (puedeMoverse(newX, newY)) {
 	            synchronized (board) {
