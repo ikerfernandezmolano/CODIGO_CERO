@@ -18,6 +18,7 @@ public class GameModel{
 	private String bomberman;
 	private int bombasBM;
 	private String typeBomb;
+	private List<int[]> enemigos = new ArrayList<>();
 	
 	private GameMap map;
 	
@@ -53,7 +54,10 @@ public class GameModel{
 				int type=tab[i][j];
 				if(type==1) board[i][j].setCell("Soft");
 				else if(type==2) board[i][j].setCell("Hard");
-				else if(type==3) board[i][j].setCell("Enemy");
+				else if(type==3) {
+					board[i][j].setCell("Enemy");
+					agregarEnemigo(i, j);
+				}
 				else if(type==4) {
 					board[i][j].setCell(bomberman);
 					bombasBM=board[i][j].getBombs();
@@ -94,83 +98,107 @@ public class GameModel{
 	
 //-----------------------ENEMIES--------------------------------
 
-	public synchronized void moverEnemigos() {
-	    List<int[]> enemigos = new ArrayList<>();
-	    // Guardar las posiciones originales de los enemigos
-	    for (int i = 0; i < 17; i++) {
-	        for (int j = 0; j < 11; j++) {
-	            if (board[i][j].is("Enemy")) 
-	                enemigos.add(new int[]{i, j});
+
+	private synchronized void agregarEnemigo(int x, int y) {
+	    enemigos.add(new int[]{x, y});
+	}
+
+	public synchronized void actualizarEnemigos() {
+		if(enemigos.size()==0) {
+			partidaTerminada=true;
+		}
+		else {
+			for (int i = 0; i < enemigos.size(); i++) {
+		        int[] pos = enemigos.get(i);
+		        int x = pos[0], y = pos[1];
+
+		        if (board[x][y].is("Enemy")) {
+		            int[] nuevaPosicion = moverEnemigos(x, y);
+
+		            enemigos.set(i, nuevaPosicion);
+		        } else {
+
+		            enemigos.remove(i);
+		            i--; 
+		        }
+		    }
+		}
+		
+	}
+
+
+	private synchronized int[] moverEnemigos(int pX, int pY) {
+	    Random r = new Random();
+	    boolean moved = false;
+	    int newX = pX, newY = pY;
+
+	    for (int intentos = 0; intentos < 15 && !moved; intentos++) {
+	        int n = r.nextInt(4); 
+	        newX = pX;
+	        newY = pY;
+
+	        if (n < 2) {
+	            newX = (n == 0) ? newX + 1 : newX - 1; 
+	        } else {
+	            newY = (n == 2) ? newY + 1 : newY - 1; 
+	        }
+
+	        if (puedeMoverse(newX, newY)) {
+	            synchronized (board) {
+	                if (board[newX][newY].is("Bomberman")) {
+	                    board[pX][pY].setCell("Void"); 
+	                    partidaTerminada = true; 
+	                    board[newX][newY].setMuerto(bomberman); 
+	                }
+
+	                else if (!board[newX][newY].is("Enemy")) {
+	                    board[pX][pY].setCell("Void"); 
+	                    board[newX][newY].setCell("Enemy"); 
+	                    moved = true; 
+	                }
+	            }
 	        }
 	    }
-	    // Mover los enemigos de la lista original
-	    for (int[] pos : enemigos) {
-	        int x = pos[0], y = pos[1];
-	        // Verificar si sigue siendo un enemigo antes de moverlo
-	        if (board[x][y].is("Enemy"))
-	            moverEnemigo(x, y);
-	    }
+
+	    // Devolver la nueva posición (puede ser igual a la original si no se movió)
+	    return new int[]{newX, newY};
 	}
-	
-	private synchronized void moverEnemigo(int pX, int pY) {
-		Random r = new Random();
-		boolean moved = false;
-	
-		for(int i=0; i<15 && !moved; i++) {
-			int n = r.nextInt(4);
-		    int x=pX,y=pY;
-		    
-			if(n<2) x = (n==0) ? x+1:x-1;
-			else y = (n==2) ? y+1:y-1;
-	
-		    if (puedeMoverse(x, y)) {
-		    	synchronized (board){
-		    		if(board[x][y].is("Bomberman")) {
-		    			board[pX][pY].setCell("Void");
-		    			partidaTerminada=true;
-		    			board[x][y].setMuerto(bomberman);
-		    		}
-		    		else if(!board[x][y].is("Enemy")) {
-		    			board[pX][pY].setCell("Void");
-	                    board[x][y].setCell("Enemy");
-	                    moved = true;
-		    		}    
-		    	}
-		    		
-		    }
-		 }
-	}
-	
 	
 //------------------------BOMBS-------------------------------	
 	
 	public void explotar(int pX, int pY, int pNumBlocks) {
 	    if (!detectarBomberman(pX, pY)) 
 	        board[pX][pY].setCell("Explosion");
-	    
+
 	    for (int x = 1; x <= pNumBlocks; x++) {
 	        if (pX + x < 17) {
-	            if (board[pX + x][pY].is("Hard")) break;
-	            else if (!detectarBomberman(pX + x, pY))
-	                board[pX + x][pY].setCell("Explosion");
+	            if (!board[pX + x][pY].is("Hard")) {
+	                if (!detectarBomberman(pX + x, pY))
+	                    board[pX + x][pY].setCell("Explosion");
+	            }
 	        }
+
 	        if (pX - x >= 0) {
-	            if (board[pX - x][pY].is("Hard")) break;
-	            else if (!detectarBomberman(pX - x, pY)) 
-	                board[pX - x][pY].setCell("Explosion");
+	            if (!board[pX - x][pY].is("Hard")) {
+	                if (!detectarBomberman(pX - x, pY))
+	                    board[pX - x][pY].setCell("Explosion");
+	            }
 	        }
 	    }
-	    
+
 	    for (int y = 1; y <= pNumBlocks; y++) {
 	        if (pY + y < 11) {
-	            if (board[pX][pY + y].is("Hard"))break;
-	            else if (!detectarBomberman(pX, pY + y)) 
-	                board[pX][pY + y].setCell("Explosion");
+	            if (!board[pX][pY + y].is("Hard")) {
+	                if (!detectarBomberman(pX, pY + y))
+	                    board[pX][pY + y].setCell("Explosion");
+	            }
 	        }
+
 	        if (pY - y >= 0) {
-	            if (board[pX][pY - y].is("Hard")) break;
-	            else if (!detectarBomberman(pX, pY - y))
-	                board[pX][pY - y].setCell("Explosion");
+	            if (!board[pX][pY - y].is("Hard")) {
+	                if (!detectarBomberman(pX, pY - y))
+	                    board[pX][pY - y].setCell("Explosion");
+	            }
 	        }
 	    }
 	}

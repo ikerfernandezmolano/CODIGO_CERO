@@ -29,7 +29,7 @@ public class TimerModelTool {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                GameModel.getGameModel().moverEnemigos();
+                GameModel.getGameModel().actualizarEnemigos();
             }
         };
         timer.scheduleAtFixedRate(task, 0, pIntervalMS); 
