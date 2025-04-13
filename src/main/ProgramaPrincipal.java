@@ -1,5 +1,4 @@
 package main;
-import model.GameModel;
 import viewController.menu.MenuView;
 
 public class ProgramaPrincipal {

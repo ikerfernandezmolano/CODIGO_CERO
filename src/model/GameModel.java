@@ -104,10 +104,8 @@ public class GameModel{
 	}
 
 	public synchronized void actualizarEnemigos() {
-		if(enemigos.size()==0) {
+		if(enemigos.size()==0)
 			partidaTerminada=true;
-			System.exit(0);
-		}
 		else {
 			for (int i = 0; i < enemigos.size(); i++) {
 		        int[] pos = enemigos.get(i);
