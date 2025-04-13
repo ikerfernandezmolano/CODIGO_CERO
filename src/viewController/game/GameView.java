@@ -121,8 +121,7 @@ public class GameView extends JFrame{
 					((CellView)contentPane.getComponent(yBM*17+xBM)).setDirBM(6);
 					TimerViewTool.getTimerViewTool().stop(1);
 				}
-			} else 
-				TimerViewTool.getTimerViewTool().stop(2);
+			}
 		}
 		@Override
 		public void keyPressed(KeyEvent e) {

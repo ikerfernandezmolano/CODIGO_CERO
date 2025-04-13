@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import model.blocks.BlockFactory;
 import model.bomberman.Bomberman;
+import model.enemies.Enemy;
 import model.interfaceCell.CellFactoriesFactory;
 import model.interfaceCell.InterfaceCell;
 
@@ -34,6 +35,10 @@ public class Cell extends Observable{
 	
 	public boolean kills() {
 		return cell.kills();
+	}
+	
+	public void stopTimer() {
+		if(cell.is("Enemy")) ((Enemy)cell).stopTimer();
 	}
 	
 	public int getBombs() {

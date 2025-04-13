@@ -24,14 +24,14 @@ public class TimerModelTool {
         timer.schedule(timerTask, 4000);
     }
     
-    public void startEnemyMovement(int pIntervalMS) {
+    public void stop(int pSec) {
         timer = new Timer();
-        TimerTask task = new TimerTask() {
+        TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                GameModel.getGameModel().actualizarEnemigos();
+                System.exit(0);
             }
         };
-        timer.scheduleAtFixedRate(task, 0, pIntervalMS); 
+        timer.schedule(timerTask, pSec * 1000);
     }
 }
