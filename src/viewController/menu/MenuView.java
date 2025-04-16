@@ -7,6 +7,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -24,7 +26,7 @@ import viewController.game.GameView;
 
 import java.awt.Font;
 
-public class MenuView extends JFrame {
+public class MenuView extends JFrame implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -46,6 +48,8 @@ public class MenuView extends JFrame {
 		setSize(930,580);
 		this.setContentPane(getContentPane());
 		addKeyListener(getController());
+		
+		GameModel.getGameModel().addObserver(this);
 		
 		selectedBomberman="White";
 		selectedMap=1;
@@ -207,8 +211,6 @@ public class MenuView extends JFrame {
 				case KeyEvent.VK_ENTER:
 					//MODEL
 					GameModel.getGameModel().configurarJuego(selectedBomberman,selectedMap);
-					//VIEW
-					GameView gameView=new GameView();
 					//CLOSE
 					dispose();
 					break;
@@ -292,5 +294,11 @@ public class MenuView extends JFrame {
 						"texture/button/map1.png")));
 			}
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		//VIEW
+		GameView gameView=new GameView();
 	}
 }

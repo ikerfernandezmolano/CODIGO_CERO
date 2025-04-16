@@ -1,11 +1,12 @@
 package model;
 
+import java.util.Observable;
 import java.util.Random;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
 
-public class GameModel{
+public class GameModel extends Observable{
 	private static GameModel myGM=new GameModel();
 	private Cell[][] board;
 	private boolean partidaTerminada;
@@ -30,6 +31,8 @@ public class GameModel{
 	public void configurarJuego(String pBomberman, int pMap) {
 		bomberman=pBomberman;
 		map=GameMapFactory.getGameMapFactory().generate(pMap);
+		setChanged();
+		notifyObservers();
 	}
 
 	private void initialize() {
