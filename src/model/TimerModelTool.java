@@ -5,7 +5,7 @@ import java.util.TimerTask;
 
 public class TimerModelTool {
 	private static TimerModelTool myTMT=new TimerModelTool();
-	private Timer timer=null;
+	private Timer timer=new Timer();
 	
 	private TimerModelTool() {}
 	
@@ -14,7 +14,6 @@ public class TimerModelTool {
 	}
     
     public void addBomb() {
-    	timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -24,8 +23,17 @@ public class TimerModelTool {
         timer.schedule(timerTask, 4000);
     }
     
+    public void tiempoExplotar(int pX,int pY, int pDist) {
+  		TimerTask timerTask = new TimerTask() {
+  			@Override
+  			public void run() {
+  				GameModel.getGameModel().explotar(pX, pY,pDist);
+  			}		
+  		};
+  		timer.schedule(timerTask, 3000);
+   }
+    
     public void stop(int pSec) {
-        timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {

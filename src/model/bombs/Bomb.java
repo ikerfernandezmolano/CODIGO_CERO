@@ -4,9 +4,7 @@ import model.interfaceCell.InterfaceCell;
 
 public abstract class Bomb implements InterfaceCell{
 
-    protected Bomb(int pX, int pY) {}
-       
-   protected abstract void tiempo(int pX,int pY);
+   protected Bomb(int pX, int pY) {}
    
    @Override
    public boolean is(String pType){

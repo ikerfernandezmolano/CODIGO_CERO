@@ -1,26 +1,11 @@
 package model.bombs;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import model.GameModel;
+import model.TimerModelTool;
 
 public class SuperBomb extends Bomb{
-	private Timer timer=null;
 	
 	public SuperBomb(int pX, int pY) {
 		super(pX,pY);
-		tiempo(pX,pY);
+		TimerModelTool.getTimerModelTool().tiempoExplotar(pX, pY, 1);
 	}
-	
-	protected void tiempo(int pX,int pY) {
-	   	timer = new Timer();
-  		TimerTask timerTask = new TimerTask() {
-  			@Override
-  			public void run() {
-  				GameModel.getGameModel().explotar(pX, pY,1);
-  			}		
-  		};
-  		timer.schedule(timerTask, 3000);
-   }
 }

@@ -13,7 +13,7 @@ public class CellView extends JLabel implements Observer{
 	 /*Void = 0
 	 * SoftBlock = 1
 	 * HardBlock = 2
-	 * Enemie = 3
+	 * Enemy = 3
 	 * Bomberman = 4
 	 * Bomb = 5
 	 * Explosion = 6

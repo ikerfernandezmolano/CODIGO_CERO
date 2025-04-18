@@ -46,6 +46,11 @@ public class Cell extends Observable{
 		return -1;
 	}
 	
+	public void reloadSkin() {
+		setChanged();
+		notifyObservers(new int[] {cell.getId()});
+	}
+	
 	public String typeBombs() {
 		if(cell.is("Bomberman")) return ((Bomberman)cell).getTypeBombs();
 		return null;

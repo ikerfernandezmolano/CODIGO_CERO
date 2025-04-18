@@ -91,7 +91,7 @@ public class GameModel extends Observable{
 	
 	private void moverseConBomba(int pX,int pY) {
 		if(board[pX][pY].is("Bomb")) 
-			board[pX][pY].setCell(typeBomb);
+			board[pX][pY].reloadSkin();
 		else board[pX][pY].setCell("Void");
 	}
 	
@@ -138,7 +138,7 @@ public class GameModel extends Observable{
 	public void explotar(int pX, int pY, int pNumBlocks) {
 	    if (!detectarBomberman(pX, pY))
 	        board[pX][pY].setCell("Explosion");
-	    for (int x = 1; x <= pNumBlocks; x++) {
+	    for (int x = 1; x<17 && x <= pNumBlocks; x++) {
 	        if (pX + x < 17) {
 	            if (board[pX + x][pY].is("Hard")) break;
 	            explosion(pX+x,pY);
@@ -148,8 +148,9 @@ public class GameModel extends Observable{
 	            if (board[pX - x][pY].is("Hard")) break;
 	            explosion(pX-x,pY);
 	        }
+	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().stop(1);
 	    }
-	    for (int y = 1; y <= pNumBlocks; y++) {
+	    for (int y = 1; y<11 && y <= pNumBlocks; y++) {
 	        if (pY + y < 11) {
 	            if (board[pX][pY + y].is("Hard")) break;
 	            explosion(pX,pY+y);
@@ -158,7 +159,9 @@ public class GameModel extends Observable{
 	            if (board[pX][pY - y].is("Hard")) break;
 	            explosion(pX,pY-y);
 	        }
+	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().stop(1);
 	    }
+	    
 	}
 	
 	private void explosion(int pX, int pY) {
@@ -166,7 +169,6 @@ public class GameModel extends Observable{
             board[pX][pY].stopTimer();
             board[pX][pY].setCell("Explosion");
             numEnemies--;
-            if(numEnemies<=0) TimerModelTool.getTimerModelTool().stop(1);
         } else if (!detectarBomberman(pX, pY))
             board[pX][pY].setCell("Explosion");
 	}
