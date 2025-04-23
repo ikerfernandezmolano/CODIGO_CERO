@@ -17,7 +17,7 @@ public class GameModel extends Observable{
 	private String typeBomb;
 	
 	private int numEnemies=0;
-	private int numBoss=1;
+	private int bossHealth=3;
 	private boolean bossCreated=false;
 	
 	private GameMap map;
@@ -153,9 +153,7 @@ public class GameModel extends Observable{
 			int y=r.nextInt(0,11);
 			if(x!=xBM && y!=yBM) {
 				moved=true;
-				System.out.println(x+"  "+y);;
 				board[x][y].setCell("Boss");
-				board[x][y].setHealth(board[pX][pY].getHealth());
 				board[pX][pY].setCell("Void");
 			}
 		}
@@ -183,7 +181,7 @@ public class GameModel extends Observable{
 	            explosion(pX-x,pY);
 	        }
 	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
-	        if(numBoss<=0) TimerModelTool.getTimerModelTool().stop(2);
+	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	    for (int y = 1; y<11 && y <= pNumBlocks; y++) {
 	        if (pY + y < 11) {
@@ -195,7 +193,7 @@ public class GameModel extends Observable{
 	            explosion(pX,pY-y);
 	        }
 	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
-	        if(numBoss<=0) TimerModelTool.getTimerModelTool().stop(2);
+	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	}
 	
@@ -225,8 +223,7 @@ public class GameModel extends Observable{
 	
 	private void explosion(int pX, int pY) {
 		if (board[pX][pY].is("Enemy")) {
-			if (board[pX][pY].is("Boss")) 
-				board[pX][pY].decreaseHealth();
+			if (board[pX][pY].is("Boss")) bossHealth--;
 			else {
 	            board[pX][pY].stopTimer();
 	            board[pX][pY].setCell("Explosion");
