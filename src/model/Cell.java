@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import model.blocks.BlockFactory;
 import model.bomberman.Bomberman;
+import model.enemies.Boss;
 import model.enemies.Enemy;
 import model.interfaceCell.CellFactoriesFactory;
 import model.interfaceCell.InterfaceCell;
@@ -54,6 +55,19 @@ public class Cell extends Observable{
 	public String typeBombs() {
 		if(cell.is("Bomberman")) return ((Bomberman)cell).getTypeBombs();
 		return null;
+	}
+	
+	public void decreaseHealth() {
+		if(cell.is("Boss")) ((Boss)cell).decreaseHealth();
+	}
+	
+	public int getHealth() {
+		if(cell.is("Boss")) return ((Boss)cell).getHealth();
+		return 0;
+	}
+	
+	public void setHealth(int pH) {
+		if(cell.is("Boss")) ((Boss)cell).setHealth(pH);
 	}
 	
 	public void setMuerto(String pBomberman) {

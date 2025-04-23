@@ -24,6 +24,16 @@ public class TimerModelTool {
         timer.schedule(timerTask, 4000);
     }
     
+    public void waitForBoss() {
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                GameModel.getGameModel().createBoss();
+            }
+        };
+        timer.schedule(timerTask, 3000);
+    }
+    
     public void tiempoExplotar(int pX,int pY, int pDist, int pDir) {
   		TimerTask timerTask = new TimerTask() {
   			@Override

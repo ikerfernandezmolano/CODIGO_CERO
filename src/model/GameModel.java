@@ -17,6 +17,8 @@ public class GameModel extends Observable{
 	private String typeBomb;
 	
 	private int numEnemies=0;
+	private int numBoss=1;
+	private boolean bossCreated=false;
 	
 	private GameMap map;
 	
@@ -104,6 +106,13 @@ public class GameModel extends Observable{
 	}
 	
 //-----------------------ENEMIES--------------------------------
+	
+	public void createBoss() {
+		if(!bossCreated) {
+			bossCreated=true;
+			board[8][5].setCell("Boss");
+		}
+	}
 
 	public void moverseEnemigo(int pX, int pY) {
 		Random r=new Random();
@@ -118,7 +127,7 @@ public class GameModel extends Observable{
 					if(board[x][y].is("Explosion")) {
 						board[pX][pY].stopTimer();
 						numEnemies--;
-						if(numEnemies<=0) TimerModelTool.getTimerModelTool().stop(2);
+						if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 						board[pX][pY].setCell("Void");
 					} else {
 						board[pX][pY].setCell("Void");
@@ -140,6 +149,7 @@ public class GameModel extends Observable{
 			if(x!=xBM && y!=yBM) {
 				moved=true;
 				board[x][y].setCell("Boss");
+				board[x][y].setHealth(board[pX][pY].getHealth());
 				board[pX][pY].setCell("Void");
 			}
 		}
@@ -166,7 +176,8 @@ public class GameModel extends Observable{
 	            if (board[pX - x][pY].is("Hard")) break;
 	            explosion(pX-x,pY);
 	        }
-	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().stop(1);
+	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
+	        if(numBoss<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	    for (int y = 1; y<11 && y <= pNumBlocks; y++) {
 	        if (pY + y < 11) {
@@ -177,7 +188,8 @@ public class GameModel extends Observable{
 	            if (board[pX][pY - y].is("Hard")) break;
 	            explosion(pX,pY-y);
 	        }
-	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().stop(1);
+	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
+	        if(numBoss<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	}
 	
@@ -207,9 +219,13 @@ public class GameModel extends Observable{
 	
 	private void explosion(int pX, int pY) {
 		if (board[pX][pY].is("Enemy")) {
-            board[pX][pY].stopTimer();
-            board[pX][pY].setCell("Explosion");
-            numEnemies--;
+			if (board[pX][pY].is("Boss")) 
+				board[pX][pY].decreaseHealth();
+			else {
+	            board[pX][pY].stopTimer();
+	            board[pX][pY].setCell("Explosion");
+	            numEnemies--;
+			}
         } else if (!detectarBomberman(pX, pY))
             board[pX][pY].setCell("Explosion");
 	}

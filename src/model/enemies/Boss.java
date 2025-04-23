@@ -7,7 +7,7 @@ import model.GameModel;
 import model.TimerModelTool;
 
 public class Boss extends Enemy{
-	private int health=5;
+	private int health=3;
 	
 	public Boss(int pX,int pY) {
 		super(pX,pY);
@@ -23,6 +23,14 @@ public class Boss extends Enemy{
 	@Override
 	public boolean is(String pType) {
 		return pType=="Boss" || pType=="Enemy";
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int pHealth) {
+		health=pHealth;
 	}
 	
 	public void decreaseHealth() {
