@@ -47,6 +47,6 @@ public class Boss extends Enemy{
                 GameModel.getGameModel().moverseBoss(pX, pY);
             }
         };
-        timer.schedule(timerTask, 8000);
+        timer.schedule(timerTask, 8100);
 	}
 }

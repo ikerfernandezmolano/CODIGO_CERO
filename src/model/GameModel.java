@@ -108,9 +108,14 @@ public class GameModel extends Observable{
 //-----------------------ENEMIES--------------------------------
 	
 	public void createBoss() {
-		if(!bossCreated) {
-			bossCreated=true;
-			board[8][5].setCell("Boss");
+		while(!bossCreated) {
+			Random r=new Random();
+			int x=r.nextInt(0,17);
+			int y=r.nextInt(0,11);
+			if(x!=xBM && y!=yBM){
+				bossCreated=true;
+				board[x][y].setCell("Boss");
+			}
 		}
 	}
 
@@ -148,6 +153,7 @@ public class GameModel extends Observable{
 			int y=r.nextInt(0,11);
 			if(x!=xBM && y!=yBM) {
 				moved=true;
+				System.out.println(x+"  "+y);;
 				board[x][y].setCell("Boss");
 				board[x][y].setHealth(board[pX][pY].getHealth());
 				board[pX][pY].setCell("Void");
