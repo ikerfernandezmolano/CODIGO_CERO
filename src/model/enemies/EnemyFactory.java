@@ -13,6 +13,7 @@ private static EnemyFactory myEF=new EnemyFactory();
 	public Enemy generate(String pType, int pX, int pY) {
 		Enemy enemie=null;
 		if(pType=="Default") enemie=new DefaultEnemy(pX,pY);
+		else if(pType=="Boss") enemie=new Boss(pX, pY);
 		return enemie;
 	}
 }

@@ -25,6 +25,8 @@ public class CellFactoriesFactory {
 			ic = BlockFactory.getBlockFactory().generate("Hard", pX, pY);
 		else if(pType=="Enemy")
 			ic = EnemyFactory.getEnemieFactory().generate("Default", pX, pY);
+		else if(pType=="Boss")
+			ic = EnemyFactory.getEnemieFactory().generate("Boss", pX, pY);
 		else if(pType=="White")
 			ic = BombermanFactory.getBombermanFactory().generate("White", pX, pY);
 		else if(pType=="Black")
@@ -33,6 +35,8 @@ public class CellFactoriesFactory {
 			ic = BombFactory.getBombFactory().generate("Super", pX, pY);
 		else if(pType=="Ultra")
 			ic = BombFactory.getBombFactory().generate("Ultra", pX, pY);
+		else if(pType=="Bossy")
+			ic = BombFactory.getBombFactory().generate("Bossy", pX, pY);
 		else if(pType=="Explosion") 
 			ic = ExplosionFactory.getExplosionFactory().generate("Default", pX, pY);
 		return ic;

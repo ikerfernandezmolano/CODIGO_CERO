@@ -44,13 +44,18 @@ public class CellView extends JLabel implements Observer{
 				path="block/soft"+r.nextInt(2)+".png";
 			}else if(pType==2) path="block/hard1.png";
 			else if(pType==3) path="character/monster/m11.png";
+			else if(pType==31) path="character/monster/boss.png";
 			else if(pType/10==4) {
 				if(pType==41) typeBM="white";
 				else if(pType==42) typeBM="black";
 				path ="character/player/"+typeBM+"/"+dirBM+".png";
 			}
-			else if(pType==5) path="attack/bomb1.png";
-			else if(pType==6) path="attack/bomb1exp.gif";
+			else if(pType/10==5) {
+				if(pType==51) path="attack/bomb1.png";
+				else if(pType==52) path="attack/bomb2.png";
+				else if(pType==53) path="attack/bomb3.png";
+			}
+			else if(pType==6) path="attack/bombexp.gif";
 			else if(pType/10==7) {
 				if(pType==71) typeBM="white";
 				else if(pType==72) typeBM="black";
