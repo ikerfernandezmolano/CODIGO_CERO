@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import model.blocks.BlockFactory;
 import model.bomberman.Bomberman;
+import model.powerUp.PowerUp;
 import model.enemies.Enemy;
 import model.interfaceCell.CellFactoriesFactory;
 import model.interfaceCell.InterfaceCell;
@@ -52,6 +53,14 @@ public class Cell extends Observable{
 	
 	public boolean getPowerUp() {
 		return ((Bomberman)cell).getPowerUp();
+	}
+	
+	public void setCoordenadas(int pX, int pY) {
+		((PowerUp)cell).setCoordenadas(pX,pY);
+	}
+	
+	public int[] getCoordenadas() {
+		return ((PowerUp)cell).getCoordenadas();
 	}
 	
 	public void reloadSkin() {

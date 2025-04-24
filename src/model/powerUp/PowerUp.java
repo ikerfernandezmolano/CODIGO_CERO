@@ -1,4 +1,4 @@
-package powerUp;
+package model.powerUp;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,6 +8,9 @@ import model.interfaceCell.InterfaceCell;
 
 public class PowerUp implements InterfaceCell{
 	private Timer timer;
+	private int x;
+	private int y;
+	private boolean colocado;
 	
 	public PowerUp(int pX, int pY) {
 		
@@ -42,5 +45,25 @@ public class PowerUp implements InterfaceCell{
             }
         };
         timer.schedule(timerTask, 10000);
+	}
+	
+	public void setCoordenadas(int pX, int pY) {
+		x=pX;
+		y=pY;
+	}
+	
+	public int[] getCoordenadas() {
+		int[] a = new int[2];
+		a[0]=x;
+		a[1]=y;
+		return a;
+	}
+	
+	public void setColocado(boolean b) {
+		colocado=b;
+	}
+	
+	public boolean getColocado() {
+		return colocado;
 	}
 }

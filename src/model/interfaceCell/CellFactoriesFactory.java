@@ -5,7 +5,7 @@ import model.bomberman.BombermanFactory;
 import model.bombs.BombFactory;
 import model.enemies.EnemyFactory;
 import model.explosion.ExplosionFactory;
-import powerUp.PowerUpFactory;
+import model.powerUp.PowerUpFactory;
 
 public class CellFactoriesFactory {
 	private static CellFactoriesFactory myCFF=new CellFactoriesFactory();

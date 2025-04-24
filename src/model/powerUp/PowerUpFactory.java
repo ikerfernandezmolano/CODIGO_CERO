@@ -1,4 +1,4 @@
-package powerUp;
+package model.powerUp;
 
 public class PowerUpFactory {
 	private static PowerUpFactory myPU;

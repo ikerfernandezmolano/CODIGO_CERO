@@ -273,7 +273,9 @@ public class GameModel extends Observable{
 			pX = r.nextInt(17);
 			pY = r.nextInt(11);
 		}while(!board[pX][pY].is("Void"));
+		
 		board[pX][pY].setCell("PowerUp");
+		board[pX][pY].setCoordenadas(pX,pY);
 	}
 	
 //------------------------FIN_PARTIDA----------------------------
