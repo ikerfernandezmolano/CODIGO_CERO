@@ -46,6 +46,14 @@ public class Cell extends Observable{
 		return -1;
 	}
 	
+	public void setPowerUp(boolean b) {
+		((Bomberman)cell).setPowerUp(b);
+	}
+	
+	public boolean getPowerUp() {
+		return ((Bomberman)cell).getPowerUp();
+	}
+	
 	public void reloadSkin() {
 		setChanged();
 		notifyObservers(new int[] {cell.getId()});

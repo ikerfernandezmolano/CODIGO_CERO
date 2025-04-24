@@ -5,6 +5,7 @@ import model.bomberman.BombermanFactory;
 import model.bombs.BombFactory;
 import model.enemies.EnemyFactory;
 import model.explosion.ExplosionFactory;
+import powerUp.PowerUpFactory;
 
 public class CellFactoriesFactory {
 	private static CellFactoriesFactory myCFF=new CellFactoriesFactory();
@@ -39,6 +40,8 @@ public class CellFactoriesFactory {
 			ic = BombFactory.getBombFactory().generate("Bossy", pX, pY);
 		else if(pType=="Explosion") 
 			ic = ExplosionFactory.getExplosionFactory().generate("Default", pX, pY);
+		else if(pType=="PowerUp")
+			ic = PowerUpFactory.getPowerUpFactory().generate(pX, pY);
 		return ic;
 	}
 

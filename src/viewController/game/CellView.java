@@ -17,6 +17,7 @@ public class CellView extends JLabel implements Observer{
 	 * Bomberman = 4
 	 * Bomb = 5
 	 * Explosion = 6
+	 * PowerUp = 8
 	 */
 	
 	private static final long serialVersionUID = 1L;
@@ -61,6 +62,9 @@ public class CellView extends JLabel implements Observer{
 				else if(pType==72) typeBM="black";
 				path="character/player/"+typeBM+"/6.png";
 				TimerViewTool.getTimerViewTool().stop(2);
+			}
+			else if(pType==8) {
+				path="powerUp.png";
 			}
 			this.setIcon(new ImageIcon(getClass().getResource("texture/"+path)));
 		}

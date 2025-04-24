@@ -4,6 +4,7 @@ import model.interfaceCell.InterfaceCell;
 
 public abstract class Bomberman implements InterfaceCell{
 	private int bombs;
+	private boolean powerUp=false;
 	
 	protected Bomberman(int pX, int pY, int pBombas) {
 		this.bombs=pBombas;
@@ -30,5 +31,13 @@ public abstract class Bomberman implements InterfaceCell{
 	@Override
 	public boolean kills() {
 		return true;
+	}
+	
+	public void setPowerUp(boolean b) {
+		powerUp=b;
+	}
+	
+	public boolean getPowerUp() {
+		return powerUp;
 	}
 }

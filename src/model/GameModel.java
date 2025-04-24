@@ -78,8 +78,19 @@ public class GameModel extends Observable{
 			yBM=pYn;
 			moverseConBomba(pXact,pYact);
 			if(board[pXn][pYn].kills()) {
-				partidaTerminada=true;
-			    board[pXn][pYn].setMuerto(bomberman);
+				if(!board[pXn][pYn].getPowerUp()) {
+					partidaTerminada=true;
+				    board[pXn][pYn].setMuerto(bomberman);
+				}else {
+					board[pXn][pYn].setPowerUp(false);
+					if(board[pXn][pYn].is("Enemy")){
+						numEnemies--;
+					}
+					board[pXn][pYn].setCell(bomberman);
+				}
+			}else if(board[pXn][pYn].is("PowerUp")) {
+				board[pXn][pYn].setPowerUp(true);
+				board[pXn][pYn].setCell(bomberman);
 			}
 		    else board[pXn][pYn].setCell(bomberman);
 		}
@@ -251,6 +262,18 @@ public class GameModel extends Observable{
 	
 	public void addBomb() {
 		bombasBM++;
+	}
+	
+//------------------------POWER_UP----------------------------
+	public void colocarPowerUp() {
+		int pX;
+		int pY;
+		Random r = new Random();
+		do {
+			pX = r.nextInt(17);
+			pY = r.nextInt(11);
+		}while(!board[pX][pY].is("Void"));
+		board[pX][pY].setCell("PowerUp");
 	}
 	
 //------------------------FIN_PARTIDA----------------------------
