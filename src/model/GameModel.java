@@ -16,6 +16,7 @@ public class GameModel extends Observable{
 	private String bomberman;
 	private int bombasBM;
 	private String typeBomb;
+	private boolean finExplosion=true;
 	
 	private int numEnemies=0;
 	private int bossHealth=3;
@@ -112,7 +113,8 @@ public class GameModel extends Observable{
 	
 	private void moverseConBomba(int pX,int pY) {
 		if(board[pX][pY].is("Bomb")) {
-			if(BMHasPU) {
+			if(BMHasPU && finExplosion) {
+				BMHasPU=false;
 				board[pX][pY].setCell("Void");
 			}
 			board[pX][pY].reloadSkin();
@@ -276,10 +278,12 @@ public class GameModel extends Observable{
 	
 	public void quitarExplosion(int pX, int pY) {
 		board[pX][pY].setCell("Void");
+		finExplosion=true;
 	}
 	
 	public void colocarBomba(int pX, int pY) {
 		if(bombasBM > 0) {
+			finExplosion=false;
 			board[pX][pY].setCell(typeBomb);
 			bombasBM--;
 			TimerModelTool.getTimerModelTool().addBomb();
