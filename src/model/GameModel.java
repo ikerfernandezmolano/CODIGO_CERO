@@ -111,9 +111,12 @@ public class GameModel extends Observable{
 	}
 	
 	private void moverseConBomba(int pX,int pY) {
-		if(board[pX][pY].is("Bomb")) 
+		if(board[pX][pY].is("Bomb")) {
+			if(BMHasPU) {
+				board[pX][pY].setCell("Void");
+			}
 			board[pX][pY].reloadSkin();
-		else board[pX][pY].setCell("Void");
+		}else board[pX][pY].setCell("Void");
 	}
 	
 	private boolean detectarBomberman(int pX, int pY) {
@@ -293,23 +296,27 @@ public class GameModel extends Observable{
 	
 //------------------------POWER_UP----------------------------
 	public void colocarPowerUp() {
-		int pX;
-		int pY;
-		Random r = new Random();
-		do {
-			pX = r.nextInt(16);
-			pY = r.nextInt(10);
-		}while(!board[pX][pY].is("Void"));
-		
-		if (hasPU) {
-			board[xPU][yPU].setCell("Void");
+		if(!BMHasPU) {
+			int pX;
+			int pY;
+			Random r = new Random();
+			do {
+				pX = r.nextInt(16);
+				pY = r.nextInt(10);
+			}while(!board[pX][pY].is("Void"));
+			
+			if (hasPU) {
+				board[xPU][yPU].setCell("Void");
+			}
+			else {
+				hasPU=true;
+			}
+			board[pX][pY].setCell("PowerUp");
+			xPU=pX;
+			yPU=pY;
+		}else {
+			new PowerUp(0,0);
 		}
-		else {
-			hasPU=true;
-		}
-		board[pX][pY].setCell("PowerUp");
-		xPU=pX;
-		yPU=pY;
 	}
 	
 //------------------------FIN_PARTIDA----------------------------
