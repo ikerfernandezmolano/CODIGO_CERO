@@ -5,6 +5,7 @@ import java.util.Random;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
+import model.powerUp.PowerUp;
 
 public class GameModel extends Observable{
 	private static GameModel myGM=new GameModel();
@@ -21,6 +22,7 @@ public class GameModel extends Observable{
 	private boolean bossCreated=false;
 	
 	private boolean hasPU=false;
+	private boolean BMHasPU=false;
 	private int xPU;
 	private int yPU;
 	
@@ -71,6 +73,7 @@ public class GameModel extends Observable{
 				}
 			}
 		}
+		new PowerUp(xPU,yPU);
 	}
 
 //------------------------BOMBERMAN--------------------------	
@@ -82,21 +85,22 @@ public class GameModel extends Observable{
 			yBM=pYn;
 			moverseConBomba(pXact,pYact);
 			if(board[pXn][pYn].kills()) {
-				if(!board[pXn][pYn].getPowerUp()) {
-					partidaTerminada=true;
-				    board[pXn][pYn].setMuerto(bomberman);
-				}else {
-					board[pXn][pYn].setPowerUp(false);
+				if(BMHasPU) {
+					BMHasPU=false;
 					if(board[pXn][pYn].is("Enemy")){
 						numEnemies--;
 					}
 					board[pXn][pYn].setCell(bomberman);
+				}else {
+					partidaTerminada=true;
+				    board[pXact][pYact].setMuerto(bomberman);
 				}
 			}else if(board[pXn][pYn].is("PowerUp")) {
-				board[pXn][pYn].setPowerUp(true);
 				board[pXn][pYn].setCell(bomberman);
+				BMHasPU=true;
 			}
 		    else board[pXn][pYn].setCell(bomberman);
+			
 		}
 		return puede;
 	}
@@ -143,7 +147,7 @@ public class GameModel extends Observable{
 			if(n<2) x = (n==0) ? x+1:x-1;
 			else y = (n==2) ? y+1:y-1;
 			if(x>=0 && x<17 && y>=0 && y<11) {
-				if(board[x][y].canMove() && !board[x][y].is("Enemy")) {
+				if(board[x][y].canMove() && !board[x][y].is("Enemy") && !board[x][y].is("PowerUp")) {
 					if(board[x][y].is("Explosion")) {
 						board[pX][pY].stopTimer();
 						numEnemies--;
@@ -274,8 +278,8 @@ public class GameModel extends Observable{
 		int pY;
 		Random r = new Random();
 		do {
-			pX = r.nextInt(17);
-			pY = r.nextInt(11);
+			pX = r.nextInt(16);
+			pY = r.nextInt(10);
 		}while(!board[pX][pY].is("Void"));
 		
 		if (hasPU) {
@@ -287,7 +291,6 @@ public class GameModel extends Observable{
 		board[pX][pY].setCell("PowerUp");
 		xPU=pX;
 		yPU=pY;
-		
 	}
 	
 //------------------------FIN_PARTIDA----------------------------

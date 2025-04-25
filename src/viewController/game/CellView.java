@@ -64,7 +64,7 @@ public class CellView extends JLabel implements Observer{
 				TimerViewTool.getTimerViewTool().stop(2);
 			}
 			else if(pType==8) {
-				path="powerUp.png";
+				path="powerUp/powerUp.png";
 			}
 			this.setIcon(new ImageIcon(getClass().getResource("texture/"+path)));
 		}

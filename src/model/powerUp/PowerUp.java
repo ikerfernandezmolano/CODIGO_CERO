@@ -10,10 +10,9 @@ public class PowerUp implements InterfaceCell{
 	private Timer timer;
 	private int x;
 	private int y;
-	private boolean colocado;
 	
 	public PowerUp(int pX, int pY) {
-		
+		colocarPowerUp();
 	}
 
 	@Override
@@ -57,13 +56,5 @@ public class PowerUp implements InterfaceCell{
 		a[0]=x;
 		a[1]=y;
 		return a;
-	}
-	
-	public void setColocado(boolean b) {
-		colocado=b;
-	}
-	
-	public boolean getColocado() {
-		return colocado;
 	}
 }
