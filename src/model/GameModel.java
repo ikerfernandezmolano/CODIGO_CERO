@@ -20,6 +20,10 @@ public class GameModel extends Observable{
 	private int bossHealth=3;
 	private boolean bossCreated=false;
 	
+	private boolean hasPU=false;
+	private int xPU;
+	private int yPU;
+	
 	private GameMap map;
 	
 	private GameModel() {
@@ -274,8 +278,16 @@ public class GameModel extends Observable{
 			pY = r.nextInt(11);
 		}while(!board[pX][pY].is("Void"));
 		
+		if (hasPU) {
+			board[xPU][yPU].setCell("Void");
+		}
+		else {
+			hasPU=true;
+		}
 		board[pX][pY].setCell("PowerUp");
-		board[pX][pY].setCoordenadas(pX,pY);
+		xPU=pX;
+		yPU=pY;
+		
 	}
 	
 //------------------------FIN_PARTIDA----------------------------
