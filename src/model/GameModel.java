@@ -118,8 +118,12 @@ public class GameModel extends Observable{
 	
 	private boolean detectarBomberman(int pX, int pY) {
 		if(xBM==pX && yBM==pY) {
-			board[pX][pY].setMuerto(bomberman);
-			return partidaTerminada=true;
+			if(!BMHasPU) {
+				board[pX][pY].setMuerto(bomberman);
+				return partidaTerminada=true;
+			}else {
+				return true;
+			}
 		}
 		return partidaTerminada;
 	}
@@ -155,8 +159,17 @@ public class GameModel extends Observable{
 						board[pX][pY].setCell("Void");
 					} else {
 						board[pX][pY].setCell("Void");
-						detectarBomberman(x, y);
-						board[x][y].setCell("Enemy");
+						if(detectarBomberman(x, y)) {
+							if(BMHasPU) {
+								BMHasPU=false;
+								board[x][y].setCell(bomberman);
+								numEnemies--;
+							}else {
+								board[x][y].setCell("Enemy");
+							}
+						}else {
+							board[x][y].setCell("Enemy");
+						}
 					}
 					moved=true;
 				}
@@ -250,6 +263,12 @@ public class GameModel extends Observable{
 			}
         } else if (!detectarBomberman(pX, pY))
             board[pX][pY].setCell("Explosion");
+        else if(detectarBomberman(pX, pY)) {
+        	if(BMHasPU) {
+        		BMHasPU=false;
+        		board[pX][pY].setCell(bomberman);
+        	}
+        }
 	}
 	
 	public void quitarExplosion(int pX, int pY) {
