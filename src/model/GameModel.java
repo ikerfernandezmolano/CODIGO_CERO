@@ -6,29 +6,33 @@ import java.util.Random;
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
 import model.powerUp.ExtraLife;
-import model.powerUp.PowerUp;
 
 public class GameModel extends Observable{
 	private static GameModel myGM=new GameModel();
-	private Cell[][] board;
-	private boolean partidaTerminada;
 	
-	private int xBM, yBM;
+	private Cell[][] board;
+	private static final int BOARD_WIDTH=17;
+	private static final int BOARD_HEIGHT=11;
+	
+	private byte gameStatus=(byte)00000010;
+	private static final int FINISHED_GAME=1;
+	private static final int END_EXPLOSION=2;
+	private static final int BOSS_CREATED=3;
+	private static final int POWERUP_IN_MAP=4;
+	private static final int BOMBERMAN_POWERUP=5;
+	
+	private GameMap map;
+	
+	private final Random r=new Random();
+	
+	private Position posBM=new Position();
+	private Position posPU=new Position();
+	
 	private String bomberman;
 	private int bombasBM;
 	private String typeBomb;
-	private boolean finExplosion=true;
-	
 	private int numEnemies=0;
 	private int bossHealth=3;
-	private boolean bossCreated=false;
-	
-	private boolean hasPU=false;
-	private boolean BMHasPU=false;
-	private int xPU;
-	private int yPU;
-	
-	private GameMap map;
 	
 	private GameModel() {
 		initialize();
@@ -46,9 +50,9 @@ public class GameModel extends Observable{
 	}
 
 	private void initialize() {
-		board = new Cell[17][11];
+		board = new Cell[BOARD_WIDTH][BOARD_HEIGHT];
 		for(int i=0;i<17;i++) {
-			for(int j=0;j<11;j++) {
+			for(int j=0;j<BOARD_HEIGHT;j++) {
 				board[i][j]=new Cell(i, j);
 			}
 		}
@@ -57,64 +61,66 @@ public class GameModel extends Observable{
 //--------------------TABLERO_CREATE-------------------------------	
 	
 	public void crearTablero() {
-		int[][] tab=new int[17][11];
+		int[][] tab=new int[BOARD_WIDTH][BOARD_HEIGHT];
 		map.createBoard(tab);
 		for(int i=0;i<tab.length;i++) {
 			for(int j=0;j<tab[i].length;j++) {
-				int type=tab[i][j];
-				if(type==1) board[i][j].setCell("Soft");
-				else if(type==2) board[i][j].setCell("Hard");
-				else if(type==3) {
-					board[i][j].setCell("Enemy");
-					numEnemies++;
-				}
-				else if(type==4) {
-					board[i][j].setCell(bomberman);
-					bombasBM=board[i][j].getBombs();
-					typeBomb=board[i][j].typeBombs();
+				switch(tab[i][j]) {
+					case 1:
+						board[i][j].setCell("Soft");
+						break;
+					case 2:
+						board[i][j].setCell("Hard");
+						break;
+					case 3:
+						board[i][j].setCell("Enemy");
+						numEnemies++;
+						break;
+					case 4:
+						board[i][j].setCell(bomberman);
+						bombasBM=board[i][j].getBombs();
+						typeBomb=board[i][j].typeBombs();
+						break;
 				}
 			}
 		}
-		new ExtraLife(xPU,yPU);
+		new ExtraLife(posPU.getX(),posPU.getY());
 	}
 
 //------------------------BOMBERMAN--------------------------	
 	
-	public boolean moverseBM(int pXact,int pYact, int pXn,int pYn) {
-		boolean puede=puedeMoverse(pXn,pYn);
+	public boolean moverseBM(int pXact,int pYact, int pX,int pY) {
+		boolean puede=puedeMoverse(pX,pY);
 		if (puede) {
-			xBM=pXn;
-			yBM=pYn;
+			posBM.changePosition(pX, pY);
 			moverseConBomba(pXact,pYact);
-			if(board[pXn][pYn].kills()) {
-				if(BMHasPU) {
-					BMHasPU=false;
-					if(board[pXn][pYn].is("Enemy")){
-						numEnemies--;
-					}
-					board[pXn][pYn].setCell(bomberman);
+			if(board[pX][pY].kills()) {
+				if(checkFlag(BOMBERMAN_POWERUP)) {
+					changeFlagStatus(BOMBERMAN_POWERUP,false);
+					if(board[pX][pY].is("Enemy"))numEnemies--;
+					board[pX][pY].setCell(bomberman);
 				}else {
-					partidaTerminada=true;
+					changeFlagStatus(FINISHED_GAME,true);
 				    board[pXact][pYact].setMuerto(bomberman);
 				}
-			}else if(board[pXn][pYn].is("PowerUp")) {
-				board[pXn][pYn].setCell(bomberman);
-				BMHasPU=true;
+			}else if(board[pX][pY].is("PowerUp")) {
+				board[pX][pY].setCell(bomberman);
+				changeFlagStatus(BOMBERMAN_POWERUP,true);
 			}
-		    else board[pXn][pYn].setCell(bomberman);
+		    else board[pX][pY].setCell(bomberman);
 		}
 		return puede;
 	}
 	
 	private boolean puedeMoverse(int pX, int pY) {
-		if(pX<0 || pX>=17 || pY<0 || pY>=11) return false;
+		if(pX<0 || pX>=BOARD_WIDTH || pY<0 || pY>=BOARD_HEIGHT) return false;
 		return board[pX][pY].canMove();
 	}
 	
 	private void moverseConBomba(int pX,int pY) {
 		if(board[pX][pY].is("Bomb")) {
-			if(BMHasPU && finExplosion) {
-				BMHasPU=false;
+			if(checkFlag(BOMBERMAN_POWERUP) && checkFlag(END_EXPLOSION)) {
+				changeFlagStatus(BOMBERMAN_POWERUP,false);
 				board[pX][pY].setCell("Void");
 			}
 			board[pX][pY].reloadSkin();
@@ -122,40 +128,37 @@ public class GameModel extends Observable{
 	}
 	
 	private boolean detectarBomberman(int pX, int pY) {
-		if(xBM==pX && yBM==pY) {
-			if(!BMHasPU) {
+		if(posBM.isPosition(pX, pY)) {
+			if(!checkFlag(BOMBERMAN_POWERUP)) {
 				board[pX][pY].setMuerto(bomberman);
-				return partidaTerminada=true;
-			}else {
-				return true;
+				changeFlagStatus(FINISHED_GAME,true);
 			}
+			return true;
 		}
-		return partidaTerminada;
+		return checkFlag(FINISHED_GAME);
 	}
 	
 //-----------------------ENEMIES--------------------------------
 	
 	public void createBoss() {
-		while(!bossCreated) {
-			Random r=new Random();
-			int x=r.nextInt(0,17);
-			int y=r.nextInt(0,11);
-			if(x!=xBM && y!=yBM){
-				bossCreated=true;
+		while(!checkFlag(BOSS_CREATED)) {
+			int x=r.nextInt(0,BOARD_WIDTH);
+			int y=r.nextInt(0,BOARD_HEIGHT);
+			if(!posBM.isPosition(x, y)){
+				changeFlagStatus(BOSS_CREATED,true);
 				board[x][y].setCell("Boss");
 			}
 		}
 	}
 
 	public void moverseEnemigo(int pX, int pY) {
-		Random r=new Random();
 		boolean moved=false;
 		while(!moved) {
 			int n=r.nextInt(4);
 			int x=pX,y=pY;
 			if(n<2) x = (n==0) ? x+1:x-1;
 			else y = (n==2) ? y+1:y-1;
-			if(x>=0 && x<17 && y>=0 && y<11) {
+			if(x>=0 && x<BOARD_WIDTH && y>=0 && y<BOARD_HEIGHT) {
 				if(board[x][y].canMove() && !board[x][y].is("Enemy") && !board[x][y].is("PowerUp")) {
 					if(board[x][y].is("Explosion")) {
 						board[pX][pY].stopTimer();
@@ -165,8 +168,8 @@ public class GameModel extends Observable{
 					} else {
 						board[pX][pY].setCell("Void");
 						if(detectarBomberman(x, y)) {
-							if(BMHasPU) {
-								BMHasPU=false;
+							if(checkFlag(BOMBERMAN_POWERUP)) {
+								changeFlagStatus(BOMBERMAN_POWERUP,false);
 								board[x][y].setCell(bomberman);
 								numEnemies--;
 							}else {
@@ -183,12 +186,11 @@ public class GameModel extends Observable{
 	}
 	
 	public void moverseBoss(int pX, int pY) {
-		Random r=new Random();
 		boolean moved=false;
 		while(!moved) {
-			int x=r.nextInt(0,17);
-			int y=r.nextInt(0,11);
-			if(x!=xBM && y!=yBM) {
+			int x=r.nextInt(0,BOARD_WIDTH);
+			int y=r.nextInt(0,BOARD_HEIGHT);
+			if(!posBM.isPosition(x, y)) {
 				moved=true;
 				board[x][y].setCell("Boss");
 				board[pX][pY].setCell("Void");
@@ -207,8 +209,8 @@ public class GameModel extends Observable{
 	private void explotarHV(int pX, int pY, int pNumBlocks){
 		if (!detectarBomberman(pX, pY))
 	        board[pX][pY].setCell("Explosion");
-	    for (int x = 1; x<17 && x <= pNumBlocks; x++) {
-	        if (pX + x < 17) {
+	    for (int x = 1; x<BOARD_WIDTH && x <= pNumBlocks; x++) {
+	        if (pX + x < BOARD_WIDTH) {
 	            if (board[pX + x][pY].is("Hard")) break;
 	            explosion(pX+x,pY);
 	        }
@@ -220,8 +222,8 @@ public class GameModel extends Observable{
 	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
-	    for (int y = 1; y<11 && y <= pNumBlocks; y++) {
-	        if (pY + y < 11) {
+	    for (int y = 1; y<BOARD_HEIGHT && y <= pNumBlocks; y++) {
+	        if (pY + y < BOARD_HEIGHT) {
 	            if (board[pX][pY + y].is("Hard")) break;
 	            explosion(pX,pY+y);
 	        }
@@ -238,7 +240,7 @@ public class GameModel extends Observable{
 		if (!detectarBomberman(pX, pY))
 	        board[pX][pY].setCell("Explosion");
 		for(int i=1;i<= pNumBlocks;i++) {
-			if (pX + i < 17 && pY + i < 11) {
+			if (pX + i < BOARD_WIDTH && pY + i < BOARD_HEIGHT) {
 	            if (board[pX + i][pY + i].is("Hard")) break;
 	            explosion(pX+i,pY + i);
 	        }
@@ -247,11 +249,11 @@ public class GameModel extends Observable{
 	            if (board[pX - i][pY - i].is("Hard")) break;
 	            explosion(pX-i,pY - i);
 	        }
-			if (pX -i >= 0 && pY + i < 11) {
+			if (pX -i >= 0 && pY + i < BOARD_HEIGHT) {
 	            if (board[pX -i][pY + i].is("Hard")) break;
 	            explosion(pX-i,pY+i);
 	        }
-			if (pX + i <17 && pY - i >= 0) {
+			if (pX + i <BOARD_WIDTH && pY - i >= 0) {
 	            if (board[pX+i][pY - i].is("Hard")) break;
 	            explosion(pX+i,pY-i);
 	        }
@@ -269,8 +271,8 @@ public class GameModel extends Observable{
         } else if (!detectarBomberman(pX, pY))
             board[pX][pY].setCell("Explosion");
         else if(detectarBomberman(pX, pY)) {
-        	if(BMHasPU) {
-        		BMHasPU=false;
+        	if(checkFlag(BOMBERMAN_POWERUP)) {
+        		changeFlagStatus(BOMBERMAN_POWERUP,false);
         		board[pX][pY].setCell(bomberman);
         	}
         }
@@ -278,12 +280,12 @@ public class GameModel extends Observable{
 	
 	public void quitarExplosion(int pX, int pY) {
 		board[pX][pY].setCell("Void");
-		finExplosion=true;
+		changeFlagStatus(END_EXPLOSION,true);
 	}
 	
 	public void colocarBomba(int pX, int pY) {
 		if(bombasBM > 0) {
-			finExplosion=false;
+			changeFlagStatus(END_EXPLOSION,false);
 			board[pX][pY].setCell(typeBomb);
 			bombasBM--;
 			TimerModelTool.getTimerModelTool().addBomb();
@@ -301,25 +303,33 @@ public class GameModel extends Observable{
 //------------------------POWER_UP----------------------------
 	
 	public void colocarPowerUp() {
-		if(!BMHasPU) {
+		if(!checkFlag(BOMBERMAN_POWERUP)) {
 			int x,y;
-			Random r = new Random();
 			do {
 				x = r.nextInt(16);
 				y = r.nextInt(10);
 			}while(!board[x][y].is("Void"));
-			if (hasPU) board[xPU][yPU].setCell("Void");
-			else hasPU=true;
+			if (checkFlag(POWERUP_IN_MAP)) board[posPU.getX()][posPU.getY()].setCell("Void");
+			else changeFlagStatus(POWERUP_IN_MAP,true);
 			board[x][y].setCell("ExtraLife");
-			xPU=x;
-			yPU=y;
+			posPU.changePosition(x, y);
 		}
+	}
+	
+//------------------------STATUS--------------------------------
+	
+	private void changeFlagStatus(int pPos,boolean pValue) {
+		gameStatus=(pValue)? (byte)(gameStatus|(1<<pPos-1)) : (byte)(gameStatus&~(1<<pPos-1));
+	}
+	
+	private boolean checkFlag(int pPos) {
+		return (gameStatus & (1<<pPos-1))!=0;
 	}
 	
 //------------------------FIN_PARTIDA----------------------------
 	
 	public boolean getEstadoPartida() {
-		return partidaTerminada;
+		return checkFlag(FINISHED_GAME);
 	}
 	
 //------------------------CELLS-------------------------------
