@@ -44,14 +44,14 @@ public class GameModel extends Observable{
 	
 	public void configurarJuego(String pBomberman, int pMap) {
 		bomberman=pBomberman;
-		map=GameMapFactory.getGameMapFactory().generate(pMap);
+		map=GameMapFactory.getGameMapFactory().generate(pMap,BOARD_WIDTH,BOARD_HEIGHT);
 		setChanged();
-		notifyObservers();
+		notifyObservers(new int[] {BOARD_WIDTH,BOARD_HEIGHT});
 	}
 
 	private void initialize() {
 		board = new Cell[BOARD_WIDTH][BOARD_HEIGHT];
-		for(int i=0;i<17;i++) {
+		for(int i=0;i<BOARD_WIDTH;i++) {
 			for(int j=0;j<BOARD_HEIGHT;j++) {
 				board[i][j]=new Cell(i, j);
 			}
@@ -99,9 +99,10 @@ public class GameModel extends Observable{
 					changeFlagStatus(BOMBERMAN_POWERUP,false);
 					if(board[pX][pY].is("Enemy"))numEnemies--;
 					board[pX][pY].setCell(bomberman);
-				}else {
+				}else{
 					changeFlagStatus(FINISHED_GAME,true);
-				    board[pXact][pYact].setMuerto(bomberman);
+					board[pX][pY].setMuerto(bomberman);
+				    board[pXact][pYact].setCell("Void");;
 				}
 			}else if(board[pX][pY].is("PowerUp")) {
 				board[pX][pY].setCell(bomberman);

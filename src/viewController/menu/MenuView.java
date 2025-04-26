@@ -299,8 +299,9 @@ public class MenuView extends JFrame implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof GameModel) {
+			int[] res= (int[]) arg;
 			//VIEW
-			GameView gameView=new GameView();
+			GameView gameView=new GameView(res[0],res[1]);
 		}
 	}
 }

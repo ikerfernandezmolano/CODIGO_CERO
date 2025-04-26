@@ -3,8 +3,12 @@ package model.gameMap;
 import java.util.Random;
 
 public class GameMap2 implements GameMap{
-
-	public GameMap2() {}
+	private static int WIDTH,HEIGHT;
+	
+	public GameMap2(int pWidth,int pHeight) {
+		WIDTH=pWidth;
+		HEIGHT=pHeight;
+	}
 	
 	public void createBoard(int[][] pBoard) {
 		this.putBlocks(pBoard);
@@ -15,8 +19,8 @@ public class GameMap2 implements GameMap{
 	@Override
 	public void putBlocks(int[][] pBoard) {
 		Random r = new Random();
-		for(int i=0;i<17;i++) {
-			for(int j=0;j<11;j++) {
+		for(int i=0;i<WIDTH;i++) {
+			for(int j=0;j<HEIGHT;j++) {
 				 if(r.nextInt(100)<=65 && i+j>1) 
 					pBoard[i][j]=1;
 			}
@@ -27,8 +31,8 @@ public class GameMap2 implements GameMap{
 	public void putEnemie(int[][] pBoard) {
 		Random r = new Random();
 		int cont=0;
-		for(int i=0;i<17 && cont<10;i++) {
-			for(int j=0;j<11 && cont<10;j++) {
+		for(int i=0;i<WIDTH && cont<10;i++) {
+			for(int j=0;j<HEIGHT && cont<10;j++) {
 				 if(r.nextInt(100)<=15 && i+j>1 && pBoard[i][j]==0) {
 					 pBoard[i][j]=3;
 					 cont++;

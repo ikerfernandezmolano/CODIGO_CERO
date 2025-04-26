@@ -20,10 +20,12 @@ public class GameView extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Controller controller;
-	private int xBM;
-	private int yBM;
+	private static int xBM,yBM;
+	private static int WIDTH,HEIGHT;
 
-	public GameView() {
+	public GameView(int pWidth, int pHeight) {
+		WIDTH=pWidth;
+		HEIGHT=pHeight;
 		initialize();
 		getController().actionPerformed(null); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,8 +35,8 @@ public class GameView extends JFrame{
 		setSize(930,580);
 		this.setContentPane(getContentPane());
 		
-		for(int j=0;j<11;j++) {
-			for(int i=0;i<17;i++) {
+		for(int j=0;j<HEIGHT;j++) {
+			for(int i=0;i<WIDTH;i++) {
 				CellView cw= new CellView(i,j);
 				contentPane.add(cw);
 			}
@@ -64,7 +66,7 @@ public class GameView extends JFrame{
                 g.drawImage(backgrnd, 0, 0, getWidth(), getHeight(), this);
             }
         };
-			contentPane.setLayout(new GridLayout(11, 17, 0, 0));
+			contentPane.setLayout(new GridLayout(HEIGHT, WIDTH, 0, 0));
 		}
 		return contentPane;
 	}

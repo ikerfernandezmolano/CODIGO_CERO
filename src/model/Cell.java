@@ -2,7 +2,6 @@ package model;
 
 import java.util.Observable;
 
-import model.blocks.BlockFactory;
 import model.bomberman.Bomberman;
 import model.enemies.Enemy;
 import model.interfaceCell.CellFactoriesFactory;
@@ -15,7 +14,7 @@ public class Cell extends Observable{
 	public Cell(int pX, int pY) {
 		this.x=pX;
 		this.y=pY;
-		this.cell=BlockFactory.getBlockFactory().generate("Void", pX, pY);
+		this.cell=CellFactoriesFactory.getCellFactoriesFactory().generate("Void", pX, pY);
 	}
 	
 	public void setCell(String pType) {

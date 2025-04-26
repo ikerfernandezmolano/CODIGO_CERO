@@ -9,11 +9,11 @@ public class GameMapFactory {
 		return myGMF;
 	}
 	
-	public GameMap generate(int pType) {
+	public GameMap generate(int pType, int pWidth, int pHeight) {
 		GameMap gm=null;
-		if(pType==1) gm=new GameMap1();
-		else if(pType==2) gm=new GameMap2();
-		else if(pType==3) gm=new GameMap3();
+		if(pType==1) gm=new GameMap1(pWidth,pHeight);
+		else if(pType==2) gm=new GameMap2(pWidth,pHeight);
+		else if(pType==3) gm=new GameMap3(pWidth,pHeight);
 		return gm;
 	}
 }
