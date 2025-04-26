@@ -299,6 +299,7 @@ public class GameModel extends Observable{
 	}
 	
 //------------------------POWER_UP----------------------------
+	
 	public void colocarPowerUp() {
 		if(!BMHasPU) {
 			int pX;
