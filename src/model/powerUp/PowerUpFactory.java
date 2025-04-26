@@ -12,9 +12,9 @@ public class PowerUpFactory {
 		return myPU;
 	}
 	
-	public PowerUp generate(int pX, int pY) {
+	public PowerUp generate(String pType, int pX, int pY) {
 		PowerUp pU = null;
-		pU = new PowerUp(pX,pY);
+		if(pType=="ExtraLife") pU=new ExtraLife(pX,pY);
 		return pU;
 	}
 }

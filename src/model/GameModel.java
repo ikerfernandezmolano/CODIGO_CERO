@@ -5,6 +5,7 @@ import java.util.Random;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
+import model.powerUp.ExtraLife;
 import model.powerUp.PowerUp;
 
 public class GameModel extends Observable{
@@ -74,7 +75,7 @@ public class GameModel extends Observable{
 				}
 			}
 		}
-		new PowerUp(xPU,yPU);
+		new ExtraLife(xPU,yPU);
 	}
 
 //------------------------BOMBERMAN--------------------------	
@@ -101,7 +102,6 @@ public class GameModel extends Observable{
 				BMHasPU=true;
 			}
 		    else board[pXn][pYn].setCell(bomberman);
-			
 		}
 		return puede;
 	}
@@ -302,25 +302,17 @@ public class GameModel extends Observable{
 	
 	public void colocarPowerUp() {
 		if(!BMHasPU) {
-			int pX;
-			int pY;
+			int x,y;
 			Random r = new Random();
 			do {
-				pX = r.nextInt(16);
-				pY = r.nextInt(10);
-			}while(!board[pX][pY].is("Void"));
-			
-			if (hasPU) {
-				board[xPU][yPU].setCell("Void");
-			}
-			else {
-				hasPU=true;
-			}
-			board[pX][pY].setCell("PowerUp");
-			xPU=pX;
-			yPU=pY;
-		}else {
-			new PowerUp(0,0);
+				x = r.nextInt(16);
+				y = r.nextInt(10);
+			}while(!board[x][y].is("Void"));
+			if (hasPU) board[xPU][yPU].setCell("Void");
+			else hasPU=true;
+			board[x][y].setCell("ExtraLife");
+			xPU=x;
+			yPU=y;
 		}
 	}
 	

@@ -47,14 +47,6 @@ public class Cell extends Observable{
 		return -1;
 	}
 	
-	public void setCoordenadas(int pX, int pY) {
-		((PowerUp)cell).setCoordenadas(pX,pY);
-	}
-	
-	public int[] getCoordenadas() {
-		return ((PowerUp)cell).getCoordenadas();
-	}
-	
 	public void reloadSkin() {
 		setChanged();
 		notifyObservers(new int[] {cell.getId()});

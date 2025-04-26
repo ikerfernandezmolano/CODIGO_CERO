@@ -40,8 +40,8 @@ public class CellFactoriesFactory {
 			ic = BombFactory.getBombFactory().generate("Bossy", pX, pY);
 		else if(pType=="Explosion") 
 			ic = ExplosionFactory.getExplosionFactory().generate("Default", pX, pY);
-		else if(pType=="PowerUp")
-			ic = PowerUpFactory.getPowerUpFactory().generate(pX, pY);
+		else if(pType=="ExtraLife")
+			ic = PowerUpFactory.getPowerUpFactory().generate("ExtraLife",pX, pY);
 		return ic;
 	}
 
