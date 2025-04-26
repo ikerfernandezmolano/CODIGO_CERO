@@ -4,7 +4,6 @@ import java.util.Observable;
 
 import model.blocks.BlockFactory;
 import model.bomberman.Bomberman;
-import model.powerUp.PowerUp;
 import model.enemies.Enemy;
 import model.interfaceCell.CellFactoriesFactory;
 import model.interfaceCell.InterfaceCell;

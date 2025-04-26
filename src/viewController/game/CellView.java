@@ -21,14 +21,11 @@ public class CellView extends JLabel implements Observer{
 	 */
 	
 	private static final long serialVersionUID = 1L;
-	private int x,y;
 	private int dirBM=0;
 	private String typeBM="white";
 
 	public CellView(int pX,int pY) {
 		super();
-		x=pX;
-		y=pY;
 		GameModel.getGameModel().getCell(pX, pY).addObserver(this);
 		
 		this.setHorizontalAlignment(CENTER);
@@ -39,34 +36,53 @@ public class CellView extends JLabel implements Observer{
 		if(pType==0) {
 			this.setIcon(null);
 		} else {
-			String path=null;
-			if(pType==1) {
-				Random r=new Random();
-				path="block/soft"+r.nextInt(2)+".png";
-			}else if(pType==2) path="block/hard1.png";
-			else if(pType==3) path="character/monster/m11.png";
-			else if(pType==31) path="character/monster/boss.png";
-			else if(pType/10==4) {
-				if(pType==41) typeBM="white";
-				else if(pType==42) typeBM="black";
-				path ="character/player/"+typeBM+"/"+dirBM+".png";
+			String path="texture/";
+			switch(pType) {
+				case 1:
+					Random r=new Random();
+					path+="block/soft"+r.nextInt(2)+".png";
+					break;
+				case 2:
+					path+="block/hard1.png";
+					break;
+				case 3:
+					path+="character/monster/m11.png";
+					break;
+				case 31:
+					path+="character/monster/boss.png";
+					break;
+				case 41:
+					path+="character/player/white/"+dirBM+".png";
+					break;
+				case 42:
+					typeBM="black";
+					path+="character/player/black/"+dirBM+".png";
+					break;
+				case 51:
+					path+="attack/bomb1.png";
+					break;
+				case 52:
+					path+="attack/bomb2.png";
+					break;
+				case 53:
+					path+="attack/bomb3.png";
+					break;
+				case 6:
+					path+="attack/bombexp.gif";
+					break;
+				case 71:
+					path+="character/player/white/6.png";
+					TimerViewTool.getTimerViewTool().stop(2);
+					break;
+				case 72:
+					path+="character/player/black/6.png";
+					TimerViewTool.getTimerViewTool().stop(2);
+					break;
+				case 8:
+					path+="powerUp/powerUp.png";
+					break;
 			}
-			else if(pType/10==5) {
-				if(pType==51) path="attack/bomb1.png";
-				else if(pType==52) path="attack/bomb2.png";
-				else if(pType==53) path="attack/bomb3.png";
-			}
-			else if(pType==6) path="attack/bombexp.gif";
-			else if(pType/10==7) {
-				if(pType==71) typeBM="white";
-				else if(pType==72) typeBM="black";
-				path="character/player/"+typeBM+"/6.png";
-				TimerViewTool.getTimerViewTool().stop(2);
-			}
-			else if(pType==8) {
-				path="powerUp/powerUp.png";
-			}
-			this.setIcon(new ImageIcon(getClass().getResource("texture/"+path)));
+			this.setIcon(new ImageIcon(getClass().getResource(path)));
 		}
 	}
 	

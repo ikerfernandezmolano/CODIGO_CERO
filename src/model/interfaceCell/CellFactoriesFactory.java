@@ -41,7 +41,7 @@ public class CellFactoriesFactory {
 		else if(pType=="Explosion") 
 			ic = ExplosionFactory.getExplosionFactory().generate("Default", pX, pY);
 		else if(pType=="ExtraLife")
-			ic = PowerUpFactory.getPowerUpFactory().generate("ExtraLife",pX, pY);
+			ic = PowerUpFactory.getPowerUpFactory().generate("ExtraLife", pX, pY);
 		return ic;
 	}
 

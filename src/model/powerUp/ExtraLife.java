@@ -10,7 +10,7 @@ public class ExtraLife extends PowerUp{
 	private Timer timer=null;
 
 	public ExtraLife(int pX, int pY) {
-		super(pX, pY);
+		super();
 		colocarPowerUp();
 	}
 	

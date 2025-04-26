@@ -5,7 +5,7 @@ import java.util.Random;
 
 import model.gameMap.GameMap;
 import model.gameMap.GameMapFactory;
-import model.powerUp.ExtraLife;
+import model.interfaceCell.CellFactoriesFactory;
 
 public class GameModel extends Observable{
 	private static GameModel myGM=new GameModel();
@@ -84,7 +84,7 @@ public class GameModel extends Observable{
 				}
 			}
 		}
-		new ExtraLife(posPU.getX(),posPU.getY());
+		CellFactoriesFactory.getCellFactoriesFactory().generate("ExtraLife", posPU.getX(), posPU.getY());
 	}
 
 //------------------------BOMBERMAN--------------------------	
