@@ -9,7 +9,7 @@ import model.TimerModelTool;
 public class Boss extends Enemy{
 	
 	public Boss(int pX,int pY) {
-		super(pX,pY);
+		super();
 		moverse(pX,pY);
 		TimerModelTool.getTimerModelTool().bossBombs(pX, pY);
 	}

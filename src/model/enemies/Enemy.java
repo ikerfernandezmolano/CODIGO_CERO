@@ -3,11 +3,9 @@ import java.util.Timer;
 import model.interfaceCell.InterfaceCell;
 
 public abstract class Enemy implements InterfaceCell{
-	Timer timer=null;
+	protected Timer timer=null;
 	
-	protected Enemy(int pX,int pY) {
-		
-	}
+	protected Enemy() {}
 
 	@Override
 	public boolean canMove() {
