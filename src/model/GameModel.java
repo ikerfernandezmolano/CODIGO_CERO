@@ -11,22 +11,22 @@ public class GameModel extends Observable{
 	private static GameModel myGM=new GameModel();
 	
 	private Cell[][] board;
-	private static final int BOARD_WIDTH=17;
-	private static final int BOARD_HEIGHT=11;
+	public static final int BOARD_WIDTH=17;
+	public static final int BOARD_HEIGHT=11;
 	
-	private byte gameStatus=(byte)00000010;
-	private static final int FINISHED_GAME=1;
-	private static final int END_EXPLOSION=2;
-	private static final int BOSS_CREATED=3;
-	private static final int POWERUP_IN_MAP=4;
-	private static final int BOMBERMAN_POWERUP=5;
+	private byte gameStatus= 2;
+	public static final int FINISHED_GAME=1;
+	public static final int END_EXPLOSION=2;
+	public static final int BOSS_CREATED=3;
+	public static final int POWERUP_IN_MAP=4;
+	public static final int BOMBERMAN_POWERUP=5;
 	
 	private GameMap map;
 	
 	private final Random r=new Random();
 	
-	private Position posBM=new Position();
-	private Position posPU=new Position();
+	private final Position posBM=new Position();
+	private final Position posPU=new Position();
 	
 	private String bomberman;
 	private int bombasBM;
@@ -102,7 +102,7 @@ public class GameModel extends Observable{
 				}else{
 					changeFlagStatus(FINISHED_GAME,true);
 					board[pX][pY].setMuerto(bomberman);
-				    board[pXact][pYact].setCell("Void");;
+				    board[pXact][pYact].setCell("Void");
 				}
 			}else if(board[pX][pY].is("PowerUp")) {
 				board[pX][pY].setCell(bomberman);
@@ -140,17 +140,6 @@ public class GameModel extends Observable{
 	}
 	
 //-----------------------ENEMIES--------------------------------
-	
-	public void createBoss() {
-		while(!checkFlag(BOSS_CREATED)) {
-			int x=r.nextInt(0,BOARD_WIDTH);
-			int y=r.nextInt(0,BOARD_HEIGHT);
-			if(!posBM.isPosition(x, y)){
-				changeFlagStatus(BOSS_CREATED,true);
-				board[x][y].setCell("Boss");
-			}
-		}
-	}
 
 	public void moverseEnemigo(int pX, int pY) {
 		boolean moved=false;
@@ -185,20 +174,6 @@ public class GameModel extends Observable{
 			}
 		}
 	}
-	
-	public void moverseBoss(int pX, int pY) {
-		boolean moved=false;
-		while(!moved) {
-			int x=r.nextInt(0,BOARD_WIDTH);
-			int y=r.nextInt(0,BOARD_HEIGHT);
-			if(!posBM.isPosition(x, y)) {
-				moved=true;
-				board[x][y].setCell("Boss");
-				board[pX][pY].setCell("Void");
-			}
-		}
-	}
-	
 	
 //------------------------BOMBS-------------------------------	
 	
@@ -279,11 +254,6 @@ public class GameModel extends Observable{
         }
 	}
 	
-	public void quitarExplosion(int pX, int pY) {
-		board[pX][pY].setCell("Void");
-		changeFlagStatus(END_EXPLOSION,true);
-	}
-	
 	public void colocarBomba(int pX, int pY) {
 		if(bombasBM > 0) {
 			changeFlagStatus(END_EXPLOSION,false);
@@ -293,49 +263,47 @@ public class GameModel extends Observable{
 		}	
 	}
 	
-	public void colocarBomba(int pX, int pY, String pType) {
-		board[pX][pY].setCell(pType);
-	}
-	
 	public void addBomb() {
 		bombasBM++;
 	}
-	
-//------------------------POWER_UP----------------------------
-	
-	public void colocarPowerUp() {
-		if(!checkFlag(BOMBERMAN_POWERUP)) {
-			int x,y;
-			do {
-				x = r.nextInt(16);
-				y = r.nextInt(10);
-			}while(!board[x][y].is("Void"));
-			if (checkFlag(POWERUP_IN_MAP)) board[posPU.getX()][posPU.getY()].setCell("Void");
-			else changeFlagStatus(POWERUP_IN_MAP,true);
-			board[x][y].setCell("ExtraLife");
-			posPU.changePosition(x, y);
-		}
+
+//------------------------POSITION-------------------------------
+
+	public void changePosition(String pPosition, int pX, int pY){
+		if(pPosition.equals("Bomberman")) posBM.changePosition(pX,pY);
+		else if(pPosition.equals("PowerUp")) posPU.changePosition(pX,pY);
 	}
-	
+
+	public int getCoord(String pPosition, char pAxis){
+		int axis=-1;
+		if(pPosition.equals("Bomberman")) axis = (pAxis=='X') ? posBM.getX():posBM.getY();
+		else if(pPosition.equals("PowerUp")) axis = (pAxis=='X') ? posPU.getX():posPU.getY();
+		return axis;
+	}
+
+	public boolean isPosition(String pPosition,int pX, int pY){
+		if(pPosition.equals("Bomberman") && posBM.getX()==pX && posBM.getY()==pY) return true;
+		else if(pPosition.equals("PowerUp") && posPU.getX()==pX && posPU.getY()==pY) return true;
+		return false;
+	}
+
 //------------------------STATUS--------------------------------
 	
-	private void changeFlagStatus(int pPos,boolean pValue) {
+	public void changeFlagStatus(int pPos,boolean pValue) {
 		gameStatus=(pValue)? (byte)(gameStatus|(1<<pPos-1)) : (byte)(gameStatus&~(1<<pPos-1));
 	}
 	
-	private boolean checkFlag(int pPos) {
+	public boolean checkFlag(int pPos) {
 		return (gameStatus & (1<<pPos-1))!=0;
 	}
-	
-//------------------------FIN_PARTIDA----------------------------
 	
 	public boolean getEstadoPartida() {
 		return checkFlag(FINISHED_GAME);
 	}
 	
 //------------------------CELLS-------------------------------
-	
-	public Cell getCell(int pX,int pY) {
-		return board[pX][pY];
-	}
+
+	public void setCell(String pType, int pX, int pY) { board[pX][pY].setCell(pType); }
+	public boolean is(String pType, int pX, int pY) { return board[pX][pY].is(pType); }
+	public Cell getCell(int pX,int pY) { return board[pX][pY]; }
 }

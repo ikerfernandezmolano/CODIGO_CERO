@@ -1,33 +1,48 @@
 package model.powerUp;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import model.GameModel;
 
 public class ExtraLife extends PowerUp{
-	
-	private Timer timer=null;
 
 	public ExtraLife(int pX, int pY) {
 		super();
-		colocarPowerUp();
+		colocar();
 	}
 	
-	private void colocarPowerUp() {
-		timer = new Timer();
+	private void colocar() {
+		Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                GameModel.getGameModel().colocarPowerUp();
+					colocarPowerUp();
             }
         };
         timer.schedule(timerTask, 15000);
 	}
+
+	private void colocarPowerUp(){
+		Random r=new Random();
+		if(!GameModel.getGameModel().checkFlag(GameModel.BOMBERMAN_POWERUP)) {
+			int x, y;
+			do {
+				x = r.nextInt(16);
+				y = r.nextInt(10);
+			} while (!GameModel.getGameModel().is("Void", x, y));
+			if (GameModel.getGameModel().checkFlag(GameModel.POWERUP_IN_MAP))
+				GameModel.getGameModel().setCell("Void", GameModel.getGameModel().getCoord("PowerUp", 'X'), GameModel.getGameModel().getCoord("PowerUp", 'Y'));
+			else GameModel.getGameModel().changeFlagStatus(GameModel.POWERUP_IN_MAP, true);
+			GameModel.getGameModel().setCell("ExtraLife", x, y);
+			GameModel.getGameModel().changePosition("PowerUp", x, y);
+		}
+	}
 	
 	@Override
 	public boolean is(String pType) {
-		return pType=="ExtraLife" || pType=="PowerUp";
+		return pType.equals("ExtraLife") || pType.equals("PowerUp");
 	}
 	
 }

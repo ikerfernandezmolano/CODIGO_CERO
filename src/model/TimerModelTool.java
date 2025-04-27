@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerModelTool {
     private static final TimerModelTool myTMT = new TimerModelTool();
+    private final Random r= new Random();
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(5);
 
     private TimerModelTool() {}
@@ -20,7 +21,16 @@ public class TimerModelTool {
     }
 
     public void waitForBoss() {
-        scheduler.schedule(() -> GameModel.getGameModel().createBoss(), 3, TimeUnit.SECONDS);
+        scheduler.schedule(() -> {
+            while(!GameModel.getGameModel().checkFlag(GameModel.BOSS_CREATED)) {
+                int x=r.nextInt(0,GameModel.BOARD_WIDTH);
+                int y=r.nextInt(0,GameModel.BOARD_HEIGHT);
+                if(!GameModel.getGameModel().isPosition("Bomberman",x,y)){
+                    GameModel.getGameModel().changeFlagStatus(GameModel.BOSS_CREATED,true);
+                    GameModel.getGameModel().setCell("Boss",x,y);
+                }
+            }
+        }, 3, TimeUnit.SECONDS);
     }
 
     public void tiempoExplotar(int pX, int pY, int pDist, int pDir) {
@@ -33,18 +43,17 @@ public class TimerModelTool {
 
     public void bossBombs(int pX, int pY) {
         scheduler.schedule(() -> {
-            Random r = new Random();
             for (int i = 0; i < 5; i++) {
                 int type = r.nextInt(0, 5);
                 int x = r.nextInt(0, 17);
                 int y = r.nextInt(0, 11);
                 if (x != pX && y != pY) {
                     if (type < 3 && !(Math.abs(x - pX) == Math.abs(y - pY) && Math.abs(x - pX) <= 3)) {
-                        GameModel.getGameModel().colocarBomba(x, y, "Bossy");
+                        GameModel.getGameModel().setCell("Bossy",x,y);
                     } else if (type == 3 && !(Math.abs(x - pX) + Math.abs(y - pY) == 1)) {
-                        GameModel.getGameModel().colocarBomba(x, y, "Super");
-                    } else if (type == 4 && x != pX && y != pY) {
-                        GameModel.getGameModel().colocarBomba(x, y, "Ultra");
+                        GameModel.getGameModel().setCell("Super",x,y);
+                    } else if (type == 4) {
+                        GameModel.getGameModel().setCell("Ultra",x,y);
                     }
                 }
             }

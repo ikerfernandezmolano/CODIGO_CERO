@@ -21,7 +21,6 @@ public class Cell extends Observable{
 		cell=CellFactoriesFactory.getCellFactoriesFactory().generate(pType, x, y);
 		setChanged();
 		notifyObservers(new int[] {cell.getId()});
-		
 	}
 	
 	public boolean canMove() {
@@ -57,6 +56,6 @@ public class Cell extends Observable{
 	
 	public void setMuerto(String pBomberman) {
 		setChanged();
-		notifyObservers(new int[] {(pBomberman=="White") ? 71 : 72});
+		notifyObservers(new int[] {(pBomberman.equals("White")) ? 71 : 72});
 	}	
 }

@@ -18,25 +18,8 @@ public class Position {
 		return y;
 	}
 	
-	public void moveUp() {
-		y++;
-	}
-	
-	public void moveDown() {
-		y--;
-	}
-	
-	public void moveLeft() {
-		x--;
-	}
-	
-	public void moveRight() {
-		x++;
-	}
-	
 	public boolean isPosition(int pX,int pY) {
-		if(x==pX && y==pY) return true;
-		return false;
-	}
+        return x == pX && y == pY;
+    }
 
 }

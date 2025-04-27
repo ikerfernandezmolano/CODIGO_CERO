@@ -1,5 +1,6 @@
 package model.enemies;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,7 +22,7 @@ public class Boss extends Enemy{
 	
 	@Override
 	public boolean is(String pType) {
-		return pType=="Boss" || pType=="Enemy";
+		return pType.equals("Boss") || pType.equals("Enemy");
 	}
 
 	@Override
@@ -30,9 +31,23 @@ public class Boss extends Enemy{
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                GameModel.getGameModel().moverseBoss(pX, pY);
+                moverseBoss(pX, pY);
             }
         };
         timer.schedule(timerTask, 8200);
+	}
+
+	private void moverseBoss(int pX, int pY) {
+		Random r=new Random();
+		boolean moved=false;
+		while(!moved) {
+			int x=r.nextInt(0,GameModel.BOARD_WIDTH);
+			int y=r.nextInt(0,GameModel.BOARD_HEIGHT);
+			if(!GameModel.getGameModel().isPosition("Bomberman",x,y)) {
+				moved=true;
+				GameModel.getGameModel().setCell("Boss",x,y);
+				GameModel.getGameModel().setCell("Void",pX,pY);
+			}
+		}
 	}
 }
