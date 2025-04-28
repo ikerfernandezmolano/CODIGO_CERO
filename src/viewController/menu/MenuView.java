@@ -99,6 +99,7 @@ public class MenuView extends JFrame implements Observer{
 		createDecoPanel("d2",273,30,384,107);
 		createButton("set1",860, 17, 50, 50);
 		createButton("map1",800, 17, 50, 50);
+		createButton("creciente", 0, 530, 100, 50);
 		randomDeco();
 		createTextPanel("USE < / > TO SWITCH BOMBERS",12, 12, 239, 17);
 		createTextPanel("PRESS ENTER TO START",12, 30, 239, 17);
@@ -252,6 +253,9 @@ public class MenuView extends JFrame implements Observer{
 					viewMapButtons();
 				}
 			} 
+			else if(name=="creciente") {
+				selectedMap=4;
+			}
 			else if(name=="m1") selectedMap=1;
 		    else if(name=="m2") selectedMap=2;
 			else if(name=="m3") selectedMap=3;

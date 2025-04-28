@@ -6,7 +6,7 @@ public class UltraBomb extends Bomb{
 	
 	public UltraBomb(int pX, int pY) {
 		super(pX,pY);
-		TimerModelTool.getTimerModelTool().tiempoExplotar(pX, pY, 17,0);
+		TimerModelTool.getTimerModelTool().tiempoExplotar(pX, pY, pX, pY);
 	}
 	
 	@Override
