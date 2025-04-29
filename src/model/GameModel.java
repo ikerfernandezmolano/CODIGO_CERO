@@ -20,6 +20,7 @@ public class GameModel extends Observable{
 	private static final int BOSS_CREATED=3;
 	private static final int POWERUP_IN_MAP=4;
 	private static final int BOMBERMAN_POWERUP=5;
+	private static final int POWERUP_IN_GAME=6;
 	
 	private GameMap map;
 	
@@ -42,9 +43,10 @@ public class GameModel extends Observable{
 		return myGM;
 	}
 	
-	public void configurarJuego(String pBomberman, int pMap) {
+	public void configurarJuego(String pBomberman, int pMap,boolean pPU) {
 		bomberman=pBomberman;
 		map=GameMapFactory.getGameMapFactory().generate(pMap,BOARD_WIDTH,BOARD_HEIGHT);
+		changeFlagStatus(POWERUP_IN_GAME,pPU);
 		setChanged();
 		notifyObservers(new int[] {BOARD_WIDTH,BOARD_HEIGHT});
 	}
@@ -324,6 +326,7 @@ public class GameModel extends Observable{
 			case "BOSS_CREATED" -> BOSS_CREATED;
 			case "POWERUP_IN_MAP" -> POWERUP_IN_MAP;
 			case "BOMBERMAN_POWERUP" -> BOMBERMAN_POWERUP;
+			case "POWERUP_IN_GAME" -> POWERUP_IN_GAME;
 			default -> -1;
 		};
 	}

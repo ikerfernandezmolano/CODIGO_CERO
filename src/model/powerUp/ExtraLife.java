@@ -14,14 +14,17 @@ public class ExtraLife extends PowerUp{
 	}
 	
 	private void colocar() {
-		Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-					colocarPowerUp();
-            }
-        };
-        timer.schedule(timerTask, 15000);
+		if(GameModel.getGameModel().checkFlag(GameModel.getGameModel().posBoolean("POWERUP_IN_GAME"))) {
+			Timer timer = new Timer();
+	        TimerTask timerTask = new TimerTask() {
+	            @Override
+	            public void run() {
+						colocarPowerUp();
+	            }
+	        };
+	        timer.schedule(timerTask, 15000);
+		}
+		
 	}
 
 	private void colocarPowerUp(){

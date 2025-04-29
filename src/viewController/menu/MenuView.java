@@ -36,6 +36,7 @@ public class MenuView extends JFrame implements Observer{
 	private JButton[] mapList;
 	private JButton musicButton;
 	private JButton pUButton;
+	private boolean pUInGame;
 	private int selectedMap;
 	private boolean menuMapOpen;
 	private boolean menuSettOpen;
@@ -54,6 +55,7 @@ public class MenuView extends JFrame implements Observer{
 		
 		selectedBomberman="White";
 		selectedMap=1;
+		pUInGame=true;
 		
 		MusicTool.getMusicTool().startMusic();
 		MusicTool.getMusicTool().setVolume(70);
@@ -214,7 +216,7 @@ public class MenuView extends JFrame implements Observer{
 					break;
 				case KeyEvent.VK_ENTER:
 					//MODEL
-					GameModel.getGameModel().configurarJuego(selectedBomberman,selectedMap);
+					GameModel.getGameModel().configurarJuego(selectedBomberman,selectedMap,pUInGame);
 					//CLOSE
 					dispose();
 					break;
@@ -269,9 +271,19 @@ public class MenuView extends JFrame implements Observer{
 							"texture/button/music2.png")));
 			}
 			else if(name=="powerUp1") {
-				jb.setIcon(new ImageIcon(getClass().getResource(
-						"texture/button/powerUp2.png")));
+				if(pUInGame) {
+					jb.setIcon(new ImageIcon(getClass().getResource(
+							"texture/button/powerUp2.png")));
+					pUInGame=false;
+				}
+				else {
+					jb.setIcon(new ImageIcon(getClass().getResource(
+							"texture/button/powerUp1.png")));
+					pUInGame=true;
+				}
+				
 			}
+			
 		}
 		@Override
 		public void mousePressed(MouseEvent e) {
