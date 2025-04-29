@@ -31,8 +31,7 @@ public class GameModel extends Observable{
 	private String bomberman;
 	private int bombasBM;
 	private String typeBomb;
-	private int numEnemiesStart=0;
-	private int numEnemiesAct=0;
+	private int numEnemies=0;
 	private int bossHealth=3;
 	
 	private GameModel() {
@@ -75,7 +74,7 @@ public class GameModel extends Observable{
 						break;
 					case 3:
 						board[i][j].setCell("Enemy");
-						numEnemiesStart++;
+						numEnemies++;
 						break;
 					case 4:
 						board[i][j].setCell(bomberman);
@@ -85,7 +84,7 @@ public class GameModel extends Observable{
 				}
 			}
 		}
-		numEnemiesAct = numEnemiesStart;
+		numEnemies = numEnemies;
 		CellFactoriesFactory.getCellFactoriesFactory().generate("ExtraLife", posPU.getX(), posPU.getY());
 	}
 
@@ -99,7 +98,7 @@ public class GameModel extends Observable{
 			if(board[pX][pY].kills()) {
 				if(checkFlag(BOMBERMAN_POWERUP)) {
 					changeFlagStatus(BOMBERMAN_POWERUP,false);
-					if(board[pX][pY].is("Enemy"))numEnemiesAct--;
+					if(board[pX][pY].is("Enemy"))numEnemies--;
 					board[pX][pY].setCell(bomberman);
 				}else{
 					changeFlagStatus(FINISHED_GAME,true);
@@ -154,8 +153,8 @@ public class GameModel extends Observable{
 				if(board[x][y].canMove() && !board[x][y].is("Enemy") && !board[x][y].is("PowerUp")) {
 					if(board[x][y].is("Explosion")) {
 						board[pX][pY].stopTimer();
-						numEnemiesAct--;
-						if(numEnemiesAct<=0) TimerModelTool.getTimerModelTool().waitForBoss();
+						numEnemies--;
+						if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 						board[pX][pY].setCell("Void");
 					} else {
 						board[pX][pY].setCell("Void");
@@ -163,7 +162,7 @@ public class GameModel extends Observable{
 							if(checkFlag(BOMBERMAN_POWERUP)) {
 								changeFlagStatus(BOMBERMAN_POWERUP,false);
 								board[x][y].setCell(bomberman);
-								numEnemiesAct--;
+								numEnemies--;
 							}else {
 								board[x][y].setCell("Enemy");
 							}
@@ -181,8 +180,7 @@ public class GameModel extends Observable{
 	
 	public void explotar(int pX, int pY, int pNumBlocks, int pDir) {
 	    if (pDir==0) explotarHV(pX,pY,pNumBlocks);
-	    else if(pDir==1) explotarDiag(pX,pY,pNumBlocks);
-	    else explotarCrec(pX,pY,pNumBlocks);
+	    else  explotarDiag(pX,pY,pNumBlocks);
 	}
 	
 	private void explotarHV(int pX, int pY, int pNumBlocks){
@@ -198,7 +196,7 @@ public class GameModel extends Observable{
 	            if (board[pX - x][pY].is("Hard")) break;
 	            explosion(pX-x,pY);
 	        }
-	        if(numEnemiesAct<=0) TimerModelTool.getTimerModelTool().waitForBoss();
+	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	    for (int y = 1; y<BOARD_HEIGHT && y <= pNumBlocks; y++) {
@@ -210,7 +208,7 @@ public class GameModel extends Observable{
 	            if (board[pX][pY - y].is("Hard")) break;
 	            explosion(pX,pY-y);
 	        }
-	        if(numEnemiesAct<=0) TimerModelTool.getTimerModelTool().waitForBoss();
+	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	}
@@ -239,42 +237,7 @@ public class GameModel extends Observable{
 		}
 	}
 	
-	private void explotarCrec(int pX, int pY, int pNumblocks) {
-	    // Verifica si hay un bomberman en la posición inicial
-	    if (!detectarBomberman(pX, pY)) {
-	        board[pX][pY].setCell("Explosion");
-	    }
-
-	    // Usa la variable rangeExplosion como el rango máximo de explosión
-	    int explosionRange = numEnemiesStart-numEnemiesAct; // rangeExplosion es el número de enemigos eliminados
-
-	    // Itera sobre el rango actual de explosión
-	    for (int i = 1; i <= explosionRange; i++) {
-	        // Dirección Norte (hacia arriba)
-	        if (pX - i >= 0) { // Asegúrate de no salirse del tablero
-	            if (board[pX - i][pY].is("Hard")) break; // Detenerse si hay un bloque duro
-	            explosion(pX - i, pY);
-	        }
-
-	        // Dirección Sur (hacia abajo)
-	        if (pX + i < BOARD_HEIGHT) { // Asegúrate de no salirse del tablero
-	            if (board[pX + i][pY].is("Hard")) break; // Detenerse si hay un bloque duro
-	            explosion(pX + i, pY);
-	        }
-
-	        // Dirección Oeste (hacia la izquierda)
-	        if (pY - i >= 0) { // Asegúrate de no salirse del tablero
-	            if (board[pX][pY - i].is("Hard")) break; // Detenerse si hay un bloque duro
-	            explosion(pX, pY - i);
-	        }
-
-	        // Dirección Este (hacia la derecha)
-	        if (pY + i < BOARD_WIDTH) { // Asegúrate de no salirse del tablero
-	            if (board[pX][pY + i].is("Hard")) break; // Detenerse si hay un bloque duro
-	            explosion(pX, pY + i);
-	        }
-	    }
-	}
+	
 
 	
 	
@@ -284,7 +247,7 @@ public class GameModel extends Observable{
 			else {
 	            board[pX][pY].stopTimer();
 	            board[pX][pY].setCell("Explosion");
-	            numEnemiesAct--;
+	            numEnemies--;
 			}
         } else if (!detectarBomberman(pX, pY))
             board[pX][pY].setCell("Explosion");
