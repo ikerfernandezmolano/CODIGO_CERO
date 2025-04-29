@@ -15,11 +15,11 @@ public class GameModel extends Observable{
 	private static final int BOARD_HEIGHT=11;
 	
 	private byte gameStatus= 2;
-	public static final int FINISHED_GAME=1;
-	public static final int END_EXPLOSION=2;
-	public static final int BOSS_CREATED=3;
-	public static final int POWERUP_IN_MAP=4;
-	public static final int BOMBERMAN_POWERUP=5;
+	private static final int FINISHED_GAME=1;
+	private static final int END_EXPLOSION=2;
+	private static final int BOSS_CREATED=3;
+	private static final int POWERUP_IN_MAP=4;
+	private static final int BOMBERMAN_POWERUP=5;
 	
 	private GameMap map;
 	
@@ -84,7 +84,6 @@ public class GameModel extends Observable{
 				}
 			}
 		}
-		numEnemies = numEnemies;
 		CellFactoriesFactory.getCellFactoriesFactory().generate("ExtraLife", posPU.getX(), posPU.getY());
 	}
 
@@ -236,11 +235,7 @@ public class GameModel extends Observable{
 	        }
 		}
 	}
-	
-	
 
-	
-	
 	private void explosion(int pX, int pY) {
 		if (board[pX][pY].is("Enemy")) {
 			if (board[pX][pY].is("Boss")) bossHealth--;
@@ -305,15 +300,24 @@ public class GameModel extends Observable{
 	public boolean getEstadoPartida() {
 		return checkFlag(FINISHED_GAME);
 	}
-//
+
 	public int getSize(String pType){
-		switch(pType){
-			case "WIDTH":
-				return BOARD_WIDTH;
-            case "HEIGHT":
-				return BOARD_HEIGHT;
-		}
-		return -1;
+        return switch (pType) {
+            case "WIDTH" -> BOARD_WIDTH;
+            case "HEIGHT" -> BOARD_HEIGHT;
+            default -> -1;
+        };
+    }
+
+	public int posBoolean(String pType){
+		return switch (pType) {
+			case "FINISHED_GAME" -> 1;
+			case "END_EXPLOSION" -> 2;
+			case "BOSS_CREATED" -> 3;
+			case "POWERUP_IN_MAP" -> 4;
+			case "BOMBERMAN_POWERUP" -> 5;
+			default -> -1;
+		};
 	}
 	
 //------------------------CELLS-------------------------------

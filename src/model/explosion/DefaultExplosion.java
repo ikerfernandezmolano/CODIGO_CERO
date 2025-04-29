@@ -26,7 +26,7 @@ public class DefaultExplosion extends Explosion{
 
 	private void quitarExplosion(int pX, int pY){
 		GameModel.getGameModel().setCell("Void",pX,pY);
-		GameModel.getGameModel().changeFlagStatus(GameModel.END_EXPLOSION,true);
+		GameModel.getGameModel().changeFlagStatus(GameModel.getGameModel().posBoolean("END_EXPLOSION"), true);
 	}
 	
 }

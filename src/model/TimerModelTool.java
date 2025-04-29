@@ -22,11 +22,11 @@ public class TimerModelTool {
 
     public void waitForBoss() {
         scheduler.schedule(() -> {
-            while(!GameModel.getGameModel().checkFlag(GameModel.BOSS_CREATED)) {
+            while(!GameModel.getGameModel().checkFlag(GameModel.getGameModel().posBoolean("BOSS_CREATED"))) {
                 int x=r.nextInt(0,GameModel.getGameModel().getSize("WIDTH"));
                 int y=r.nextInt(0,GameModel.getGameModel().getSize("HEIGHT"));
                 if(!GameModel.getGameModel().isPosition("Bomberman",x,y)){
-                    GameModel.getGameModel().changeFlagStatus(GameModel.BOSS_CREATED,true);
+                    GameModel.getGameModel().changeFlagStatus(GameModel.getGameModel().posBoolean("BOSS_CREATED"),true);
                     GameModel.getGameModel().setCell("Boss",x,y);
                 }
             }
