@@ -3,7 +3,7 @@ import java.util.Timer;
 import model.interfaceCell.InterfaceCell;
 
 public abstract class Enemy implements InterfaceCell{
-	protected Timer timer=null;
+	private Timer timer=new Timer();
 	
 	protected Enemy() {}
 
@@ -14,7 +14,7 @@ public abstract class Enemy implements InterfaceCell{
 
 	@Override
 	public boolean is(String pType) {
-		return pType=="Enemy";
+		return pType.equals("Enemy");
 	}
 	
 	@Override
@@ -30,5 +30,9 @@ public abstract class Enemy implements InterfaceCell{
             timer.purge();
         }
 		timer=null;
+	}
+
+	protected Timer getTimer(){
+		return timer;
 	}
 }

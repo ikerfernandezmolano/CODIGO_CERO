@@ -27,7 +27,7 @@ public class Boss extends Enemy{
 
 	@Override
 	protected void moverse(int pX, int pY) {
-		timer = new Timer();
+		Timer timer=getTimer();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
