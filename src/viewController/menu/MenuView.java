@@ -35,6 +35,7 @@ public class MenuView extends JFrame implements Observer{
 	private String selectedBomberman;
 	private JButton[] mapList;
 	private JButton musicButton;
+	private JButton pUButton;
 	private int selectedMap;
 	private boolean menuMapOpen;
 	private boolean menuSettOpen;
@@ -115,8 +116,10 @@ public class MenuView extends JFrame implements Observer{
 	}
 	
 	private void createSettingsMenu() {
-		musicButton=createButton("music1",416, 240, 100, 100);
+		musicButton=createButton("music1",580, 240, 100, 100);
 		musicButton.setVisible(false);
+		pUButton=createButton("powerUp1",230, 240, 100, 100);
+		pUButton.setVisible(false);
 	}
 	
 	private void viewMapButtons() {
@@ -127,6 +130,7 @@ public class MenuView extends JFrame implements Observer{
 	private void viewSettingsButtons() {
 		contentPane.getComponentAt(113, 140).setVisible(menuSettOpen);
 		musicButton.setVisible(menuSettOpen);
+		pUButton.setVisible(menuSettOpen);
 	}
 	
 	private JLabel createDecoPanel(String pType, int pX, int pY, int pWidth, int pHeigth) {
@@ -264,6 +268,10 @@ public class MenuView extends JFrame implements Observer{
 					jb.setIcon(new ImageIcon(getClass().getResource(
 							"texture/button/music2.png")));
 			}
+			else if(name=="powerUp1") {
+				jb.setIcon(new ImageIcon(getClass().getResource(
+						"texture/button/powerUp2.png")));
+			}
 		}
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -301,10 +309,8 @@ public class MenuView extends JFrame implements Observer{
 	public void update(Observable o, Object arg) {
 		if(o instanceof GameModel) {
 			int[] res= (int[]) arg;
-			if(res.length==2) {
-				GameView gameView=new GameView(res[0],res[1]);
-			}
+			//VIEW
+			GameView gameView=new GameView(res[0],res[1]);
 		}
 	}
-
 }
