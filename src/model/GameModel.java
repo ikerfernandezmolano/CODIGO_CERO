@@ -11,8 +11,8 @@ public class GameModel extends Observable{
 	private static GameModel myGM=new GameModel();
 	
 	private Cell[][] board;
-	public static final int BOARD_WIDTH=17;
-	public static final int BOARD_HEIGHT=11;
+	private static final int BOARD_WIDTH=17;
+	private static final int BOARD_HEIGHT=11;
 	
 	private byte gameStatus= 2;
 	public static final int FINISHED_GAME=1;
@@ -304,6 +304,16 @@ public class GameModel extends Observable{
 	
 	public boolean getEstadoPartida() {
 		return checkFlag(FINISHED_GAME);
+	}
+
+	public int getSize(String pType){
+		switch(pType){
+			case "WIDTH":
+				return BOARD_WIDTH;
+            case "HEIGHT":
+				return BOARD_HEIGHT;
+		}
+		return -1;
 	}
 	
 //------------------------CELLS-------------------------------

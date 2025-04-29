@@ -23,8 +23,8 @@ public class TimerModelTool {
     public void waitForBoss() {
         scheduler.schedule(() -> {
             while(!GameModel.getGameModel().checkFlag(GameModel.BOSS_CREATED)) {
-                int x=r.nextInt(0,GameModel.BOARD_WIDTH);
-                int y=r.nextInt(0,GameModel.BOARD_HEIGHT);
+                int x=r.nextInt(0,GameModel.getGameModel().getSize("WIDTH"));
+                int y=r.nextInt(0,GameModel.getGameModel().getSize("HEIGHT"));
                 if(!GameModel.getGameModel().isPosition("Bomberman",x,y)){
                     GameModel.getGameModel().changeFlagStatus(GameModel.BOSS_CREATED,true);
                     GameModel.getGameModel().setCell("Boss",x,y);
