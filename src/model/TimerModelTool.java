@@ -45,8 +45,8 @@ public class TimerModelTool {
         scheduler.schedule(() -> {
             for (int i = 0; i < 5; i++) {
                 int type = r.nextInt(0, 5);
-                int x = r.nextInt(0, 17);
-                int y = r.nextInt(0, 11);
+                int x = r.nextInt(0, GameModel.getGameModel().getSize("WIDTH"));
+                int y = r.nextInt(0, GameModel.getGameModel().getSize("HEIGHT"));
                 if (x != pX && y != pY) {
                     if (type < 3 && !(Math.abs(x - pX) == Math.abs(y - pY) && Math.abs(x - pX) <= 3)) {
                         GameModel.getGameModel().setCell("Bossy",x,y);

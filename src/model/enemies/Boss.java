@@ -36,7 +36,7 @@ public class Boss extends Enemy{
         };
         timer.schedule(timerTask, 8200);
 	}
-
+//
 	private void moverseBoss(int pX, int pY) {
 		Random r=new Random();
 		boolean moved=false;

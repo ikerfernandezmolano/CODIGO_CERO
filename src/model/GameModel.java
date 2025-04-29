@@ -305,7 +305,7 @@ public class GameModel extends Observable{
 	public boolean getEstadoPartida() {
 		return checkFlag(FINISHED_GAME);
 	}
-
+//
 	public int getSize(String pType){
 		switch(pType){
 			case "WIDTH":
