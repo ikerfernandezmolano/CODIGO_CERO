@@ -32,9 +32,9 @@ public class ExtraLife extends PowerUp{
 				x = r.nextInt(16);
 				y = r.nextInt(10);
 			} while (!GameModel.getGameModel().is("Void", x, y));
-			if (GameModel.getGameModel().checkFlag(GameModel.getGameModel().posBoolean("POWER_IN_MAP")))
+			if (GameModel.getGameModel().checkFlag(GameModel.getGameModel().posBoolean("POWERUP_IN_MAP")))
 				GameModel.getGameModel().setCell("Void", GameModel.getGameModel().getCoord("PowerUp", 'X'), GameModel.getGameModel().getCoord("PowerUp", 'Y'));
-			else GameModel.getGameModel().changeFlagStatus(GameModel.getGameModel().posBoolean("POWER_IN_MAP"), true);
+			else GameModel.getGameModel().changeFlagStatus(GameModel.getGameModel().posBoolean("POWERUP_IN_MAP"), true);
 			GameModel.getGameModel().setCell("ExtraLife", x, y);
 			GameModel.getGameModel().changePosition("PowerUp", x, y);
 		}
