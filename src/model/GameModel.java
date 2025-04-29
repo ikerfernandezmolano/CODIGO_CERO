@@ -85,6 +85,8 @@ public class GameModel extends Observable{
 			}
 		}
 		CellFactoriesFactory.getCellFactoriesFactory().generate("ExtraLife", posPU.getX(), posPU.getY());
+		setChanged();
+		notifyObservers(new int[] {numEnemies});
 	}
 
 //------------------------BOMBERMAN--------------------------	
@@ -97,7 +99,7 @@ public class GameModel extends Observable{
 			if(board[pX][pY].kills()) {
 				if(checkFlag(BOMBERMAN_POWERUP)) {
 					changeFlagStatus(BOMBERMAN_POWERUP,false);
-					if(board[pX][pY].is("Enemy"))numEnemies--;
+					if(board[pX][pY].is("Enemy"))restarEnemigos();
 					board[pX][pY].setCell(bomberman);
 				}else{
 					changeFlagStatus(FINISHED_GAME,true);
@@ -152,7 +154,7 @@ public class GameModel extends Observable{
 				if(board[x][y].canMove() && !board[x][y].is("Enemy") && !board[x][y].is("PowerUp")) {
 					if(board[x][y].is("Explosion")) {
 						board[pX][pY].stopTimer();
-						numEnemies--;
+						restarEnemigos();
 						if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 						board[pX][pY].setCell("Void");
 					} else {
@@ -161,7 +163,7 @@ public class GameModel extends Observable{
 							if(checkFlag(BOMBERMAN_POWERUP)) {
 								changeFlagStatus(BOMBERMAN_POWERUP,false);
 								board[x][y].setCell(bomberman);
-								numEnemies--;
+								restarEnemigos();
 							}else {
 								board[x][y].setCell("Enemy");
 							}
@@ -173,6 +175,12 @@ public class GameModel extends Observable{
 				}
 			}
 		}
+	}
+	public void restarEnemigos() {
+		numEnemies--;
+		setChanged();
+		notifyObservers(new int[] {numEnemies});
+		
 	}
 	
 //------------------------BOMBS-------------------------------	
@@ -242,7 +250,7 @@ public class GameModel extends Observable{
 			else {
 	            board[pX][pY].stopTimer();
 	            board[pX][pY].setCell("Explosion");
-	            numEnemies--;
+	            restarEnemigos();
 			}
         } else if (!detectarBomberman(pX, pY))
             board[pX][pY].setCell("Explosion");

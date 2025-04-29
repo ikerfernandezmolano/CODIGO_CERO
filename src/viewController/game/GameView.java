@@ -1,11 +1,17 @@
 package viewController.game;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+
 import model.GameModel;
 import viewController.TimerViewTool;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -14,14 +20,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
-public class GameView extends JFrame{
+
+public class GameView extends JFrame implements Observer{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Controller controller;
 	private static int xBM,yBM;
 	private static int WIDTH,HEIGHT;
+	private JLabel timeLabel; 
+	private JLabel enemyLabel;
 
 	public GameView(int pWidth, int pHeight) {
 		WIDTH=pWidth;
@@ -47,7 +58,43 @@ public class GameView extends JFrame{
 		setLocationRelativeTo(null);
 		setVisible(true);
 		addKeyListener(getController());
+		GameModel.getGameModel().addObserver(this);
 	}
+	private JPanel createTopBarPanel() {
+	    JPanel topPanel = new JPanel(new BorderLayout());
+	    topPanel.setPreferredSize(new java.awt.Dimension(930, 40));
+	    topPanel.setOpaque(false);
+	    JPanel infoPanel = new JPanel(new BorderLayout());
+	    infoPanel.setOpaque(false); // Para que herede el fondo del topPanel
+
+	    timeLabel = new JLabel("Tiempo: 00:00");
+	    timeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+	    timeLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // Margen izquierdo
+
+	    enemyLabel = new JLabel("Enemigos: " + GameModel.getGameModel());
+	    enemyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+	    enemyLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20)); // Margen derecho
+
+	    infoPanel.add(timeLabel, BorderLayout.WEST);
+	    infoPanel.add(enemyLabel, BorderLayout.EAST);
+
+	    topPanel.add(infoPanel, BorderLayout.CENTER);
+
+	    iniciarCronometro();
+	    return topPanel;
+	}
+
+
+	private void iniciarCronometro() {
+	    TimerViewTool.getTimerViewTool().startChrono((min, sec) -> {
+	        String tiempo = String.format("Tiempo: %02d:%02d", min, sec);
+	        timeLabel.setText(tiempo);
+	    });
+	}
+	private void actualizarEnemigos(int pNum) {
+		    enemyLabel.setText("Enemigos: " + pNum);
+	}
+
 	
 //-----------------------------BACKGROUND-------------------------------------
 	
@@ -141,5 +188,16 @@ public class GameView extends JFrame{
 			// TODO Auto-generated method stub
 			
 		}
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if(o instanceof GameModel) {
+			int[] res= (int[]) arg;
+			if(res.length==1) {
+				actualizarEnemigos(res[0]);
+			}
+		}
+		
 	}
 }
