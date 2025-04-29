@@ -311,11 +311,11 @@ public class GameModel extends Observable{
 
 	public int posBoolean(String pType){
 		return switch (pType) {
-			case "FINISHED_GAME" -> 1;
-			case "END_EXPLOSION" -> 2;
-			case "BOSS_CREATED" -> 3;
-			case "POWERUP_IN_MAP" -> 4;
-			case "BOMBERMAN_POWERUP" -> 5;
+			case "FINISHED_GAME" -> FINISHED_GAME;
+			case "END_EXPLOSION" -> END_EXPLOSION;
+			case "BOSS_CREATED" -> BOSS_CREATED;
+			case "POWERUP_IN_MAP" -> POWERUP_IN_MAP;
+			case "BOMBERMAN_POWERUP" -> BOMBERMAN_POWERUP;
 			default -> -1;
 		};
 	}
