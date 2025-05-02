@@ -2,6 +2,8 @@ package viewController.game;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,6 +14,8 @@ import model.GameModel;
 import viewController.TimerViewTool;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -27,13 +31,13 @@ import java.util.Observer;
 public class GameView extends JFrame implements Observer{
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private JPanel contentPane, bossPanel, powerPanel;
 	private Controller controller;
 	private static int xBM,yBM;
 	private static int WIDTH,HEIGHT;
-	private JLabel timeLabel; 
-	private JLabel enemyLabel;
-
+	private JLabel timeLabel, enemyLabel;
+	ImageIcon powerUpIcon;
+	
 	public GameView(int pWidth, int pHeight) {
 		WIDTH=pWidth;
 		HEIGHT=pHeight;
@@ -67,24 +71,52 @@ public class GameView extends JFrame implements Observer{
 	}
 	private JPanel createTopBarPanel() {
 	    JPanel topPanel = new JPanel(new BorderLayout());
-	    topPanel.setPreferredSize(new java.awt.Dimension(930, 40));
+	    topPanel.setPreferredSize(new Dimension(930, 40));
 	    topPanel.setOpaque(false);
-	    JPanel infoPanel = new JPanel(new BorderLayout());
-	    infoPanel.setOpaque(false); // Para que herede el fondo del topPanel
+
+	    JPanel infoPanel = new JPanel();
+	    infoPanel.setOpaque(false);
+	    infoPanel.setLayout(null); // 👈 Layout manual
 
 	    timeLabel = new JLabel("Tiempo: 00:00");
 	    timeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-	    timeLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // Margen izquierdo
+	    timeLabel.setBounds(130, 10, 100, 20); // x, y, ancho, alto
+	    infoPanel.add(timeLabel);
 
-	    enemyLabel = new JLabel("Enemigos: " + 0);
+	    enemyLabel = new JLabel("Enemigos: 6");
 	    enemyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-	    enemyLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20)); // Margen derecho
+	    enemyLabel.setBounds(280, 10, 100, 20); // Colocado a la derecha
+	    infoPanel.add(enemyLabel);
 
-	    infoPanel.add(timeLabel, BorderLayout.WEST);
-	    infoPanel.add(enemyLabel, BorderLayout.EAST);
+	    // Boss Panel
+	    bossPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
+	    bossPanel.setOpaque(false);
+	    bossPanel.setBounds(480, 10, 100, 50); // Ejemplo: x=700, y=10, ancho=90
+	    JLabel bossTextLabel = new JLabel("Boss: ");
+	    bossTextLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+	    bossPanel.add(bossTextLabel);
+
+	    ImageIcon heartIcon = new ImageIcon(getClass().getResource("texture/attack/heart.png"));
+
+	    for (int i = 0; i < 3; i++) {
+	        bossPanel.add(new JLabel(heartIcon));
+	    }
+	    infoPanel.add(bossPanel);
+
+	    // PowerUp Panel
+	    powerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+	    powerPanel.setOpaque(false);
+	    powerPanel.setBounds(700, 10, 110, 25); 
+	    JLabel powerTextLabel = new JLabel("Power: ");
+	    powerTextLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+	    powerPanel.add(powerTextLabel);
+
+	    powerUpIcon = new ImageIcon(getClass().getResource("texture/powerUp/notPowerUp.png"));
+	    Image scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
+	    powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
+	    infoPanel.add(powerPanel);
 
 	    topPanel.add(infoPanel, BorderLayout.CENTER);
-
 	    iniciarCronometro();
 	    return topPanel;
 	}
@@ -99,7 +131,30 @@ public class GameView extends JFrame implements Observer{
 	private void actualizarEnemigos(int pNum) {
 		    enemyLabel.setText("Enemigos: " + pNum);
 	}
-
+	
+	private void actualizarBossVidas(){
+	    if(bossPanel.getComponents().length!=0) {
+	    	bossPanel.remove(bossPanel.getComponents().length-1);
+	    	bossPanel.revalidate();
+	        bossPanel.repaint();
+	    }
+	}
+	
+	private void actualizarPower(int pNum) {
+		if(pNum==0){//Ha gastado el powerUp
+			powerPanel.remove(1);
+			powerUpIcon = new ImageIcon(getClass().getResource("texture/powerUp/notPowerUp.png"));
+		    Image scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
+		    powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
+		}
+		else {//Ha conseguido el powerUp
+			powerPanel.remove(1);
+			powerUpIcon = new ImageIcon(getClass().getResource("texture/powerUp/powerUp.png"));
+		    Image scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
+		    powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
+		}
+		
+	}
 	
 //-----------------------------BACKGROUND-------------------------------------
 	
@@ -199,8 +254,14 @@ public class GameView extends JFrame implements Observer{
 	public void update(Observable o, Object arg) {
 		if(o instanceof GameModel) {
 			int[] res= (int[]) arg;
-			if(res.length==1) {
-				actualizarEnemigos(res[0]);
+			if(res[0]==3) {
+				actualizarEnemigos(res[1]);
+			}
+			else if(res[0]==31) {
+				actualizarBossVidas();
+			}
+			else if(res[0]==8) {
+				actualizarPower(res[1]);
 			}
 		}
 		

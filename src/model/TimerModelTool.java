@@ -28,6 +28,7 @@ public class TimerModelTool {
                 if(!GameModel.getGameModel().isPosition("Bomberman",x,y)){
                     GameModel.getGameModel().changeFlagStatus(GameModel.getGameModel().posBoolean("BOSS_CREATED"),true);
                     GameModel.getGameModel().setCell("Boss",x,y);
+                    break;
                 }
             }
         }, 3, TimeUnit.SECONDS);

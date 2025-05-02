@@ -321,7 +321,7 @@ public class MenuView extends JFrame implements Observer{
 	public void update(Observable o, Object arg) {
 		if(o instanceof GameModel) {
 			int[] res= (int[]) arg;
-			if(res.length==2) {
+			if(res[0]!=3 && res[0]!=31 && res[0]!=8) {
 				GameView gameView=new GameView(res[0],res[1]);
 
 			}
