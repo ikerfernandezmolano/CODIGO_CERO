@@ -43,8 +43,13 @@ public class GameView extends JFrame implements Observer{
 	}
 	
 	private void initialize() {
-		setSize(930,580);
-		this.setContentPane(getContentPane());
+		setSize(930, 580);
+
+	    JPanel mainPanel = new JPanel(new BorderLayout());
+	    setContentPane(mainPanel); 
+	    mainPanel.add(createTopBarPanel(), BorderLayout.NORTH);
+	    contentPane = getContentPane();
+	    mainPanel.add(contentPane, BorderLayout.CENTER);
 		
 		for(int j=0;j<HEIGHT;j++) {
 			for(int i=0;i<WIDTH;i++) {
@@ -71,7 +76,7 @@ public class GameView extends JFrame implements Observer{
 	    timeLabel.setHorizontalAlignment(SwingConstants.LEFT);
 	    timeLabel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0)); // Margen izquierdo
 
-	    enemyLabel = new JLabel("Enemigos: " + GameModel.getGameModel());
+	    enemyLabel = new JLabel("Enemigos: " + 0);
 	    enemyLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 	    enemyLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20)); // Margen derecho
 
