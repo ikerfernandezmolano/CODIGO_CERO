@@ -102,6 +102,7 @@ public class GameModel extends Observable{
 			moverseConBomba(pXact,pYact);
 			if(board[pX][pY].kills()) {
 				if(checkFlag(BOMBERMAN_POWERUP)) {
+					if(board[pX][pY].is("Enemy") && !board[pX][pY].is("Boss")) board[pX][pY].stopTimer();
 					changeFlagStatus(BOMBERMAN_POWERUP,false);
 					board[pX][pY].setCell(bomberman);
 				}else{
@@ -193,6 +194,10 @@ public class GameModel extends Observable{
 	
 	public void restarVidaBoss() {
 		bossHealth--;
+		if(bossHealth<=0){
+			Arrays.stream(board).flatMap(Arrays::stream).filter(cell-> cell.is("Boss")).forEach(cell->cell.setCell("Void"));
+			TimerModelTool.getTimerModelTool().stop(2);
+		}
 		setChanged();
 		notifyObservers(new Object[] {31, bossHealth});
 	}
@@ -217,7 +222,6 @@ public class GameModel extends Observable{
 	            if (board[pX - x][pY].is("Hard")) break;
 	            explosion(pX-x,pY);
 	        }
-	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	    for (int y = 1; y<BOARD_HEIGHT && y <= pNumBlocks; y++) {
 	        if (pY + y < BOARD_HEIGHT) {
@@ -228,7 +232,6 @@ public class GameModel extends Observable{
 	            if (board[pX][pY - y].is("Hard")) break;
 	            explosion(pX,pY-y);
 	        }
-	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	}
 	
