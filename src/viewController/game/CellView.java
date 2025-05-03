@@ -10,16 +10,6 @@ import viewController.TimerViewTool;
 
 public class CellView extends JLabel implements Observer{
 
-	 /*Void = 0
-	 * SoftBlock = 1
-	 * HardBlock = 2
-	 * Enemy = 3
-	 * Bomberman = 4
-	 * Bomb = 5
-	 * Explosion = 6
-	 * PowerUp = 8
-	 */
-	
 	private static final long serialVersionUID = 1L;
 	private int dirBM=0;
 	private String typeBM="white";
@@ -49,7 +39,10 @@ public class CellView extends JLabel implements Observer{
 					path+="character/monster/m11.png";
 					break;
 				case 31:
-					path+="character/monster/boss.png";
+					path+="character/monster/boss1.png";
+					break;
+				case 32:
+					path+="character/monster/boss2.png";
 					break;
 				case 41:
 					path+="character/player/white/"+dirBM+".png";

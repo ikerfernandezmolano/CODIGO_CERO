@@ -48,7 +48,7 @@ public class TimerModelTool {
                 int type = r.nextInt(0, 5);
                 int x = r.nextInt(0, GameModel.getGameModel().getSize("WIDTH"));
                 int y = r.nextInt(0, GameModel.getGameModel().getSize("HEIGHT"));
-                if (x != pX && y != pY) {
+                if (GameModel.getGameModel().is("Void",x,y)) {
                     if (type < 3 && !(Math.abs(x - pX) == Math.abs(y - pY) && Math.abs(x - pX) <= 3)) {
                         GameModel.getGameModel().setCell("Bossy",x,y);
                     } else if (type == 3 && !(Math.abs(x - pX) + Math.abs(y - pY) == 1)) {

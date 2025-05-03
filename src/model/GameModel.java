@@ -195,7 +195,7 @@ public class GameModel extends Observable{
 	public void restarVidaBoss() {
 		bossHealth--;
 		if(bossHealth<=0){
-			Arrays.stream(board).flatMap(Arrays::stream).filter(cell-> cell.is("Boss")).forEach(cell->cell.setCell("Void"));
+			Arrays.stream(board).flatMap(Arrays::stream).filter(cell-> cell.is("Boss")).forEach(cell->cell.setMuerto("Boss"));
 			TimerModelTool.getTimerModelTool().stop(2);
 		}
 		setChanged();

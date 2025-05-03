@@ -33,7 +33,7 @@ public class GameView extends JFrame implements Observer{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane, bossPanel, powerPanel;
 	private Controller controller;
-	private static int xBM,yBM;
+	private static Position posBM=new Position();
 	private static int WIDTH,HEIGHT;
 	private JLabel timeLabel, enemyLabel;
 	
@@ -147,7 +147,9 @@ public class GameView extends JFrame implements Observer{
 	    	bossPanel.remove(bossPanel.getComponents().length-1);
 	    	bossPanel.revalidate();
 	        bossPanel.repaint();
-	    }
+	    } else {
+
+		}
 	}
 	
 	private void actualizarPower(boolean pStatus) {
@@ -202,33 +204,33 @@ public class GameView extends JFrame implements Observer{
 				switch (pKeyCode) {
 					case KeyEvent.VK_DOWN:
 						dirBM=11;
-						if (GameModel.getGameModel().moverseBM(xBM, yBM, xBM, yBM+1)) 
-							yBM++;
+						if (GameModel.getGameModel().moverseBM(posBM.getX(), posBM.getY(), posBM.getX(), posBM.getY()+1))
+							posBM.moveUp();
 						break;
 					case KeyEvent.VK_UP:
 						dirBM=21;
-						if (GameModel.getGameModel().moverseBM(xBM, yBM, xBM, yBM-1))
-							yBM--;
+						if (GameModel.getGameModel().moverseBM(posBM.getX(), posBM.getY(), posBM.getX(), posBM.getY()-1))
+							posBM.moveDown();
 						break;
 					case KeyEvent.VK_LEFT:
 						dirBM=31;
-						if (GameModel.getGameModel().moverseBM(xBM, yBM, xBM-1, yBM))
-							xBM--;
+						if (GameModel.getGameModel().moverseBM(posBM.getX(), posBM.getY(), posBM.getX()-1, posBM.getY()))
+							posBM.moveLeft();
 						break;
 					case KeyEvent.VK_RIGHT:
 						dirBM=41;
-						if (GameModel.getGameModel().moverseBM(xBM, yBM, xBM+1, yBM)) 
-							xBM++;
+						if (GameModel.getGameModel().moverseBM(posBM.getX(), posBM.getY(), posBM.getX()+1, posBM.getY()))
+							posBM.moveRight();
 						break;
 					case KeyEvent.VK_SPACE:
 							dirBM=5;
-							GameModel.getGameModel().colocarBomba(xBM,yBM);
+							GameModel.getGameModel().colocarBomba(posBM.getX(), posBM.getY());
 						break;
 				}
 				if(!GameModel.getGameModel().getEstadoPartida()) 
-					((CellView)contentPane.getComponent(yBM*17+xBM)).setDirBM(dirBM);
+					((CellView)contentPane.getComponent(posBM.getY()*17+posBM.getX())).setDirBM(dirBM);
 				else {
-					((CellView)contentPane.getComponent(yBM*17+xBM)).setDirBM(6);
+					((CellView)contentPane.getComponent(posBM.getY()*17+posBM.getX())).setDirBM(6);
 					TimerViewTool.getTimerViewTool().stop(1);
 				}
 			}

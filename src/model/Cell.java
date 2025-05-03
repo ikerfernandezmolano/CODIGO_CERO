@@ -54,8 +54,20 @@ public class Cell extends Observable{
 		return null;
 	}
 	
-	public void setMuerto(String pBomberman) {
+	public void setMuerto(String pType) {
+		int n=0;
+		switch(pType){
+			case "White":
+				n=71;
+				break;
+			case "Black":
+				n=72;
+				break;
+			case "Boss":
+				n=32;
+				break;
+		}
 		setChanged();
-		notifyObservers(new int[] {(pBomberman.equals("White")) ? 71 : 72});
+		notifyObservers(new int[] {n});
 	}	
 }

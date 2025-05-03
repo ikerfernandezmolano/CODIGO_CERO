@@ -43,7 +43,7 @@ public class Boss extends Enemy{
 		while(!moved) {
 			int x=r.nextInt(0,GameModel.getGameModel().getSize("WIDTH"));
 			int y=r.nextInt(0,GameModel.getGameModel().getSize("HEIGHT"));
-			if(!GameModel.getGameModel().isPosition("Bomberman",x,y)) {
+			if(GameModel.getGameModel().is("Void",x,y)) {
 				moved=true;
 				GameModel.getGameModel().setCell("Boss",x,y);
 				GameModel.getGameModel().setCell("Void",pX,pY);
