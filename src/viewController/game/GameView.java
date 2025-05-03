@@ -36,8 +36,6 @@ public class GameView extends JFrame implements Observer{
 	private static int xBM,yBM;
 	private static int WIDTH,HEIGHT;
 	private JLabel timeLabel, enemyLabel;
-	ImageIcon powerUpIcon;
-	JLabel jlGameOver;
 	
 	public GameView(int pWidth, int pHeight) {
 		WIDTH=pWidth;
@@ -113,22 +111,19 @@ public class GameView extends JFrame implements Observer{
 
 	    ImageIcon heartIcon = new ImageIcon(getClass().getResource("texture/attack/heart.png"));
 
-	    for (int i = 0; i < 3; i++) {
-	        bossPanel.add(new JLabel(heartIcon));
-	    }
+	    for (int i = 0; i < 3; i++) bossPanel.add(new JLabel(heartIcon));
+
 	    infoPanel.add(bossPanel);
 
 	    // PowerUp Panel
 	    powerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
 	    powerPanel.setOpaque(false);
-	    powerPanel.setBounds(700, 10, 110, 25); 
+	    powerPanel.setBounds(700, 10, 110, 25);
 	    JLabel powerTextLabel = new JLabel("Power: ");
 	    powerTextLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 	    powerPanel.add(powerTextLabel);
 
-	    powerUpIcon = new ImageIcon(getClass().getResource("texture/powerUp/notPowerUp.png"));
-	    Image scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
-	    powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
+		actualizarPower(false);
 	    infoPanel.add(powerPanel);
 
 	    topPanel.add(infoPanel, BorderLayout.CENTER);
@@ -156,16 +151,11 @@ public class GameView extends JFrame implements Observer{
 	}
 	
 	private void actualizarPower(boolean pStatus) {
-		powerPanel.remove(1);
-		Image scaledPowerUp=null;
-		if(!pStatus){//Ha gastado el powerUp
-			powerUpIcon = new ImageIcon(getClass().getResource("texture/powerUp/notPowerUp.png"));
-		    scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
-		} else {//Ha conseguido el powerUp
-			powerUpIcon = new ImageIcon(getClass().getResource("texture/powerUp/powerUp.png"));
-		    scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
-		}
-		powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
+		String path = (!pStatus) ? "texture/powerUp/notPowerUp.png" : "texture/powerUp/powerUp.png";
+		ImageIcon powerUpIcon= new ImageIcon(getClass().getResource(path));
+		Image scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
+		if(powerPanel.getComponentCount()==1) powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
+		else ((JLabel)powerPanel.getComponent(1)).setIcon(new ImageIcon(scaledPowerUp));
 	}
 	
 //-----------------------------BACKGROUND-------------------------------------
