@@ -88,7 +88,7 @@ public class GameModel extends Observable{
 		}
 		CellFactoriesFactory.getCellFactoriesFactory().generate("ExtraLife", posPU.getX(), posPU.getY());
 		setChanged();
-		notifyObservers(new int[] {3, numEnemies});
+		notifyObservers(new int[] {bossHealth, numEnemies});
 	}
 
 //------------------------BOMBERMAN--------------------------	

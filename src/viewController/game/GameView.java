@@ -47,7 +47,7 @@ public class GameView extends JFrame implements Observer{
 	}
 	
 	private void initialize() {
-		setSize(930, 580);
+		setSize(930, 620);
 
 	    JPanel mainPanel = new JPanel(new BorderLayout());
 	    setContentPane(mainPanel); 
@@ -70,13 +70,26 @@ public class GameView extends JFrame implements Observer{
 		GameModel.getGameModel().addObserver(this);
 	}
 	private JPanel createTopBarPanel() {
-	    JPanel topPanel = new JPanel(new BorderLayout());
+		JPanel topPanel = new JPanel(){
+			private Image backgrnd;
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				try {
+					backgrnd = ImageIO.read(this.getClass().getResource(
+							"texture/background/gameBG2.png"));
+				} catch (IOException e) {}
+				g.drawImage(backgrnd, 0, 0, getWidth(), getHeight(), this);
+			}
+		};
+		topPanel.setLayout(new BorderLayout());
 	    topPanel.setPreferredSize(new Dimension(930, 40));
 	    topPanel.setOpaque(false);
 
 	    JPanel infoPanel = new JPanel();
 	    infoPanel.setOpaque(false);
-	    infoPanel.setLayout(null); // 👈 Layout manual
+		infoPanel.setLayout(null);
 
 	    timeLabel = new JLabel("Tiempo: 00:00");
 	    timeLabel.setHorizontalAlignment(SwingConstants.LEFT);
