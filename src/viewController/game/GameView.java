@@ -37,6 +37,7 @@ public class GameView extends JFrame implements Observer{
 	private static int WIDTH,HEIGHT;
 	private JLabel timeLabel, enemyLabel;
 	ImageIcon powerUpIcon;
+	JLabel jlGameOver;
 	
 	public GameView(int pWidth, int pHeight) {
 		WIDTH=pWidth;
@@ -49,19 +50,19 @@ public class GameView extends JFrame implements Observer{
 	private void initialize() {
 		setSize(930, 620);
 
-	    JPanel mainPanel = new JPanel(new BorderLayout());
-	    setContentPane(mainPanel); 
-	    mainPanel.add(createTopBarPanel(), BorderLayout.NORTH);
-	    contentPane = getContentPane();
-	    mainPanel.add(contentPane, BorderLayout.CENTER);
-		
-		for(int j=0;j<HEIGHT;j++) {
-			for(int i=0;i<WIDTH;i++) {
-				CellView cw= new CellView(i,j);
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		setContentPane(mainPanel);
+		mainPanel.add(createTopBarPanel(), BorderLayout.NORTH);
+		contentPane = getContentPane();
+		mainPanel.add(contentPane, BorderLayout.CENTER);
+
+		for (int j = 0; j < HEIGHT; j++) {
+			for (int i = 0; i < WIDTH; i++) {
+				CellView cw = new CellView(i, j);
 				contentPane.add(cw);
 			}
 		}
-		
+
 		setResizable(false);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
@@ -69,6 +70,7 @@ public class GameView extends JFrame implements Observer{
 		addKeyListener(getController());
 		GameModel.getGameModel().addObserver(this);
 	}
+
 	private JPanel createTopBarPanel() {
 		JPanel topPanel = new JPanel(){
 			private Image backgrnd;
@@ -153,20 +155,17 @@ public class GameView extends JFrame implements Observer{
 	    }
 	}
 	
-	private void actualizarPower(int pNum) {
-		if(pNum==0){//Ha gastado el powerUp
-			powerPanel.remove(1);
+	private void actualizarPower(boolean pStatus) {
+		powerPanel.remove(1);
+		Image scaledPowerUp=null;
+		if(!pStatus){//Ha gastado el powerUp
 			powerUpIcon = new ImageIcon(getClass().getResource("texture/powerUp/notPowerUp.png"));
-		    Image scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
-		    powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
-		}
-		else {//Ha conseguido el powerUp
-			powerPanel.remove(1);
+		    scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
+		} else {//Ha conseguido el powerUp
 			powerUpIcon = new ImageIcon(getClass().getResource("texture/powerUp/powerUp.png"));
-		    Image scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
-		    powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
+		    scaledPowerUp = powerUpIcon.getImage().getScaledInstance(18, 18, Image.SCALE_SMOOTH);
 		}
-		
+		powerPanel.add(new JLabel(new ImageIcon(scaledPowerUp)));
 	}
 	
 //-----------------------------BACKGROUND-------------------------------------
@@ -266,15 +265,19 @@ public class GameView extends JFrame implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof GameModel) {
-			int[] res= (int[]) arg;
-			if(res[0]==3) {
-				actualizarEnemigos(res[1]);
-			}
-			else if(res[0]==31) {
-				actualizarBossVidas();
-			}
-			else if(res[0]==8) {
-				actualizarPower(res[1]);
+			Object[] res= (Object[]) arg;
+			switch((int)res[0]){
+				case 3:
+					if(res[1] instanceof Integer)
+						actualizarEnemigos((int)res[1]);
+					break;
+				case 8:
+					if(res[1] instanceof Boolean)
+						actualizarPower((boolean)res[1]);
+					break;
+				case 31:
+					actualizarBossVidas();
+					break;
 			}
 		}
 		

@@ -315,15 +315,25 @@ public class MenuView extends JFrame implements Observer{
 						"texture/button/map1.png")));
 			}
 		}
+
+		public boolean isSize(int pWIDTH,int pHEIGHT){
+			if(GameModel.getGameModel().getSize("WIDTH")==pWIDTH &&
+					GameModel.getGameModel().getSize("HEIGHT")==pHEIGHT) return true;
+			return false;
+		}
 	}
 //
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof GameModel) {
-			int[] res= (int[]) arg;
-			if(res[0]!=3 && res[0]!=31 && res[0]!=8) {
-				GameView gameView=new GameView(res[0],res[1]);
-
+			Object[] res= (Object[]) arg;
+			if(res[0] instanceof Integer && res[1] instanceof Integer) {
+				int r1 =(int) res[0];
+				int r2 =(int) res[1];
+				if(controller.isSize(r1,r2)) {
+					GameView gameView;
+					gameView= new GameView(r1, r2);
+				}
 			}
 		}
 	}

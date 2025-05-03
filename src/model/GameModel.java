@@ -48,7 +48,7 @@ public class GameModel extends Observable{
 		map=GameMapFactory.getGameMapFactory().generate(pMap,BOARD_WIDTH,BOARD_HEIGHT);
 		changeFlagStatus(POWERUP_IN_GAME,pPU);
 		setChanged();
-		notifyObservers(new int[] {BOARD_WIDTH,BOARD_HEIGHT});
+		notifyObservers(new Object[] {BOARD_WIDTH,BOARD_HEIGHT});
 	}
 
 	private void initialize() {
@@ -88,7 +88,7 @@ public class GameModel extends Observable{
 		}
 		CellFactoriesFactory.getCellFactoriesFactory().generate("ExtraLife", posPU.getX(), posPU.getY());
 		setChanged();
-		notifyObservers(new int[] {bossHealth, numEnemies});
+		notifyObservers(new Object[] {bossHealth, numEnemies});
 	}
 
 //------------------------BOMBERMAN--------------------------	
@@ -100,7 +100,7 @@ public class GameModel extends Observable{
 			moverseConBomba(pXact,pYact);
 			if(board[pX][pY].kills()) {
 				if(checkFlag(BOMBERMAN_POWERUP)) {
-					actualizarPower(false);
+					changeFlagStatus(BOMBERMAN_POWERUP,false);
 					if(board[pX][pY].is("Enemy"))restarEnemigos();
 					board[pX][pY].setCell(bomberman);
 				}else{
@@ -110,7 +110,7 @@ public class GameModel extends Observable{
 				}
 			}else if(board[pX][pY].is("PowerUp")) {
 				board[pX][pY].setCell(bomberman);
-				actualizarPower(true);
+				changeFlagStatus(BOMBERMAN_POWERUP,true);
 			}
 		    else board[pX][pY].setCell(bomberman);
 		}
@@ -125,7 +125,7 @@ public class GameModel extends Observable{
 	private void moverseConBomba(int pX,int pY) {
 		if(board[pX][pY].is("Bomb")) {
 			if(checkFlag(BOMBERMAN_POWERUP) && checkFlag(END_EXPLOSION)) {
-				actualizarPower(false);
+				changeFlagStatus(BOMBERMAN_POWERUP,false);
 				board[pX][pY].setCell("Void");
 			}
 			board[pX][pY].reloadSkin();
@@ -136,7 +136,7 @@ public class GameModel extends Observable{
 		if(posBM.isPosition(pX, pY)) {
 			if(!checkFlag(BOMBERMAN_POWERUP)) {
 				board[pX][pY].setMuerto(bomberman);
-				actualizarPower(true);
+				changeFlagStatus(BOMBERMAN_POWERUP,true);
 			}
 			return true;
 		}
@@ -163,7 +163,7 @@ public class GameModel extends Observable{
 						board[pX][pY].setCell("Void");
 						if(detectarBomberman(x, y)) {
 							if(checkFlag(BOMBERMAN_POWERUP)) {
-								actualizarPower(false);
+								changeFlagStatus(BOMBERMAN_POWERUP,false);
 								board[x][y].setCell(bomberman);
 								restarEnemigos();
 							}else {
@@ -181,32 +181,16 @@ public class GameModel extends Observable{
 	public void restarEnemigos() {
 		numEnemies--;
 		setChanged();
-		notifyObservers(new int[] {3, numEnemies});
+		notifyObservers(new Object[] {3, numEnemies});
 		
 	}
 	
 	public void restarVidaBoss() {
 		bossHealth--;
 		setChanged();
-		notifyObservers(new int[] {31, bossHealth});
-		
+		notifyObservers(new Object[] {31, bossHealth});
 	}
-	
-	public void actualizarPower(boolean pEstado) {
-		changeFlagStatus(BOMBERMAN_POWERUP,false);
-		int num;
-		if(pEstado==false) {
-			num=0;
-		}
-		else {
-			num=1;
-		}
-		setChanged();
-		notifyObservers(new int[] {8, num});
-		
-	}
-	
-	
+
 //------------------------BOMBS-------------------------------	
 	
 	public void explotar(int pX, int pY, int pNumBlocks, int pDir) {
@@ -280,7 +264,7 @@ public class GameModel extends Observable{
             board[pX][pY].setCell("Explosion");
         else if(detectarBomberman(pX, pY)) {
         	if(checkFlag(BOMBERMAN_POWERUP)) {
-        		actualizarPower(false);
+				changeFlagStatus(BOMBERMAN_POWERUP,false);
         		board[pX][pY].setCell(bomberman);
         	}
         }
@@ -323,6 +307,10 @@ public class GameModel extends Observable{
 	
 	public void changeFlagStatus(int pPos,boolean pValue) {
 		gameStatus=(pValue)? (byte)(gameStatus|(1<<pPos-1)) : (byte)(gameStatus&~(1<<pPos-1));
+		if(pPos==BOMBERMAN_POWERUP) {
+			setChanged();
+			notifyObservers(new Object[]{8, checkFlag(BOMBERMAN_POWERUP)});
+		}
 	}
 	
 	public boolean checkFlag(int pPos) {
