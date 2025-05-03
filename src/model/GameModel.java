@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Random;
 
@@ -21,6 +22,7 @@ public class GameModel extends Observable{
 	private static final int POWERUP_IN_MAP=4;
 	private static final int BOMBERMAN_POWERUP=5;
 	private static final int POWERUP_IN_GAME=6;
+	private static final int BOSS_GEN_IN_PROCESS=7;
 	
 	private GameMap map;
 	
@@ -76,7 +78,6 @@ public class GameModel extends Observable{
 						break;
 					case 3:
 						board[i][j].setCell("Enemy");
-						numEnemies++;
 						break;
 					case 4:
 						board[i][j].setCell(bomberman);
@@ -86,6 +87,7 @@ public class GameModel extends Observable{
 				}
 			}
 		}
+		numEnemies=(int)Arrays.stream(tab).flatMapToInt(Arrays::stream).filter(num->num==3).count();
 		CellFactoriesFactory.getCellFactoriesFactory().generate("ExtraLife", posPU.getX(), posPU.getY());
 		setChanged();
 		notifyObservers(new Object[] {bossHealth, numEnemies});
@@ -101,7 +103,6 @@ public class GameModel extends Observable{
 			if(board[pX][pY].kills()) {
 				if(checkFlag(BOMBERMAN_POWERUP)) {
 					changeFlagStatus(BOMBERMAN_POWERUP,false);
-					if(board[pX][pY].is("Enemy"))restarEnemigos();
 					board[pX][pY].setCell(bomberman);
 				}else{
 					changeFlagStatus(FINISHED_GAME,true);
@@ -114,6 +115,7 @@ public class GameModel extends Observable{
 			}
 		    else board[pX][pY].setCell(bomberman);
 		}
+		updateEnemies();
 		return puede;
 	}
 	
@@ -136,7 +138,9 @@ public class GameModel extends Observable{
 		if(posBM.isPosition(pX, pY)) {
 			if(!checkFlag(BOMBERMAN_POWERUP)) {
 				board[pX][pY].setMuerto(bomberman);
-				changeFlagStatus(BOMBERMAN_POWERUP,true);
+				changeFlagStatus(FINISHED_GAME,true);
+			} else {
+				changeFlagStatus(BOMBERMAN_POWERUP,false);
 			}
 			return true;
 		}
@@ -156,8 +160,6 @@ public class GameModel extends Observable{
 				if(board[x][y].canMove() && !board[x][y].is("Enemy") && !board[x][y].is("PowerUp")) {
 					if(board[x][y].is("Explosion")) {
 						board[pX][pY].stopTimer();
-						restarEnemigos();
-						if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 						board[pX][pY].setCell("Void");
 					} else {
 						board[pX][pY].setCell("Void");
@@ -165,7 +167,6 @@ public class GameModel extends Observable{
 							if(checkFlag(BOMBERMAN_POWERUP)) {
 								changeFlagStatus(BOMBERMAN_POWERUP,false);
 								board[x][y].setCell(bomberman);
-								restarEnemigos();
 							}else {
 								board[x][y].setCell("Enemy");
 							}
@@ -177,9 +178,14 @@ public class GameModel extends Observable{
 				}
 			}
 		}
+		updateEnemies();
 	}
-	public void restarEnemigos() {
-		numEnemies--;
+	public void updateEnemies() {
+		numEnemies=(int) Arrays.stream(board).flatMap(Arrays::stream).filter(cell->cell.is("Enemy")).count();
+		if(numEnemies==0 && !checkFlag(BOSS_GEN_IN_PROCESS)){
+			changeFlagStatus(BOSS_GEN_IN_PROCESS,true);
+			TimerModelTool.getTimerModelTool().waitForBoss();
+		}
 		setChanged();
 		notifyObservers(new Object[] {3, numEnemies});
 		
@@ -211,7 +217,6 @@ public class GameModel extends Observable{
 	            if (board[pX - x][pY].is("Hard")) break;
 	            explosion(pX-x,pY);
 	        }
-	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	    for (int y = 1; y<BOARD_HEIGHT && y <= pNumBlocks; y++) {
@@ -223,7 +228,6 @@ public class GameModel extends Observable{
 	            if (board[pX][pY - y].is("Hard")) break;
 	            explosion(pX,pY-y);
 	        }
-	        if(numEnemies<=0) TimerModelTool.getTimerModelTool().waitForBoss();
 	        if(bossHealth<=0) TimerModelTool.getTimerModelTool().stop(2);
 	    }
 	}
@@ -258,16 +262,10 @@ public class GameModel extends Observable{
 			else {
 	            board[pX][pY].stopTimer();
 	            board[pX][pY].setCell("Explosion");
-	            restarEnemigos();
 			}
         } else if (!detectarBomberman(pX, pY))
             board[pX][pY].setCell("Explosion");
-        else if(detectarBomberman(pX, pY)) {
-        	if(checkFlag(BOMBERMAN_POWERUP)) {
-				changeFlagStatus(BOMBERMAN_POWERUP,false);
-        		board[pX][pY].setCell(bomberman);
-        	}
-        }
+		updateEnemies();
 	}
 	
 	public void colocarBomba(int pX, int pY) {
@@ -337,6 +335,7 @@ public class GameModel extends Observable{
 			case "POWERUP_IN_MAP" -> POWERUP_IN_MAP;
 			case "BOMBERMAN_POWERUP" -> BOMBERMAN_POWERUP;
 			case "POWERUP_IN_GAME" -> POWERUP_IN_GAME;
+			case "BOSS_GEN_IN_PROCESS" -> BOSS_GEN_IN_PROCESS;
 			default -> -1;
 		};
 	}
