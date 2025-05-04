@@ -1,15 +1,12 @@
 package model.powerUp;
 
 public class PowerUpFactory {
-	private static PowerUpFactory myPU;
+	private static PowerUpFactory myPUF=new PowerUpFactory();
 	
 	private PowerUpFactory() {}
 	
 	public static PowerUpFactory getPowerUpFactory() {
-		if(myPU == null) {
-			myPU = new PowerUpFactory();
-		}
-		return myPU;
+		return myPUF;
 	}
 	
 	public PowerUp generate(String pType, int pX, int pY) {
