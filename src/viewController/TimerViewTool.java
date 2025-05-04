@@ -11,7 +11,7 @@ public class TimerViewTool {
     private static TimerViewTool myTVT = new TimerViewTool();
     private java.util.Timer timer = null;
 
-    // ---------- NUEVOS CAMPOS PARA CRONÓMETRO ----------
+    // ---------- NUEVOS CAMPOS PARA CRONOMETRO ----------
     private Timer chronoTimer = null;
     private int elapsedSeconds = 0;
     private TimeListener timeListener = null;
@@ -38,7 +38,7 @@ public class TimerViewTool {
         timer.schedule(timerTask, pSec * 1000);
     }
 
-    // ---------------- NUEVOS MÉTODOS ------------------
+    // ---------------- NUEVOS METODOS ------------------
 
     public void startChrono(TimeListener listener) {
         this.timeListener = listener;
