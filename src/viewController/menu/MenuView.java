@@ -316,7 +316,7 @@ public class MenuView extends JFrame implements Observer{
 			}
 		}
 
-		public boolean isSize(int pWIDTH,int pHEIGHT){
+		private boolean isSize(int pWIDTH,int pHEIGHT){
 			if(GameModel.getGameModel().getSize("WIDTH")==pWIDTH &&
 					GameModel.getGameModel().getSize("HEIGHT")==pHEIGHT) return true;
 			return false;
