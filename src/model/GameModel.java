@@ -181,7 +181,8 @@ public class GameModel extends Observable{
 		}
 		updateEnemies();
 	}
-	public void updateEnemies() {
+	
+	private void updateEnemies() {
 		numEnemies=(int) Arrays.stream(board).flatMap(Arrays::stream).filter(cell->cell.is("Enemy")).count();
 		if(numEnemies==0 && !checkFlag(BOSS_GEN_IN_PROCESS)){
 			changeFlagStatus(BOSS_GEN_IN_PROCESS,true);
@@ -192,7 +193,7 @@ public class GameModel extends Observable{
 		
 	}
 	
-	public void restarVidaBoss() {
+	private void restarVidaBoss() {
 		bossHealth--;
 		if(bossHealth<=0){
 			Arrays.stream(board).flatMap(Arrays::stream).filter(cell-> cell.is("Boss")).forEach(cell->cell.setMuerto("Boss"));
