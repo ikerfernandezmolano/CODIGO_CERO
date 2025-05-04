@@ -17,7 +17,7 @@ public class TimerViewTool {
     private TimeListener timeListener = null;
 
     public interface TimeListener {
-        void onTimeUpdate(int minutes, int seconds);
+        public void onTimeUpdate(int minutes, int seconds);
     }
     // ---------------------------------------------------
 
