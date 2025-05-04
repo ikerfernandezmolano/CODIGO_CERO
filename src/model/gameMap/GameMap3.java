@@ -23,8 +23,8 @@ public class GameMap3 implements GameMap{
 	public void putEnemie(int[][] pBoard) {
 		Random r = new Random();
 		int cont=0;
-		for(int i=0;i<WIDTH && cont<15;i++) {
-			for(int j=0;j<HEIGHT && cont<15;j++) {
+		for(int i=0;i<WIDTH && cont<10;i++) {
+			for(int j=0;j<HEIGHT && cont<10;j++) {
 				 if(r.nextInt(100)<=4 && i+j>1) {
 					 pBoard[i][j]=3;
 					 cont++;
