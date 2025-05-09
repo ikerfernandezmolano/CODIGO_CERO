@@ -141,6 +141,7 @@ public class GameModel extends Observable{
 				board[pX][pY].setMuerto(bomberman);
 				changeFlagStatus(FINISHED_GAME,true);
 			} else {
+				board[pX][pY].setCell(bomberman);
 				changeFlagStatus(BOMBERMAN_POWERUP,false);
 			}
 			return true;
